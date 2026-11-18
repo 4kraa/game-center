@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Game Center — Choisis ton jeu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@600;700&family=Barlow:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --void:#07090b; --panel:#141a20; --edge:#26313a;
+  --lime:#c8ff3c; --amber:#ffb02e; --crimson:#ff2d55; --cyan:#22d3ee;
+  --ink:#f3f0e7; --mut:#8ea0ad;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  min-height:100vh;
+  background:radial-gradient(1200px 600px at 50% -10%, #12202a 0%, var(--void) 60%);
+  color:var(--ink);
+  font-family:'Barlow',system-ui,sans-serif;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:40px 20px;
+}
+h1{
+  font-family:'Chakra Petch',sans-serif;
+  font-size:clamp(2rem,6vw,3.5rem);
+  letter-spacing:4px;text-transform:uppercase;
+  background:linear-gradient(90deg,var(--lime),var(--cyan));
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  margin-bottom:8px;
+}
+.sub{color:var(--mut);margin-bottom:48px;font-size:1.05rem}
+.cards{display:flex;gap:28px;flex-wrap:wrap;justify-content:center;width:100%;max-width:900px}
+.card{
+  flex:1 1 320px;max-width:420px;
+  background:var(--panel);
+  border:1px solid var(--edge);
+  border-radius:16px;
+  padding:28px;
+  text-decoration:none;color:var(--ink);
+  display:flex;flex-direction:column;gap:14px;
+  transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+  position:relative;overflow:hidden;
+}
+.card:hover{transform:translateY(-6px)}
+.card.money:hover{border-color:var(--amber);box-shadow:0 12px 40px rgba(255,176,46,.18)}
+.card.zombie:hover{border-color:var(--crimson);box-shadow:0 12px 40px rgba(255,45,85,.18)}
+.icon{font-size:3rem;line-height:1}
+.card h2{font-family:'Chakra Petch',sans-serif;font-size:1.4rem;letter-spacing:1px;text-transform:uppercase}
+.card.money h2{color:var(--amber)}
+.card.zombie h2{color:var(--crimson)}
+.card p{color:var(--mut);flex:1}
+.play{
+  align-self:flex-start;margin-top:8px;
+  font-family:'Chakra Petch',sans-serif;font-weight:700;letter-spacing:2px;
+  padding:10px 22px;border-radius:8px;font-size:.95rem;
+  background:linear-gradient(90deg,var(--lime),var(--cyan));color:#06110a;
+}
+footer{margin-top:48px;color:#41525e;font-size:.85rem}
+</style>
+</head>
+<body>
+  <h1>🎮 Game Center</h1>
+  <p class="sub">Choisis un jeu pour lancer la partie 👇</p>
+
+  <div class="cards">
+    <a class="card money" href="g_n_rateur_de_thune_artificielle_securise_corrige.html">
+      <div class="icon">💰</div>
+      <h2>Thune Simulator v3.1</h2>
+      <p>Gagne, investis et fais fructifier ta thune artificielle dans ce simulateur de business sécurisé. Objectif : devenir le plus riche !</p>
+      <span class="play">▶ JOUER</span>
+    </a>
+
+    <a class="card zombie" href="surivor_games.html">
+      <div class="icon">🧟</div>
+      <h2>Zombie Survivor.io</h2>
+      <p>Survis à l'apocalypse zombie dans le Bunker OS. Tire, esquive, améliore ton équipement et tiens le plus longtemps possible.</p>
+      <span class="play">▶ JOUER</span>
+    </a>
+  </div>
+
+  <footer>Game Center — 2 jeux disponibles</footer>
+</body>
+</html>
