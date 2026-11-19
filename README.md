@@ -15,11 +15,11 @@
 - [Vue d'ensemble](#-vue-densemble)
 - [Les Jeux Inclus](#-les-jeux-inclus)
   - [1. 💰 Thune Simulator v3.1](#1--thune-simulator-v31)
-  - [2. 🧟 Zombie Survivor.io — Bunker OS v6.0](#2--zombie-survivorio--bunker-os-v60)
+  - [2. 🧟 Zombie Survivor.io — Bunker OS v7.0](#2--zombie-survivorio--bunker-os-v70)
 - [Architecture & Fichiers du Projet](#-architecture--fichiers-du-projet)
 - [Démarrage Rapide](#-démarrage-rapide)
 - [Technologies & Conception](#-technologies--conception)
-- [Codes Secrets & Bonus](#-codes-secrets--bonus)
+- [Codes Secrets](#-codes-secrets-zombie-survivorio)
 
 ---
 
@@ -40,7 +40,7 @@ Tous les jeux sont développés **sans dépendance de build** (pas de Node.js, W
 └────────────────┬───────────────────────────────┬────────────────┘
                  │                               │
                  ▼                               ▼
-       💰 THUNE SIMULATOR v3.1          🧟 ZOMBIE SURVIVOR.io v6.0
+       💰 THUNE SIMULATOR v3.1          🧟 ZOMBIE SURVIVOR.io v7.0
        • Tycoon / Idle Clicker          • Action Rogue-lite 2D
        • Bourse & Multivers             • Bullet Heaven & Vagues
        • Progression infinie            • Équipements RPG & Boss
@@ -68,7 +68,7 @@ Devenez le magnat absolu en partant d'un simple clic pour bâtir un empire finan
 
 ---
 
-### 2. 🧟 Zombie Survivor.io — Bunker OS v6.0
+### 2. 🧟 Zombie Survivor.io — Bunker OS v7.0
 **Fichier :** [`surivor_games.html`](file:///c:/Users/VICTO/.gemini/antigravity/scratch/game-center/surivor_games.html)  
 **Genre :** Action Rogue-lite / Bullet Heaven / Top-Down Shooter 2D  
 **Ambiance :** Terminal militaire tactique *Bunker OS* (vert radioactif, UI découpée industrielle, police *Chakra Petch*).
@@ -88,11 +88,14 @@ Enfermé dans un bunker en zone de quarantaine, affrontez des hordes de mutants,
   - Arme, Casque, Armure, Gants, Bottes, Amulette.
   - 5 Raretés : *Commun*, *Rare*, *Épique*, *Légendaire*, *S-GRADE*.
   - Calcul dynamique de votre **Power Score** global.
-- **4 Secteurs d'Intervention :**
-  1. *Rues Dévastées* (Boss : Titan Muté)
-  2. *Hôpital en Ruines* (Boss : Le Chirurgien)
-  3. *Métro Infesté* (Boss : Roi des Rats)
-  4. *Zone Zéro* (Boss : Titan Alpha)
+- **4 Secteurs d'Intervention × 5 Niveaux (20 niveaux au total) :**
+  1. *Rues Dévastées* (Boss : **Titan Muté Enragé** — 16k HP)
+  2. *Hôpital en Ruines* (Boss : **Le Chirurgien Fou** — 34k HP)
+  3. *Métro Infesté* (Boss : **Roi des Rats Corrompu** — 65k HP)
+  4. *Zone Zéro* (Boss : **Titan Alpha Cauchemar** — 110k HP)
+  - Niveaux 1-4 : objectif secondaire (éliminations, gemmes, combo, élites, etc.) + survie 3 min
+  - Niveau 5 : **BOSS DIFFICILE** qui spawn immédiatement et lâche un butin d'XP à ramasser
+  - Vitesse (tempo) progressive par niveau : ×0.75 → ×1 → ×1.5 → ×2 → ×2 (boss)
 - **Arbre de Talents Permanents :** Dépensez vos pièces d'or récoltées pour booster vos PV, Attaque, Vitesse, Aimant à butin et Coups critiques.
 - **Audio Procédural Web Audio API :** Synthétiseur sonore complet en pur code (aucun fichier MP3/WAV externe requis) : tirs, impacts, explosions, montée de niveau et nappe d'ambiance dynamique qui s'intensifie lors des boss.
 
@@ -104,7 +107,7 @@ Enfermé dans un bunker en zone de quarantaine, affrontez des hordes de mutants,
 game-center/
 ├── index.html                                            # Hub d'accueil Game Center
 ├── g_n_rateur_de_thune_artificielle_securise_corrige.html# Jeu 1 : Thune Simulator v3.1
-├── surivor_games.html                                    # Jeu 2 : Zombie Survivor.io v6.0
+├── surivor_games.html                                    # Jeu 2 : Zombie Survivor.io v7.0
 ├── README.md                                             # Documentation complète
 └── .gitignore                                            # Fichiers exclus du versionnement
 ```
@@ -156,20 +159,16 @@ Puis ouvrez votre navigateur sur `http://localhost:8080`.
 
 ---
 
-## 🎁 Codes Secrets & Bonus (Zombie Survivor.io)
+## 🎁 Codes Secrets (Zombie Survivor.io)
 
-Dans le lobby de **Zombie Survivor.io**, cliquez sur l'icône de terminal / ticket pour saisir l'un des codes suivants :
+Les codes d'accès **ne sont pas publics** — ils sont distribués manuellement par l'opérateur du bunker (le créateur du jeu) aux joueurs.
 
-| Code | Récompense débloquée |
-| :--- | :--- |
-| `BIENVENUE` | 🪙 200 Pièces + 💎 20 Gemmes |
-| `SURVIVOR` | 🪙 300 Pièces de ravitaillement |
-| `ZOMBIE2026`| 💎 60 Gemmes tactiques |
-| `VIP777` | 🪙 500 Pièces + 💎 50 Gemmes |
-| `TITAN` | 🛡️ Équipement de qualité **Épique** garanti |
-| `CHP2` | 🗝️ Clé d'accès immédiate au Secteur 02 + 🪙 600 + 💎 40 |
-| `CHP3` | 🗝️ Clé d'accès immédiate au Secteur 03 + 🪙 1400 + 💎 90 + Équipement |
-| `CHP4` | 🗝️ Clé d'accès immédiate au Secteur 04 + 🪙 2600 + 💎 160 + Équipement |
+Dans le lobby de **Zombie Survivor.io**, cliquez sur l'icône de terminal pour saisir un code que vous avez reçu. Chaque code débloque :
+- Des secteurs d'intervention (accès dérogatoire)
+- Du butin (pièces, gemmes, équipement)
+- Des ressources d'urgence
+
+Une fois un code utilisé, il est enregistré dans le journal et ne peut plus être réutilisé. Si vous n'avez pas reçu de code, progressez normalement : chaque niveau validé débloque le suivant.
 
 ---
 
