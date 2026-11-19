@@ -826,7 +826,7 @@ setInterval(()=>{
   if(f)SFX.tone(f,.2,'triangle',.05,f*.99);
   if(st%2===0)SFX.noise(.03,.012,6500,'highpass');
   if(SFX.mIdx%16===12)SFX.tone(220,.45,'sawtooth',.012,110);
-  SFX.mNext=ct+.25/G.ch.speed;SFX.mIdx++;
+  SFX.mNext=ct+.25/(G?G.lvlSpeed:1);SFX.mIdx++;
 },110);
 
 /* =========================================================== DONNÉES */
@@ -872,7 +872,7 @@ const CHAPTERS=[
       {lvl:2,title:'Récolte d\'Énergie',tag:'140 Gemmes XP',desc:'Collecte des fragments d\'XP sur les infectés abattus.',minDur:180,quest:{type:'gems',target:140,icon:'💠',label:'Ramasser 140 gemmes d\'XP'},rw:{coins:200,gems:20}},
       {lvl:3,title:'Montée en Puissance',tag:'Atteindre Niv. 7',desc:'Améliore ton arsenal et résiste à la horde qui s\'épaissit.',minDur:180,quest:{type:'playerLevel',target:7,icon:'⭐',label:'Atteindre le niveau 7 en mission'},rw:{coins:250,gems:25}},
       {lvl:4,title:'Chasse aux Élites',tag:'3 Élites ☠️',desc:'Élimine les mutations lourdes qui mènent les assauts.',minDur:180,quest:{type:'elites',target:3,icon:'👹',label:'Abattre 3 zombies Élites'},rw:{coins:300,gems:30}},
-      {lvl:5,title:'TITAN MUTÉ ENRAGÉ',tag:'BOSS DIFFICILE',isBoss:true,desc:'Survis 3 minutes à l\'enfer urbain puis détruis le Titan Muté Enragé !',minDur:180,quest:{type:'boss',target:1,icon:'☣️',label:'Survivre 3 min & vaincre le TITAN MUTÉ'},rw:{coins:450,gems:50}}
+      {lvl:5,title:'TITAN MUTÉ ENRAGÉ',tag:'BOSS DIFFICILE',isBoss:true,desc:'Affronte directement le Titan Muté Enragé ! Il lâche un butin d\'XP à ramasser.',minDur:180,quest:{type:'boss',target:1,icon:'☣️',label:'Vaincre le TITAN MUTÉ ENRAGÉ'},rw:{coins:450,gems:50}}
     ]
   },
   {
@@ -885,7 +885,7 @@ const CHAPTERS=[
       {lvl:2,title:'Récupération Médicale',tag:'220 Pièces',desc:'Fouille les laboratoires et récupère les fonds d\'urgence.',minDur:180,quest:{type:'coins',target:220,icon:'🪙',label:'Ramasser 220 pièces d\'or'},rw:{coins:300,gems:25}},
       {lvl:3,title:'Cadence Meurtrière',tag:'Combo ×18',desc:'Enchaîne les tirs sans faiblir pour briser le blocus.',minDur:180,quest:{type:'combo',target:18,icon:'🔥',label:'Atteindre un combo de ×18'},rw:{coins:350,gems:30}},
       {lvl:4,title:'Spécimens Biohazard',tag:'4 Élites ☠️',desc:'Neutralise les monstruosités créées par les expériences virales.',minDur:180,quest:{type:'elites',target:4,icon:'👹',label:'Abattre 4 zombies Élites'},rw:{coins:420,gems:35}},
-      {lvl:5,title:'LE CHIRURGIEN FOU',tag:'BOSS DIFFICILE',isBoss:true,desc:'Survis 3 minutes puis élimine le Chirurgien Fou et ses lames acérées !',minDur:180,quest:{type:'boss',target:1,icon:'☣️',label:'Survivre 3 min & vaincre LE CHIRURGIEN'},rw:{coins:600,gems:60}}
+      {lvl:5,title:'LE CHIRURGIEN FOU',tag:'BOSS DIFFICILE',isBoss:true,desc:'Affronte directement le Chirurgien Fou et ses lames acérées ! Il lâche un butin d\'XP à ramasser.',minDur:180,quest:{type:'boss',target:1,icon:'☣️',label:'Vaincre LE CHIRURGIEN FOU'},rw:{coins:600,gems:60}}
     ]
   },
   {
@@ -898,7 +898,7 @@ const CHAPTERS=[
       {lvl:2,title:'Dératisation',tag:'50 Rats mutants',desc:'Élimine les nuées de rongeurs affamés qui grouillent sur les rails.',minDur:180,quest:{type:'rats',target:50,icon:'🐀',label:'Éliminer 50 rats mutants'},rw:{coins:420,gems:30}},
       {lvl:3,title:'Surcharge d\'Armement',tag:'Atteindre Niv. 11',desc:'Pousse tes modules d\'armes à leur apogée technologique.',minDur:180,quest:{type:'playerLevel',target:11,icon:'⭐',label:'Atteindre le niveau 11 en mission'},rw:{coins:480,gems:35}},
       {lvl:4,title:'Briseurs de Lignes',tag:'5 Élites ☠️',desc:'Traque et détruis les colosses mutants des profondeurs.',minDur:180,quest:{type:'elites',target:5,icon:'👹',label:'Abattre 5 zombies Élites'},rw:{coins:550,gems:45}},
-      {lvl:5,title:'ROI DES RATS CORROMPU',tag:'BOSS DIFFICILE',isBoss:true,desc:'Survis 3 minutes dans l\'obscurité puis terrasse le Roi des Rats Corrompu !',minDur:180,quest:{type:'boss',target:1,icon:'☣️',label:'Survivre 3 min & vaincre le ROI DES RATS'},rw:{coins:800,gems:80}}
+      {lvl:5,title:'ROI DES RATS CORROMPU',tag:'BOSS DIFFICILE',isBoss:true,desc:'Affronte directement le Roi des Rats Corrompu dans l\'obscurité ! Il lâche un butin d\'XP à ramasser.',minDur:180,quest:{type:'boss',target:1,icon:'☣️',label:'Vaincre le ROI DES RATS CORROMPU'},rw:{coins:800,gems:80}}
     ]
   },
   {
@@ -911,10 +911,12 @@ const CHAPTERS=[
       {lvl:2,title:'Siphon d\'Énergie Pure',tag:'220 Gemmes XP',desc:'Récolte les particules d\'énergie pure générées par le cataclysme.',minDur:180,quest:{type:'gems',target:220,icon:'💠',label:'Ramasser 220 gemmes d\'XP'},rw:{coins:600,gems:40}},
       {lvl:3,title:'Annihilation Totale',tag:'Combo ×30',desc:'Maintiens une vague de destruction ininterrompue.',minDur:180,quest:{type:'combo',target:30,icon:'🔥',label:'Atteindre un combo de ×30'},rw:{coins:700,gems:50}},
       {lvl:4,title:'Avant-Garde Alpha',tag:'6 Élites ☠️',desc:'Détruis les mastodontes blindés d\'élite gardant le cœur du réacteur.',minDur:180,quest:{type:'elites',target:6,icon:'👹',label:'Abattre 6 colosses Élites'},rw:{coins:850,gems:60}},
-      {lvl:5,title:'TITAN ALPHA CAUCHEMAR',tag:'BOSS DIFFICILE',isBoss:true,desc:'Survis 3 minutes en enfer puis abats l\'ultime Titan Alpha Cauchemar !',minDur:180,quest:{type:'boss',target:1,icon:'☣️',label:'Survivre 3 min & vaincre le TITAN ALPHA'},rw:{coins:1300,gems:130}}
+      {lvl:5,title:'TITAN ALPHA CAUCHEMAR',tag:'BOSS DIFFICILE',isBoss:true,desc:'Affronte directement l\'ultime Titan Alpha Cauchemar ! Il lâche un butin d\'XP massif à ramasser.',minDur:180,quest:{type:'boss',target:1,icon:'☣️',label:'Vaincre le TITAN ALPHA CAUCHEMAR'},rw:{coins:1300,gems:130}}
     ]
   }
 ];
+// Vitesse du tempo par niveau (lvl 1 -> 0.75, lvl 2 -> 1, lvl 3 -> 1.5, lvl 4 -> 2, boss -> 2)
+const LVL_SPEEDS=[0.75,1,1.5,2,2];
 const QUEST_POOL=[
   {type:'kills',icon:'💀',t:[120,260],title:n=>`Éliminer ${n} zombies`,rw:{coins:180}},
   {type:'survive',icon:'⏱️',t:[4,6],title:n=>`Survivre ${mmss(n*30)} en une mission`,rw:{coins:220},mult:30},
@@ -1101,9 +1103,10 @@ function renderStatus(){
   $('#chestSup').classList.toggle('cant',meta.gems<80);
   renderQuestBadge();
 }
-function intMeter(ch){
+function intMeter(ch,speed){
+  speed=speed!==undefined?speed:ch.speed;
   const cols=['#c8ff3c','#22d3ee','#ffb02e','#ff2d55'];
-  return `<div class="intensity"><div class="intTop"><span class="lbl">TEMPO</span><span class="val" style="color:${ch.acc}">×${ch.speed}</span></div>
+  return `<div class="intensity"><div class="intTop"><span class="lbl">TEMPO</span><span class="val" style="color:${ch.acc}">×${speed}</span></div>
     <div class="intBars">${CHAPTERS.map((c,i)=>`<i style="${i<=ch.id-1?`background:${cols[i]};box-shadow:0 0 8px ${cols[i]}88`:''}"></i>`).join('')}</div>
     <div class="intName" style="color:${ch.acc}">${ch.intName}</div></div>`;
 }
@@ -1118,20 +1121,21 @@ function renderMissions(){
   const lvlUnlocked=isLevelUnlocked(uiCh,uiLvl);
   const lvlDone=isLevelCleared(uiCh,uiLvl);
   const clearedCount=ch.levels.filter(l=>isLevelCleared(uiCh,l.lvl)).length;
+  const lvlSpeed=LVL_SPEEDS[uiLvl-1];
   $('#missionCount').textContent=`SECTEUR ${String(ch.id).padStart(2,'0')} · ${clearedCount}/5 NIVEAUX VALIDÉS`;
   const brief=$('#brief');
   brief.className='brief'+(unlocked?'':' locked');
   brief.style.borderColor=unlocked?ch.acc+'55':'var(--edge)';
   brief.innerHTML=`<div class="scene">${sceneSVG(ch.scene)}</div><div class="veil"></div>
-    <div class="hud"><div class="briefTop"><div class="sectorTag"><span class="dot"></span>${ch.zone}</div>${intMeter(ch)}</div>
+    <div class="hud"><div class="briefTop"><div class="sectorTag"><span class="dot"></span>${ch.zone}</div>${intMeter(ch,lvlSpeed)}</div>
     <div class="briefBottom">
       <div class="chIdx">SECTEUR ${String(ch.id).padStart(2,'0')} · NIVEAU ${uiLvl}/5 — ${curLvl.title.toUpperCase()}</div>
       <h3 style="color:${ch.acc}">${curLvl.isBoss?'☠️ '+ch.boss:ch.name}</h3>
       <div class="objRow">
-        <span class="chip lime">⏱️ Survie min. <b>${mmss(curLvl.minDur)}</b></span>
+        ${curLvl.isBoss?'<span class="chip red">☠️ Boss difficile</span>':'<span class="chip lime">⏱️ Survie min. <b>'+mmss(curLvl.minDur)+'</b></span>'}
         <span class="chip ${curLvl.isBoss?'red':'amber'}">${curLvl.quest.icon} <b>${curLvl.quest.label}</b></span>
         <span class="chip cyan">🎁 Butin <b>+${curLvl.rw.coins}🪙 +${curLvl.rw.gems}💎</b></span>
-        <span class="chip">⚡ Tempo <b>×${ch.speed}</b></span>
+        <span class="chip">⚡ Tempo <b>×${lvlSpeed}</b></span>
       </div>
     </div></div>
     ${lvlDone?`<div class="clearFlag">✅ NIVEAU ${uiLvl}/5 VALIDÉ</div>`:''}
@@ -1448,7 +1452,8 @@ function getQuestProgress(){
 function newRun(chIdx, secLvl=uiLvl){
   const ch=CHAPTERS[chIdx],d=derive();
   const lvlData=ch.levels[secLvl-1];
-  G={chIdx,ch,secLvl,lvlData,d,running:false,over:false,finished:false,paused:false,result:null,deathT:0,
+  const lvlSpeed=LVL_SPEEDS[secLvl-1];
+  G={chIdx,ch,secLvl,lvlData,lvlSpeed,d,running:false,over:false,finished:false,paused:false,result:null,deathT:0,
     t:0,real:0,slowmo:0,hudT:0,lastSec:-1,heartT:0,
     player:{x:0,y:0,hp:d.hp,maxhp:d.hp,aim:0,ifr:0,muzzle:0,hurt:0,step:0,kbx:0,kby:0,moving:false,dirX:1,dirY:0},
     cam:{x:0,y:0,shake:0,sx:0,sy:0},
@@ -1456,7 +1461,7 @@ function newRun(chIdx, secLvl=uiLvl){
     w:{pistol:{lvl:1,cd:.4}},p:{},bladesA:0,dronePos:[],
     lvl:1,xp:0,xpNeed:6,pendingLv:0,luOpen:false,
     kills:0,coins:0,gemsCollected:0,combo:0,comboT:0,maxCombo:0,
-    elitesKilled:0,ratsKilled:0,bossKilled:false,
+    elitesKilled:0,ratsKilled:0,bossKilled:false,collectT:0,
     minDur:lvlData.minDur||180,questCompleted:false,surviveCompleted:false,
     spawnAcc:0,eliteT:(lvlData.quest.type==='elites'?22:36),events:{},boss:null,bossWarned:false,bossSpawned:false,
     keys:{},joy:{active:false,id:null,bx:0,by:0,dx:0,dy:0},grid:new Map(),nearest:null,moved:false,arsDirty:true,
@@ -1542,8 +1547,27 @@ function bossDown(e){
   $('#bossBar').classList.remove('show');
   parts(e.x,e.y,80,'spark');parts(e.x,e.y,60,'blood');
   G.rings.push({x:e.x,y:e.y,r0:20,r1:380,ttl:.75,life:.75,c:'200,255,60',w:9});
-  G.cam.shake=24;G.slowmo=1.2;G.over=true;G.result='victory';G.deathT=1.4;
-  banner('💥 '+G.ch.boss+' ANÉANTI !','Secteur entièrement libéré !','');SFX.play('boom');
+  G.cam.shake=24;G.slowmo=1.2;
+  // Drop a big burst of XP gems + coins that the player can collect.
+  const gemCount=40+Math.floor(G.ch.id*4);
+  for(let i=0;i<gemCount;i++){
+    const a=rand(0,TAU),dist=rand(20,150);
+    dropGem(e.x+Math.cos(a)*dist, e.y+Math.sin(a)*dist, randi(8,16), true);
+  }
+  const coinCount=20;
+  for(let i=0;i<coinCount;i++){
+    const a=rand(0,TAU),dist=rand(30,180);
+    dropCoin(e.x+Math.cos(a)*dist, e.y+Math.sin(a)*dist, Math.max(5,Math.round(rand(8,15)*G.ch.goldM)));
+  }
+  // Drop a few healing hearts too as a bonus.
+  for(let i=0;i<3;i++){
+    const a=rand(0,TAU),dist=rand(40,120);
+    G.gems.push({x:e.x+Math.cos(a)*dist,y:e.y+Math.sin(a)*dist,kind:'heart',v:30,seed:rand(0,TAU)});
+  }
+  // Delay victory to let the player collect XP gems.
+  G.collectT=3.0;
+  banner('💥 '+G.ch.boss+' ANÉANTI !','Ramasse le butin d\'XP avant l\'extraction !','');
+  SFX.play('boom');
 }
 function damagePlayer(amount){
   const p=G.player;if(p.ifr>0||G.over)return;
@@ -1674,7 +1698,7 @@ function update(dt){
   p.ifr=Math.max(0,p.ifr-dt);p.hurt=Math.max(0,p.hurt-2.5*dt);p.muzzle=Math.max(0,p.muzzle-dt);
   const regen=G.d.regen+.4*(G.p.regen||0);
   if(regen>0)p.hp=Math.min(p.maxhp,p.hp+regen*dt);
-  if(G.t>1.2){
+  if(G.t>1.2&&!G.bossKilled){
     const rate=(.85+G.t/G.minDur*2.6)*ch.rateM*(G.bossSpawned?.35:1);
     G.spawnAcc=Math.min(4,G.spawnAcc+rate*dt);
     while(G.spawnAcc>=1){G.spawnAcc--;
@@ -1696,15 +1720,10 @@ function update(dt){
         if(ev.k==='horde'){banner('⚠️ HORDE EN APPROCHE','','amber');for(let i=0;i<22;i++)spawnEnemy(Math.random()<.6?'walk':'run');SFX.play('roar');}
         else{banner('🐀 NUÉE DE RATS','','cyan');const base=rand(0,TAU),dist=Math.hypot(W,H)/2+100;
           for(let i=0;i<20;i++){const a=base+rand(-.5,.5);spawnEnemy('rat',{x:p.x+Math.cos(a)*dist,y:p.y+Math.sin(a)*dist});}}}}
-    // Boss only spawns on boss level (lvl 5) after 3 minutes survived.
+    // Boss only spawns on boss level (lvl 5).
+    // For boss level: boss spawns immediately (no 3-min wait).
     if(G.lvlData.isBoss){
-      if(!G.bossWarned&&G.t>=G.minDur-15){
-        G.bossWarned=true;
-        banner('⚠️ LE SOL TREMBLE…',ch.boss+' approche dans 15 secondes !','red');
-        SFX.play('roar');
-        G.cam.shake=Math.max(G.cam.shake,10);
-      }
-      if(!G.bossSpawned&&G.t>=G.minDur)spawnBoss();
+      if(!G.bossSpawned&&G.t>=1.0)spawnBoss();
     }
   }
   buildGrid();
@@ -1959,7 +1978,15 @@ function hudTick(rdt){
   HUD.kill.textContent=fmt(G.kills);HUD.coin.textContent=fmt(G.coins);
   HUD.lvl.textContent=G.lvl;
   HUD.xp.style.width=clamp(G.xp/G.xpNeed*100,0,100)+'%';
-  HUD.mission.style.width=clamp(G.t/G.minDur*100,0,100)+'%';
+  // Mission progress bar: boss HP% on boss level, survival time% otherwise.
+  if(G.lvlData.isBoss&&G.boss){
+    HUD.mission.style.width=clamp(G.boss.hp/G.boss.maxhp*100,0,100)+'%';
+  }else if(G.lvlData.isBoss&&G.bossKilled){
+    // After boss death: show collection timer countdown.
+    HUD.mission.style.width=clamp(G.collectT/3.0*100,0,100)+'%';
+  }else{
+    HUD.mission.style.width=clamp(G.t/G.minDur*100,0,100)+'%';
+  }
   HUD.hp.style.width=clamp(p.hp/p.maxhp*100,0,100)+'%';
   HUD.hpt.textContent=Math.ceil(p.hp)+'/'+p.maxhp;
   const low=p.hp/p.maxhp<.3&&!G.over;
@@ -1975,14 +2002,18 @@ function hudTick(rdt){
   // Update in-game objective tracker
   const qt=$('#questTracker');
   if(qt&&G.lvlData){
-    const survDone=G.t>=G.minDur;
+    const isBoss=G.lvlData.isBoss;
+    const survDone=isBoss?G.bossKilled:(G.t>=G.minDur);
     const qProg=getQuestProgress();
     const allDone=survDone&&qProg.done;
     qt.classList.toggle('show',true);
-    qt.classList.toggle('boss',!!G.lvlData.isBoss);
+    qt.classList.toggle('boss',!!isBoss);
     qt.classList.toggle('all-done',allDone);
 
-    if(survDone&&!G.surviveCompleted){
+    // Hide survival row on boss level (no survival requirement).
+    $('#qtSurviveRow').style.display=isBoss?'none':'';
+
+    if(!isBoss&&survDone&&!G.surviveCompleted){
       G.surviveCompleted=true;
       SFX.play('claim');
       toast('⏱️ Survie 3:00 min accomplie !','info');
@@ -1993,32 +2024,47 @@ function hudTick(rdt){
       toast(`📋 Objectif validé : ${G.lvlData.quest.label} !`,'gold');
     }
 
-    $('#qtLvlBadge').textContent=`NIV. ${G.secLvl}/5`;
+    $('#qtLvlBadge').textContent=isBoss?'☠️ BOSS':`NIV. ${G.secLvl}/5`;
     $('#qtLvlName').textContent=G.lvlData.title.toUpperCase();
 
-    const sRow=$('#qtSurviveRow');
-    sRow.classList.toggle('done',survDone);
-    $('#qtSurviveVal').textContent=`${mmss(Math.min(G.t,G.minDur))} / ${mmss(G.minDur)}`;
-    $('#qtSurviveCheck').textContent=survDone?'✓':'⏳';
+    if(!isBoss){
+      const sRow=$('#qtSurviveRow');
+      sRow.classList.toggle('done',survDone);
+      $('#qtSurviveVal').textContent=`${mmss(Math.min(G.t,G.minDur))} / ${mmss(G.minDur)}`;
+      $('#qtSurviveCheck').textContent=survDone?'✓':'⏳';
+    }
 
     const qRow=$('#qtQuestRow');
     qRow.classList.toggle('done',qProg.done);
     $('#qtQuestIco').textContent=G.lvlData.quest.icon||'📋';
     $('#qtQuestTxt').textContent=G.lvlData.quest.label;
-    $('#qtQuestVal').textContent=`${Math.min(qProg.cur,qProg.target)} / ${qProg.target}`;
-    $('#qtQuestCheck').textContent=qProg.done?'✓':'⏳';
-
-    const pct=clamp(qProg.cur/qProg.target*100,0,100);
-    $('#qtBarFill').style.width=pct+'%';
+    if(isBoss&&G.boss){
+      // Show boss HP% as the quest progress.
+      const pct=clamp((1-G.boss.hp/G.boss.maxhp)*100,0,100);
+      $('#qtQuestVal').textContent=Math.round(pct)+'%';
+      $('#qtQuestCheck').textContent=qProg.done?'✓':'⏳';
+      $('#qtBarFill').style.width=pct+'%';
+    }else if(isBoss&&G.bossKilled){
+      // Show collection countdown.
+      $('#qtQuestVal').textContent=Math.max(0,Math.ceil(G.collectT))+'s';
+      $('#qtQuestCheck').textContent='⏳';
+      $('#qtBarFill').style.width=clamp(G.collectT/3.0*100,0,100)+'%';
+    }else{
+      $('#qtQuestVal').textContent=`${Math.min(qProg.cur,qProg.target)} / ${qProg.target}`;
+      $('#qtQuestCheck').textContent=qProg.done?'✓':'⏳';
+      const pct=clamp(qProg.cur/qProg.target*100,0,100);
+      $('#qtBarFill').style.width=pct+'%';
+    }
 
     // For non-boss levels: victory condition when 3 minutes survived AND quest completed.
-    if(!G.lvlData.isBoss&&survDone&&qProg.done&&!G.over){
+    if(!isBoss&&survDone&&qProg.done&&!G.over){
       G.over=true;
       G.result='victory';
       G.deathT=1.25;
       banner('🎉 NIVEAU VALIDÉ !','Objectifs de survie et quête complétés !','');
       SFX.play('victory');
     }
+    // For boss level: victory is triggered in frame() after collectT expires.
   }
 }
 /* ---------- boucle (sous-pas) ---------- */
@@ -2026,11 +2072,21 @@ function frame(ts){
   if(!G||!G.running)return;
   raf=requestAnimationFrame(frame);
   const rdt=Math.min(.04,(ts-last)/1000)||.016;last=ts;
-  let dt=rdt*G.ch.speed;
+  let dt=rdt*G.lvlSpeed;
   if(G.slowmo>0){G.slowmo-=rdt;dt*=.25;}
   if(G.over){
     G.deathT-=rdt;aftermath(dt);
     if(G.deathT<=0&&!G.finished){G.finished=true;finish(G.result);return;}
+  }else if(G.bossKilled){
+    // Boss is dead, player has a short window to collect XP gems before victory triggers.
+    G.collectT-=rdt;
+    const steps=clamp(Math.ceil(dt/.025),1,6),sdt=dt/steps;
+    for(let i=0;i<steps;i++)update(sdt);
+    G.enemies.sort((a,b)=>a.y-b.y);
+    if(G.collectT<=0){
+      G.over=true;G.result='victory';G.deathT=1.0;
+      banner('🎉 EXTRACTION RÉUSSIE !','Secteur entièrement libéré.','');
+    }
   }else if(!G.paused){
     const steps=clamp(Math.ceil(dt/.025),1,6),sdt=dt/steps;
     for(let i=0;i<steps;i++){if(G.paused||G.over)break;update(sdt);}
@@ -2051,15 +2107,19 @@ function startRun(chIdx, secLvl){
   $('#chChip').textContent='SECTEUR '+String(G.ch.id).padStart(2,'0')+' · NV.'+G.secLvl;
   $('#chChip').classList.remove('boss');
   $('#bossBar').classList.remove('show');$('#missionTrack').classList.remove('boss');
-  const scEl=$('#speedChip');scEl.textContent='×'+G.ch.speed;scEl.style.color=G.ch.acc;
+  const scEl=$('#speedChip');scEl.textContent='×'+G.lvlSpeed;scEl.style.color=G.ch.acc;
   $('#moveHint').classList.remove('hide');HUD.dmg.classList.remove('low');HUD.dmg.style.opacity=0;
   // Reset quest tracker UI
   $('#questTracker').classList.remove('all-done','boss');
   $('#qtSurviveRow').classList.remove('done');
+  $('#qtSurviveRow').style.display='';
   $('#qtQuestRow').classList.remove('done');
   G.lastSec=-1;G.hudT=1;G.arsDirty=true;hudTick(1);
   const lvlTag=lvlData.isBoss?'☠️ BOSS FINAL':'NIVEAU '+G.secLvl+'/5';
-  banner('SECTEUR '+String(G.ch.id).padStart(2,'0')+' — '+lvlTag,'TEMPO ×'+G.ch.speed+' · '+G.ch.intName+' · tenir '+mmss(G.minDur),'');
+  const subMsg=lvlData.isBoss
+    ?'TEMPO ×'+G.lvlSpeed+' · '+G.ch.intName+' · BOSS DIFFICILE'
+    :'TEMPO ×'+G.lvlSpeed+' · '+G.ch.intName+' · tenir '+mmss(G.minDur);
+  banner('SECTEUR '+String(G.ch.id).padStart(2,'0')+' — '+lvlTag,subMsg,lvlData.isBoss?'red':'');
   SFX.init();SFX.resume();SFX.startAmb();SFX.play('roar');
   G.running=true;last=performance.now();raf=requestAnimationFrame(frame);
 }
@@ -2106,7 +2166,7 @@ function finish(result){
   if(nextExists)tags.push(`<span class="endTag cyan">🔓 SECTEUR ${String(ch.id+1).padStart(2,'0')} OUVERT</span>`);
   const nextLvlExists=result==='victory'&&G.secLvl<5;
   $('#endContent').innerHTML=`<span id="endIcon">${result==='victory'?'🏆':'💀'}</span>
-    <div class="govKicker">DÉBRIEFING · SECTEUR ${String(ch.id).padStart(2,'0')} · NV.${G.secLvl}/5 · TEMPO ×${ch.speed}</div>
+    <div class="govKicker">DÉBRIEFING · SECTEUR ${String(ch.id).padStart(2,'0')} · NV.${G.secLvl}/5 · TEMPO ×${G.lvlSpeed}</div>
     <div class="govTitle" style="color:${result==='victory'?'var(--lime)':'var(--crimson)'}">${result==='victory'?'MISSION ACCOMPLIE':'FIN DE MISSION'}</div>
     <div class="govSub">${result==='victory'?(G.lvlData.isBoss?ch.boss+' a été abattu. Le secteur respire… pour l\u2019instant.':'Objectifs de survie et quête accomplis. La horde se replie.'):'Tu as combattu avec bravoure contre la horde. Ton butin est en sécurité au bunker.'}</div>
     ${tags.length?`<div class="endTags">${tags.join('')}</div>`:''}
