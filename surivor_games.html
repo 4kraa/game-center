@@ -178,6 +178,51 @@ body.game-mode #bgFx{display:none}
 .howRow{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
 .howRow .chip{font-size:11.5px;color:var(--dim)}
 
+/* Level selector strip */
+.levelSection{margin-top:14px}
+.levelHeader{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;font-family:var(--fm);font-size:11px;letter-spacing:1.5px;color:var(--mut)}
+.levelHeader .secIdx{color:var(--lime)}
+.levelHeader .levelSub{color:var(--dim)}
+.levelStrip{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.lvlBtn{position:relative;background:#090e12;border:1px solid var(--edge);clip-path:var(--cutS);padding:10px 8px;display:flex;flex-direction:column;align-items:flex-start;gap:3px;transition:.18s;cursor:pointer;text-align:left;min-width:0}
+.lvlBtn:hover:not(.lock){border-color:var(--edge2);transform:translateY(-2px)}
+.lvlBtn.on{border-color:var(--lime);background:linear-gradient(180deg,#142413,#0a110e);box-shadow:0 0 14px rgba(200,255,60,.25)}
+.lvlBtn.boss{border-color:#5c1a28}
+.lvlBtn.boss.on{border-color:var(--crimson);background:linear-gradient(180deg,#2b0f16,#0e0709);box-shadow:0 0 16px rgba(255,45,85,.35)}
+.lvlBtn.lock{opacity:.45;cursor:not-allowed;filter:grayscale(.8)}
+.lvlTop{display:flex;justify-content:space-between;width:100%;align-items:center}
+.lvlNum{font-family:var(--fm);font-size:10px;letter-spacing:1px;color:var(--dim)}
+.lvlBtn.on .lvlNum{color:var(--lime)}
+.lvlBtn.boss .lvlNum{color:var(--crimson)}
+.lvlStatus{font-size:11px}
+.lvlName{font-family:var(--fd);font-weight:700;font-size:12px;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+.lvlTag{font-family:var(--fm);font-size:9px;color:var(--mut);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+@media (max-width:760px){
+  .levelStrip{grid-template-columns:repeat(5,1fr);gap:5px}
+  .lvlBtn{padding:8px 5px}
+  .lvlName{font-size:10.5px}
+  .lvlTag{font-size:8px}
+  .lvlNum{font-size:8.5px}
+}
+
+/* In-game objective tracker */
+#questTracker{position:absolute;top:70px;left:14px;width:min(280px,80vw);background:rgba(10,15,18,.9);border:1px solid var(--edge2);clip-path:var(--cutS);padding:9px 11px;display:flex;flex-direction:column;gap:6px;backdrop-filter:blur(5px);z-index:10;box-shadow:0 8px 24px rgba(0,0,0,.5);transition:border-color .3s,box-shadow .3s;display:none}
+#questTracker.show{display:flex}
+#questTracker.all-done{border-color:var(--lime);box-shadow:0 0 18px rgba(200,255,60,.35)}
+.qtHeader{display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #1c2730;padding-bottom:4px}
+.qtLvlBadge{font-family:var(--fm);font-size:9.5px;letter-spacing:1.5px;color:var(--lime);background:rgba(200,255,60,.12);padding:2px 6px;clip-path:var(--cutS);font-weight:700}
+#questTracker.boss .qtLvlBadge{color:var(--crimson);background:rgba(255,45,85,.14)}
+.qtLvlName{font-family:var(--fd);font-size:11px;font-weight:700;letter-spacing:1px;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:170px}
+.qtRow{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--mut);transition:color .2s}
+.qtRow.done{color:var(--lime);font-weight:600}
+.qtIcon{font-size:12px;flex:0 0 auto}
+.qtText{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.qtVal{font-family:var(--fm);font-size:11px;color:var(--ink);flex:0 0 auto}
+.qtRow.done .qtVal{color:var(--lime)}
+.qtCheck{font-size:11px;flex:0 0 auto}
+.qtBar{height:4px;background:#090e12;border:1px solid #1c2730;overflow:hidden}
+.qtBar i{display:block;height:100%;background:linear-gradient(90deg,#3d5a2a,var(--lime));transition:width .2s linear}
+
 /* ---- dock survivant ---- */
 .dock{position:sticky;top:0;padding:16px;background:linear-gradient(180deg,#151c22,#0e1317);border:1px solid var(--edge);clip-path:var(--cut)}
 .dockHead{display:flex;align-items:center;gap:8px;font-family:var(--fm);font-size:10px;letter-spacing:2px;color:var(--dim);margin-bottom:12px}
@@ -384,7 +429,7 @@ body.game-mode #bgFx{display:none}
 #missionTrack{position:absolute;top:56px;left:74px;right:12px;height:3px;background:rgba(10,15,18,.8);border:1px solid #1a232a}
 #missionFill{height:100%;width:0;background:linear-gradient(90deg,#3d5a2a,var(--lime));transition:width .2s linear}
 #missionTrack.boss #missionFill{background:linear-gradient(90deg,#7a1024,var(--crimson))}
-#comboChip{position:absolute;top:78px;left:14px;font-family:var(--fd);font-weight:700;font-size:19px;color:var(--lime);text-shadow:0 0 14px rgba(200,255,60,.6);opacity:0;transition:.2s}
+#comboChip{position:absolute;top:198px;left:14px;font-family:var(--fd);font-weight:700;font-size:19px;color:var(--lime);text-shadow:0 0 14px rgba(200,255,60,.6);opacity:0;transition:.2s}
 #comboChip span{font-family:var(--fm);font-size:9.5px;letter-spacing:2px;color:var(--mut)}
 #comboChip.show{opacity:1}
 #comboChip.hot{color:var(--amber);text-shadow:0 0 18px rgba(255,176,46,.85);animation:hot .5s infinite}
@@ -533,6 +578,7 @@ body.game-mode #bgFx{display:none}
         <div class="missionGrid">
           <div>
             <div class="brief" id="brief"></div>
+            <div class="levelSection" id="levelSection"></div>
             <div class="deployBar">
               <div id="deployInfo"></div>
               <button class="deploy" id="deployBtn"><span>DÉPLOIEMENT</span><i>▶</i></button>
@@ -658,6 +704,12 @@ body.game-mode #bgFx{display:none}
     </div>
     <div id="missionTrack"><div id="missionFill"></div></div>
     <div id="comboChip">×2 <span>COMBO</span></div>
+    <div id="questTracker">
+      <div class="qtHeader"><span class="qtLvlBadge" id="qtLvlBadge">NIV. 1/5</span><span class="qtLvlName" id="qtLvlName">RECONNAISSANCE</span></div>
+      <div class="qtRow" id="qtSurviveRow"><span class="qtIcon">⏱️</span><span class="qtText">Survie 03:00 min</span><span class="qtVal" id="qtSurviveVal">00:00 / 03:00</span><span class="qtCheck" id="qtSurviveCheck">⏳</span></div>
+      <div class="qtRow" id="qtQuestRow"><span class="qtIcon" id="qtQuestIco">💀</span><span class="qtText" id="qtQuestTxt">Éliminations</span><span class="qtVal" id="qtQuestVal">0 / 100</span><span class="qtCheck" id="qtQuestCheck">⏳</span></div>
+      <div class="qtBar"><i id="qtBarFill" style="width:0%"></i></div>
+    </div>
     <div id="bossBar"><div id="bossName">☣ TITAN MUTÉ</div><div class="btrack"><div id="bossFill"></div></div></div>
     <div id="banner"><div id="bannerMain"></div><div id="bannerSub"></div></div>
     <div id="hpWrap"><div id="hpFill"></div><span id="hpText">100/100</span></div>
@@ -810,10 +862,59 @@ const CODES={
   TITAN:{itemR:2,label:'Équipement Épique'},
   BIENVENUE:{coins:200,gems:20,label:'Kit de bienvenue'}};
 const CHAPTERS=[
-  {id:1,name:'RUES DÉVASTÉES',zone:'ZONE DE QUARANTAINE',lvl:1,rec:110,dur:180,speed:.75,intName:'INITIATION',boss:'TITAN MUTÉ',hpM:1,rateM:.85,goldM:1,bossHp:7000,acc:'#c8ff3c',ground:'#121712',fog:'200,255,60',scene:'city'},
-  {id:2,name:'HÔPITAL EN RUINES',zone:'SECTEUR CONTAMINÉ',lvl:6,rec:180,dur:240,speed:1,intName:'STANDARD',boss:'LE CHIRURGIEN',hpM:1.5,rateM:1.1,goldM:1.5,bossHp:16000,acc:'#22d3ee',ground:'#0f1a1a',fog:'34,211,238',scene:'hospital'},
-  {id:3,name:'MÉTRO INFESTÉ',zone:'TUNNELS INTERDITS',lvl:12,rec:280,dur:270,speed:1.5,intName:'INTENSE',boss:'ROI DES RATS',hpM:2.2,rateM:1.35,goldM:2.1,bossHp:34000,acc:'#ffb02e',ground:'#151222',fog:'168,140,255',scene:'metro'},
-  {id:4,name:'ZONE ZÉRO',zone:'POINT D\u2019IMPACT',lvl:20,rec:420,dur:300,speed:2,intName:'CAUCHEMAR',boss:'TITAN ALPHA',hpM:3.2,rateM:1.6,goldM:3,bossHp:60000,acc:'#ff2d55',ground:'#1a1010',fog:'255,45,85',scene:'reactor'}];
+  {
+    id:1,name:'RUES DÉVASTÉES',zone:'ZONE DE QUARANTAINE',lvl:1,rec:110,speed:.8,intName:'INITIATION',
+    acc:'#c8ff3c',ground:'#121712',fog:'200,255,60',scene:'city',
+    hpM:1,rateM:.9,goldM:1,
+    boss:'TITAN MUTÉ ENRAGÉ',bossHp:16000,bossSpd:62,bossDmg:24,
+    levels:[
+      {lvl:1,title:'Reconnaissance',tag:'100 Éliminations',desc:'Patrouille dans les rues dévastées et sécurise la zone.',minDur:180,quest:{type:'kills',target:100,icon:'💀',label:'Éliminer 100 zombies'},rw:{coins:160,gems:15}},
+      {lvl:2,title:'Récolte d\'Énergie',tag:'140 Gemmes XP',desc:'Collecte des fragments d\'XP sur les infectés abattus.',minDur:180,quest:{type:'gems',target:140,icon:'💠',label:'Ramasser 140 gemmes d\'XP'},rw:{coins:200,gems:20}},
+      {lvl:3,title:'Montée en Puissance',tag:'Atteindre Niv. 7',desc:'Améliore ton arsenal et résiste à la horde qui s\'épaissit.',minDur:180,quest:{type:'playerLevel',target:7,icon:'⭐',label:'Atteindre le niveau 7 en mission'},rw:{coins:250,gems:25}},
+      {lvl:4,title:'Chasse aux Élites',tag:'3 Élites ☠️',desc:'Élimine les mutations lourdes qui mènent les assauts.',minDur:180,quest:{type:'elites',target:3,icon:'👹',label:'Abattre 3 zombies Élites'},rw:{coins:300,gems:30}},
+      {lvl:5,title:'TITAN MUTÉ ENRAGÉ',tag:'BOSS DIFFICILE',isBoss:true,desc:'Survis 3 minutes à l\'enfer urbain puis détruis le Titan Muté Enragé !',minDur:180,quest:{type:'boss',target:1,icon:'☣️',label:'Survivre 3 min & vaincre le TITAN MUTÉ'},rw:{coins:450,gems:50}}
+    ]
+  },
+  {
+    id:2,name:'HÔPITAL EN RUINES',zone:'SECTEUR CONTAMINÉ',lvl:6,rec:180,speed:1,intName:'STANDARD',
+    acc:'#22d3ee',ground:'#0f1a1a',fog:'34,211,238',scene:'hospital',
+    hpM:1.45,rateM:1.15,goldM:1.5,
+    boss:'LE CHIRURGIEN FOU',bossHp:34000,bossSpd:72,bossDmg:28,
+    levels:[
+      {lvl:1,title:'Nettoyage des Couloirs',tag:'160 Éliminations',desc:'Purge les ailes contaminées de l\'hôpital abandonné.',minDur:180,quest:{type:'kills',target:160,icon:'💀',label:'Éliminer 160 zombies'},rw:{coins:250,gems:20}},
+      {lvl:2,title:'Récupération Médicale',tag:'220 Pièces',desc:'Fouille les laboratoires et récupère les fonds d\'urgence.',minDur:180,quest:{type:'coins',target:220,icon:'🪙',label:'Ramasser 220 pièces d\'or'},rw:{coins:300,gems:25}},
+      {lvl:3,title:'Cadence Meurtrière',tag:'Combo ×18',desc:'Enchaîne les tirs sans faiblir pour briser le blocus.',minDur:180,quest:{type:'combo',target:18,icon:'🔥',label:'Atteindre un combo de ×18'},rw:{coins:350,gems:30}},
+      {lvl:4,title:'Spécimens Biohazard',tag:'4 Élites ☠️',desc:'Neutralise les monstruosités créées par les expériences virales.',minDur:180,quest:{type:'elites',target:4,icon:'👹',label:'Abattre 4 zombies Élites'},rw:{coins:420,gems:35}},
+      {lvl:5,title:'LE CHIRURGIEN FOU',tag:'BOSS DIFFICILE',isBoss:true,desc:'Survis 3 minutes puis élimine le Chirurgien Fou et ses lames acérées !',minDur:180,quest:{type:'boss',target:1,icon:'☣️',label:'Survivre 3 min & vaincre LE CHIRURGIEN'},rw:{coins:600,gems:60}}
+    ]
+  },
+  {
+    id:3,name:'MÉTRO INFESTÉ',zone:'TUNNELS INTERDITS',lvl:12,rec:280,speed:1.35,intName:'INTENSE',
+    acc:'#ffb02e',ground:'#151222',fog:'168,140,255',scene:'metro',
+    hpM:2.1,rateM:1.35,goldM:2.1,
+    boss:'ROI DES RATS CORROMPU',bossHp:65000,bossSpd:78,bossDmg:34,
+    levels:[
+      {lvl:1,title:'Percée Souterraine',tag:'220 Éliminations',desc:'Affronte la horde dense qui hante les galeries du métro.',minDur:180,quest:{type:'kills',target:220,icon:'💀',label:'Éliminer 220 infectés'},rw:{coins:360,gems:25}},
+      {lvl:2,title:'Dératisation',tag:'50 Rats mutants',desc:'Élimine les nuées de rongeurs affamés qui grouillent sur les rails.',minDur:180,quest:{type:'rats',target:50,icon:'🐀',label:'Éliminer 50 rats mutants'},rw:{coins:420,gems:30}},
+      {lvl:3,title:'Surcharge d\'Armement',tag:'Atteindre Niv. 11',desc:'Pousse tes modules d\'armes à leur apogée technologique.',minDur:180,quest:{type:'playerLevel',target:11,icon:'⭐',label:'Atteindre le niveau 11 en mission'},rw:{coins:480,gems:35}},
+      {lvl:4,title:'Briseurs de Lignes',tag:'5 Élites ☠️',desc:'Traque et détruis les colosses mutants des profondeurs.',minDur:180,quest:{type:'elites',target:5,icon:'👹',label:'Abattre 5 zombies Élites'},rw:{coins:550,gems:45}},
+      {lvl:5,title:'ROI DES RATS CORROMPU',tag:'BOSS DIFFICILE',isBoss:true,desc:'Survis 3 minutes dans l\'obscurité puis terrasse le Roi des Rats Corrompu !',minDur:180,quest:{type:'boss',target:1,icon:'☣️',label:'Survivre 3 min & vaincre le ROI DES RATS'},rw:{coins:800,gems:80}}
+    ]
+  },
+  {
+    id:4,name:'ZONE ZÉRO',zone:'POINT D\u2019IMPACT',lvl:20,rec:420,speed:1.7,intName:'CAUCHEMAR',
+    acc:'#ff2d55',ground:'#1a1010',fog:'255,45,85',scene:'reactor',
+    hpM:3,rateM:1.6,goldM:3,
+    boss:'TITAN ALPHA CAUCHEMAR',bossHp:110000,bossSpd:85,bossDmg:42,
+    levels:[
+      {lvl:1,title:'Front Radioactif',tag:'300 Éliminations',desc:'Tiens la ligne face aux vagues frénétiques au point d\'impact.',minDur:180,quest:{type:'kills',target:300,icon:'💀',label:'Éliminer 300 abominations'},rw:{coins:520,gems:35}},
+      {lvl:2,title:'Siphon d\'Énergie Pure',tag:'220 Gemmes XP',desc:'Récolte les particules d\'énergie pure générées par le cataclysme.',minDur:180,quest:{type:'gems',target:220,icon:'💠',label:'Ramasser 220 gemmes d\'XP'},rw:{coins:600,gems:40}},
+      {lvl:3,title:'Annihilation Totale',tag:'Combo ×30',desc:'Maintiens une vague de destruction ininterrompue.',minDur:180,quest:{type:'combo',target:30,icon:'🔥',label:'Atteindre un combo de ×30'},rw:{coins:700,gems:50}},
+      {lvl:4,title:'Avant-Garde Alpha',tag:'6 Élites ☠️',desc:'Détruis les mastodontes blindés d\'élite gardant le cœur du réacteur.',minDur:180,quest:{type:'elites',target:6,icon:'👹',label:'Abattre 6 colosses Élites'},rw:{coins:850,gems:60}},
+      {lvl:5,title:'TITAN ALPHA CAUCHEMAR',tag:'BOSS DIFFICILE',isBoss:true,desc:'Survis 3 minutes en enfer puis abats l\'ultime Titan Alpha Cauchemar !',minDur:180,quest:{type:'boss',target:1,icon:'☣️',label:'Survivre 3 min & vaincre le TITAN ALPHA'},rw:{coins:1300,gems:130}}
+    ]
+  }
+];
 const QUEST_POOL=[
   {type:'kills',icon:'💀',t:[120,260],title:n=>`Éliminer ${n} zombies`,rw:{coins:180}},
   {type:'survive',icon:'⏱️',t:[4,6],title:n=>`Survivre ${mmss(n*30)} en une mission`,rw:{coins:220},mult:30},
@@ -851,7 +952,7 @@ const ETYPES={
 
 /* =========================================================== ÉTAT */
 const KEY='zsi_save_v6';
-let meta=null,uiCh=0,invFilter={slot:'all',rar:'all',sort:'rar'};
+let meta=null,uiCh=0,uiLvl=1,invFilter={slot:'all',rar:'all',sort:'rar'};
 function genItem(slot,r){
   const k=[1,1.9,3.2,5.2,8.4][r],stats=[];
   const v=(b,s)=>Math.max(1,Math.round(b*k+rand(0,s*k)));
@@ -866,6 +967,7 @@ function genItem(slot,r){
 }
 function defaultMeta(){
   const m={v:6,coins:450,gems:80,sound:true,bestTime:0,totalKills:0,cleared:[],unlocked:[1],
+    sectorLevels:{1:1,2:1,3:1,4:1},clearedLevels:[],
     equipped:{arme:null,casque:null,armure:null,gants:null,bottes:null,amulette:null},
     inventory:[],talents:{},usedCodes:[],quests:null,uidc:1,welcomed:false};
   meta=m;const st=genItem('arme',0);st.stats=[{k:'atk',v:12}];st.power=24;m.equipped.arme=st;return m;
@@ -879,6 +981,13 @@ function load(){
   meta.equipped=Object.assign({arme:null,casque:null,armure:null,gants:null,bottes:null,amulette:null},s.equipped||{});
   meta.inventory=(s.inventory||[]).filter(i=>i&&i.stats&&i.slot);
   meta.talents=s.talents||{};meta.cleared=s.cleared||[];meta.usedCodes=s.usedCodes||[];
+  meta.sectorLevels=Object.assign({1:1,2:1,3:1,4:1},s.sectorLevels||{});
+  meta.clearedLevels=s.clearedLevels||[];
+  // Backward compat: previously-cleared sectors mark all 5 levels as cleared.
+  (meta.cleared||[]).forEach(cId=>{
+    meta.sectorLevels[cId]=5;
+    for(let l=1;l<=5;l++){const k=`${cId}-${l}`;if(!meta.clearedLevels.includes(k))meta.clearedLevels.push(k);}
+  });
   meta.unlocked=[...new Set([1,...(s.unlocked||[]),...meta.cleared])];
   const mx=Math.max(...meta.unlocked);for(let i=1;i<=mx;i++)if(!meta.unlocked.includes(i))meta.unlocked.push(i);
 }
@@ -896,7 +1005,28 @@ function derive(){
   return d;
 }
 const chUnlocked=i=>meta.unlocked.includes(CHAPTERS[i].id);
-function unlockUpTo(n){for(let i=1;i<=n;i++)if(!meta.unlocked.includes(i))meta.unlocked.push(i);}
+function unlockUpTo(n){
+  for(let i=1;i<=n;i++){
+    if(!meta.unlocked.includes(i))meta.unlocked.push(i);
+    if(meta.sectorLevels)meta.sectorLevels[i]=Math.max(meta.sectorLevels[i]||1,5);
+  }
+}
+// Level is unlocked if the sector is unlocked AND either it's lvl 1,
+// OR the previous level has been cleared.
+function isLevelUnlocked(chIdx,lvl){
+  const ch=CHAPTERS[chIdx];
+  if(!meta.unlocked.includes(ch.id))return false;
+  if(lvl===1)return true;
+  if(meta.cleared.includes(ch.id))return true; // sector fully cleared legacy
+  const prevK=`${ch.id}-${lvl-1}`;
+  if(meta.clearedLevels&&meta.clearedLevels.includes(prevK))return true;
+  return false;
+}
+function isLevelCleared(chIdx,lvl){
+  const ch=CHAPTERS[chIdx];
+  const k=`${ch.id}-${lvl}`;
+  return (meta.clearedLevels&&meta.clearedLevels.includes(k))||(lvl===5&&meta.cleared.includes(ch.id));
+}
 
 /* =========================================================== COUCHES */
 function toast(html,type=''){const box=$('#toasts');while(box.children.length>=4)box.firstChild.remove();
@@ -979,30 +1109,82 @@ function intMeter(ch){
 }
 function renderMissions(){
   const ch=CHAPTERS[uiCh],unlocked=chUnlocked(uiCh),d=derive();
-  $('#missionCount').textContent=`${meta.unlocked.length}/4 SECTEURS OUVERTS · ${meta.cleared.length}/4 VALIDÉS`;
+  // Clamp uiLvl to first unlocked non-cleared level if current is invalid.
+  if(!isLevelUnlocked(uiCh,uiLvl)){
+    uiLvl=1;
+    for(let l=5;l>=1;l--)if(isLevelUnlocked(uiCh,l)){uiLvl=l;break;}
+  }
+  const curLvl=ch.levels[uiLvl-1];
+  const lvlUnlocked=isLevelUnlocked(uiCh,uiLvl);
+  const lvlDone=isLevelCleared(uiCh,uiLvl);
+  const clearedCount=ch.levels.filter(l=>isLevelCleared(uiCh,l.lvl)).length;
+  $('#missionCount').textContent=`SECTEUR ${String(ch.id).padStart(2,'0')} · ${clearedCount}/5 NIVEAUX VALIDÉS`;
   const brief=$('#brief');
   brief.className='brief'+(unlocked?'':' locked');
   brief.style.borderColor=unlocked?ch.acc+'55':'var(--edge)';
   brief.innerHTML=`<div class="scene">${sceneSVG(ch.scene)}</div><div class="veil"></div>
     <div class="hud"><div class="briefTop"><div class="sectorTag"><span class="dot"></span>${ch.zone}</div>${intMeter(ch)}</div>
-    <div class="briefBottom"><div class="chIdx">SECTEUR ${String(ch.id).padStart(2,'0')} · NIV. CONSEILLÉ ${ch.lvl}</div>
-      <h3 style="color:${ch.acc}">${ch.name}</h3>
-      <div class="objRow"><span class="chip lime">⏱️ Tenir <b>${mmss(ch.dur)}</b></span><span class="chip red">☠️ <b>${ch.boss}</b></span><span class="chip amber">🪙 Butin <b>×${ch.goldM}</b></span><span class="chip cyan">⚡ Réel <b>≈ ${mmss(ch.dur/ch.speed)}</b></span></div></div></div>
-    ${meta.cleared.includes(ch.id)?'<div class="clearFlag">✅ SECTEUR VALIDÉ</div>':''}
+    <div class="briefBottom">
+      <div class="chIdx">SECTEUR ${String(ch.id).padStart(2,'0')} · NIVEAU ${uiLvl}/5 — ${curLvl.title.toUpperCase()}</div>
+      <h3 style="color:${ch.acc}">${curLvl.isBoss?'☠️ '+ch.boss:ch.name}</h3>
+      <div class="objRow">
+        <span class="chip lime">⏱️ Survie min. <b>${mmss(curLvl.minDur)}</b></span>
+        <span class="chip ${curLvl.isBoss?'red':'amber'}">${curLvl.quest.icon} <b>${curLvl.quest.label}</b></span>
+        <span class="chip cyan">🎁 Butin <b>+${curLvl.rw.coins}🪙 +${curLvl.rw.gems}💎</b></span>
+        <span class="chip">⚡ Tempo <b>×${ch.speed}</b></span>
+      </div>
+    </div></div>
+    ${lvlDone?`<div class="clearFlag">✅ NIVEAU ${uiLvl}/5 VALIDÉ</div>`:''}
     ${unlocked?'':`<div class="lockVeil"><span class="lk">🔒</span><h4>SECTEUR VERROUILLÉ</h4><p>Valide le secteur ${ch.id-1} « ${CHAPTERS[uiCh-1].name} » — ou utilise une clé d'accès pour un déploiement immédiat.</p><div class="keyHint">🔑 CODE : CHP${ch.id}</div><button class="btn btn-cyan" id="goCode">SAISIR LA CLÉ</button></div>`}`;
   if(!unlocked)$('#goCode').addEventListener('click',()=>{switchTab('codes');$('#codeInput').value='CHP'+ch.id;$('#codeInput').focus();});
+
+  // Level selector strip
+  const ls=$('#levelSection');
+  if(ls){
+    ls.innerHTML=`<div class="levelHeader"><span class="secIdx">SÉLECTION DU NIVEAU</span><span class="levelSub">Niveaux complétés : ${clearedCount}/5</span></div>
+      <div class="levelStrip">${ch.levels.map(l=>{
+        const un=isLevelUnlocked(uiCh,l.lvl),cl=isLevelCleared(uiCh,l.lvl),isCur=uiLvl===l.lvl;
+        return `<button class="lvlBtn${isCur?' on':''}${l.isBoss?' boss':''}${un?'':' lock'}" data-lvl="${l.lvl}">
+          <div class="lvlTop"><span class="lvlNum">${l.isBoss?'☠️ BOSS':'NV.0'+l.lvl}</span><span class="lvlStatus">${cl?'✅':un?(isCur?'🎯':''):'🔒'}</span></div>
+          <div class="lvlName">${l.isBoss?'BOSS FINAL':l.title}</div>
+          <div class="lvlTag">${l.tag}</div>
+        </button>`;
+      }).join('')}</div>`;
+    $$('#levelSection .lvlBtn').forEach(b=>b.addEventListener('click',()=>{
+      const targetLvl=+b.dataset.lvl;
+      if(isLevelUnlocked(uiCh,targetLvl)){
+        uiLvl=targetLvl;
+        SFX.play('click');
+        renderMissions();
+      }else{
+        SFX.play('error');
+        toast('🔒 Niveau verrouillé. Termine le niveau précédent pour y accéder.','err');
+      }
+    }));
+  }
+
   $('#filmstrip').innerHTML=CHAPTERS.map((c,i)=>{
     const un=chUnlocked(i),done=meta.cleared.includes(c.id);
     return `<button class="thumb${i===uiCh?' on':''}${un?'':' lock'}" data-ch="${i}"><div class="scene">${sceneSVG(c.scene)}</div><div class="tv"></div>
       <span class="ts" style="color:${c.acc}">×${c.speed}</span><span class="tl">${un?(done?'✅':''):'🔒'}</span>
       <div class="tc"><span class="tn">SECTEUR ${String(c.id).padStart(2,'0')}</span><span class="tt">${c.name}</span></div></button>`;}).join('');
-  $$('#filmstrip .thumb').forEach(b=>b.addEventListener('click',()=>{uiCh=+b.dataset.ch;SFX.play('click');renderMissions();}));
+  $$('#filmstrip .thumb').forEach(b=>b.addEventListener('click',()=>{
+    uiCh=+b.dataset.ch;
+    // Auto-select first uncleared unlocked level
+    uiLvl=1;
+    for(let l=1;l<=5;l++){if(!isLevelCleared(uiCh,l)&&isLevelUnlocked(uiCh,l)){uiLvl=l;break;}}
+    SFX.play('click');
+    renderMissions();
+  }));
   const ready=d.atk>=ch.rec;
   $('#deployInfo').innerHTML=`<span class="chip ${ready?'lime':'amber'}">${ready?'✓ Puissance suffisante':'⚠️ ATK '+ch.rec+' conseillée'} <b>${fmt(d.atk)}</b></span>
-    <span class="chip">🎁 1ère victoire <b>+150 🪙 +40 💎</b></span>`;
-  const dep=$('#deployBtn');dep.disabled=!unlocked;
-  dep.querySelector('span').textContent=unlocked?'DÉPLOIEMENT':'VERROUILLÉ';
-  $('#missionMeta').innerHTML=`<span class="chip lime">⏱️ Record survie <b>${mmss(meta.bestTime)}</b></span><span class="chip">💀 Total éliminés <b>${fmt(meta.totalKills)}</b></span><span class="chip cyan">🏆 Validés <b>${meta.cleared.length}/4</b></span>`;
+    <span class="chip">🎯 Objectif : <b>${curLvl.quest.label}</b></span>
+    <span class="chip cyan">🎁 Récompense <b>+${curLvl.rw.coins}🪙 +${curLvl.rw.gems}💎</b></span>`;
+  const dep=$('#deployBtn');
+  const canDeploy=unlocked&&lvlUnlocked;
+  dep.disabled=!canDeploy;
+  dep.querySelector('span').textContent=canDeploy?(curLvl.isBoss?'☠️ AFFRONTER LE BOSS':`DÉPLOIEMENT · NV.${uiLvl}`):'VERROUILLÉ';
+  $('#missionMeta').innerHTML=`<span class="chip lime">⏱️ Record survie <b>${mmss(meta.bestTime)}</b></span><span class="chip">💀 Total éliminés <b>${fmt(meta.totalKills)}</b></span><span class="chip cyan">🏆 Secteurs validés <b>${meta.cleared.length}/4</b></span>`;
   renderDock(d);
 }
 function renderDock(d){
@@ -1093,7 +1275,7 @@ function switchTab(id){
 }
 $$('.railBtn').forEach(b=>b.addEventListener('click',()=>switchTab(b.dataset.tab)));
 $$('#mobileTabs button').forEach(b=>b.addEventListener('click',()=>switchTab(b.dataset.tab)));
-$('#deployBtn').addEventListener('click',()=>{if(chUnlocked(uiCh))startRun(uiCh);});
+$('#deployBtn').addEventListener('click',()=>{if(chUnlocked(uiCh)&&isLevelUnlocked(uiCh,uiLvl))startRun(uiCh,uiLvl);});
 $('#invRar').addEventListener('change',e=>{invFilter.rar=e.target.value;renderArsenal();});
 $('#invSort').addEventListener('change',e=>{invFilter.sort=e.target.value;renderArsenal();});
 $('#sellCommons').addEventListener('click',()=>{
@@ -1121,7 +1303,7 @@ function redeemCode(){
   if(rw.unlock){const before=meta.unlocked.length;unlockUpTo(rw.unlock);
     parts.push(`Secteurs 01→${String(rw.unlock).padStart(2,'0')} ouverts`);
     if(meta.unlocked.length>before)SFX.play('unlock');
-    uiCh=rw.unlock-1;}
+    uiCh=rw.unlock-1;uiLvl=1;}
   if(rw.coins){meta.coins+=rw.coins;parts.push(`+${rw.coins} 🪙`);}
   if(rw.gems){meta.gems+=rw.gems;parts.push(`+${rw.gems} 💎`);}
   if(rw.itemR!==undefined){const it=genItem(pick(SLOTS).id,rw.itemR);meta.inventory.push(it);parts.push(`${SLOTMAP[it.slot].icon} ${it.name}`);}
@@ -1249,41 +1431,69 @@ function resize(){
   g.addColorStop(0,'rgba(2,4,6,0)');g.addColorStop(1,'rgba(2,4,6,.68)');x.fillStyle=g;x.fillRect(0,0,W,H);
 }
 window.addEventListener('resize',()=>{if($('#game').classList.contains('active'))resize();});
-function newRun(chIdx){
+function getQuestProgress(){
+  if(!G||!G.lvlData)return {cur:0,target:1,done:false};
+  const q=G.lvlData.quest;
+  let cur=0;
+  if(q.type==='kills')cur=G.kills;
+  else if(q.type==='gems')cur=G.gemsCollected||0;
+  else if(q.type==='coins')cur=G.coins;
+  else if(q.type==='playerLevel')cur=G.lvl;
+  else if(q.type==='combo')cur=G.maxCombo;
+  else if(q.type==='elites')cur=G.elitesKilled||0;
+  else if(q.type==='rats')cur=G.ratsKilled||0;
+  else if(q.type==='boss')cur=G.bossKilled?1:0;
+  return {cur,target:q.target,done:cur>=q.target};
+}
+function newRun(chIdx, secLvl=uiLvl){
   const ch=CHAPTERS[chIdx],d=derive();
-  G={chIdx,ch,d,running:false,over:false,finished:false,paused:false,result:null,deathT:0,
+  const lvlData=ch.levels[secLvl-1];
+  G={chIdx,ch,secLvl,lvlData,d,running:false,over:false,finished:false,paused:false,result:null,deathT:0,
     t:0,real:0,slowmo:0,hudT:0,lastSec:-1,heartT:0,
     player:{x:0,y:0,hp:d.hp,maxhp:d.hp,aim:0,ifr:0,muzzle:0,hurt:0,step:0,kbx:0,kby:0,moving:false,dirX:1,dirY:0},
     cam:{x:0,y:0,shake:0,sx:0,sy:0},
     enemies:[],bullets:[],gems:[],parts:[],dmgs:[],decals:[],zaps:[],pools:[],rings:[],lobs:[],
     w:{pistol:{lvl:1,cd:.4}},p:{},bladesA:0,dronePos:[],
     lvl:1,xp:0,xpNeed:6,pendingLv:0,luOpen:false,
-    kills:0,coins:0,combo:0,comboT:0,maxCombo:0,
-    spawnAcc:0,eliteT:40,events:{},boss:null,bossWarned:false,bossSpawned:false,
+    kills:0,coins:0,gemsCollected:0,combo:0,comboT:0,maxCombo:0,
+    elitesKilled:0,ratsKilled:0,bossKilled:false,
+    minDur:lvlData.minDur||180,questCompleted:false,surviveCompleted:false,
+    spawnAcc:0,eliteT:(lvlData.quest.type==='elites'?22:36),events:{},boss:null,bossWarned:false,bossSpawned:false,
     keys:{},joy:{active:false,id:null,bx:0,by:0,dx:0,dy:0},grid:new Map(),nearest:null,moved:false,arsDirty:true,
-    evTimes:[{f:.25,k:'horde'},{f:.375,k:'rats'},{f:.625,k:'horde'},{f:.77,k:'rats'},{f:.88,k:'horde'}].map(e=>({t:e.f*ch.dur,k:e.k}))};
+    evTimes:[
+      {f:.22,k:'horde'},
+      {f:.36,k:(lvlData.quest.type==='rats'||ch.scene==='metro'?'rats':'horde')},
+      {f:.52,k:'horde'},
+      {f:.68,k:(lvlData.quest.type==='rats'?'rats':'horde')},
+      {f:.84,k:'horde'}
+    ].map(e=>({t:e.f*(lvlData.minDur||180),k:e.k}))};
   for(let i=0;i<5;i++)spawnEnemy('walk');
 }
 function spawnPos(extra=60){const a=rand(0,TAU),dist=Math.hypot(W,H)/2+rand(extra,extra+120);
   return {x:G.player.x+Math.cos(a)*dist,y:G.player.y+Math.sin(a)*dist};}
 function spawnEnemy(type,pos,elite=false){
   if(G.enemies.length>=220)return null;
-  const b=ETYPES[type],sc=1+(G.t/G.ch.dur)*2.2,p=pos||spawnPos();
+  const b=ETYPES[type],sc=1+(G.t/G.minDur)*2.2,p=pos||spawnPos();
   const e={id:eid++,type,x:p.x,y:p.y,r:b.r*(elite?1.32:1),hp:Math.round(b.hp*sc*G.ch.hpM*(elite?4.5:1)),
-    spd:b.spd*(1+G.t/G.ch.dur*.12)*rand(.9,1.1),dmg:Math.round(b.dmg*(elite?1.5:1)),xp:elite?15:b.xp,
+    spd:b.spd*(1+G.t/G.minDur*.12)*rand(.9,1.1),dmg:Math.round(b.dmg*(elite?1.5:1)),xp:elite?15:b.xp,
     c1:b.c1,c2:b.c2,coin:b.coin,flash:0,kbx:0,kby:0,seed:rand(0,TAU),dir:0,bladeCd:0,elite,dead:false,boss:false};
   e.maxhp=e.hp;G.enemies.push(e);return e;
 }
 function spawnBoss(){
   const ch=G.ch;
-  const e={id:eid++,type:'boss',x:G.player.x,y:G.player.y-(H/2+140),r:46,hp:ch.bossHp,maxhp:ch.bossHp,spd:55,dmg:22,xp:0,
-    c1:'#4a5c38',c2:'#647a48',coin:0,flash:0,kbx:0,kby:0,seed:rand(0,TAU),dir:0,bladeCd:0,elite:false,dead:false,boss:true,
-    state:'chase',st:0,cx:0,cy:0,sum1:false,sum2:false};
+  const hp=ch.bossHp||16000;
+  const spd=ch.bossSpd||62;
+  const dmg=ch.bossDmg||25;
+  const e={id:eid++,type:'boss',x:G.player.x,y:G.player.y-(H/2+140),r:48,hp:hp,maxhp:hp,spd:spd,dmg:dmg,xp:0,
+    c1:ch.id===1?'#4a5c38':ch.id===2?'#204854':ch.id===3?'#543220':'#5c1422',
+    c2:ch.id===1?'#647a48':ch.id===2?'#2f6878':ch.id===3?'#7a492f':'#851c31',
+    coin:0,flash:0,kbx:0,kby:0,seed:rand(0,TAU),dir:0,bladeCd:0,elite:false,dead:false,boss:true,
+    state:'chase',st:0,cx:0,cy:0,sum1:false,sum2:false,enrage:false};
   G.enemies.push(e);G.boss=e;G.bossSpawned=true;
-  $('#bossName').textContent='☣ '+ch.boss;$('#bossBar').classList.add('show');$('#bossFill').style.width='100%';
+  $('#bossName').textContent='☠️ '+ch.boss+' (DIFFICILE)';$('#bossBar').classList.add('show');$('#bossFill').style.width='100%';
   const cc=$('#chChip');cc.textContent='☠️ '+ch.boss;cc.classList.add('boss');
   $('#missionTrack').classList.add('boss');
-  banner('☣ '+ch.boss,'OBJECTIF : ÉLIMINER LA CIBLE','red');SFX.play('roar');G.cam.shake=Math.max(G.cam.shake,16);
+  banner('☠️ '+ch.boss,'BOSS DIFFICILE — ÉLIMINEZ LA MENACE !','red');SFX.play('roar');G.cam.shake=Math.max(G.cam.shake,18);
 }
 function banner(main,sub,color){
   const b=$('#banner');$('#bannerMain').textContent=main;$('#bannerSub').textContent=sub||'';
@@ -1309,7 +1519,10 @@ function dropGem(x,y,v,big){G.gems.push({x:x+rand(-8,8),y:y+rand(-8,8),kind:'gem
 function dropCoin(x,y,v){G.gems.push({x:x+rand(-10,10),y:y+rand(-10,10),kind:'coin',v,seed:rand(0,TAU)});}
 function kill(e){
   if(e.dead)return;e.dead=true;
-  G.kills++;G.combo++;G.comboT=2.2;G.maxCombo=Math.max(G.maxCombo,G.combo);
+  G.kills++;
+  if(e.elite)G.elitesKilled=(G.elitesKilled||0)+1;
+  if(e.type==='rat')G.ratsKilled=(G.ratsKilled||0)+1;
+  G.combo++;G.comboT=2.2;G.maxCombo=Math.max(G.maxCombo,G.combo);
   parts(e.x,e.y,e.boss?60:e.elite?26:e.type==='tank'?18:10,'blood');
   if(G.decals.length>110)G.decals.shift();
   G.decals.push({x:e.x,y:e.y,rot:rand(0,TAU),sc:rand(.6,1.1)*(e.boss?2.4:e.elite?1.5:e.type==='tank'?1.3:1),v:randi(0,2)});
@@ -1324,12 +1537,13 @@ function kill(e){
     if(e.type==='tank')G.cam.shake=Math.max(G.cam.shake,3);}
 }
 function bossDown(e){
-  G.coins+=Math.round(80*G.ch.goldM);G.boss=null;
+  G.coins+=Math.round(100*G.ch.goldM);
+  G.boss=null;G.bossKilled=true;G.questCompleted=true;
   $('#bossBar').classList.remove('show');
-  parts(e.x,e.y,80,'spark');parts(e.x,e.y,50,'blood');
-  G.rings.push({x:e.x,y:e.y,r0:20,r1:340,ttl:.7,life:.7,c:'200,255,60',w:8});
-  G.cam.shake=22;G.slowmo=1.15;G.over=true;G.result='victory';G.deathT=1.35;
-  banner('💥 '+G.ch.boss+' ABATTU !','','');SFX.play('boom');
+  parts(e.x,e.y,80,'spark');parts(e.x,e.y,60,'blood');
+  G.rings.push({x:e.x,y:e.y,r0:20,r1:380,ttl:.75,life:.75,c:'200,255,60',w:9});
+  G.cam.shake=24;G.slowmo=1.2;G.over=true;G.result='victory';G.deathT=1.4;
+  banner('💥 '+G.ch.boss+' ANÉANTI !','Secteur entièrement libéré !','');SFX.play('boom');
 }
 function damagePlayer(amount){
   const p=G.player;if(p.ifr>0||G.over)return;
@@ -1434,7 +1648,11 @@ function updateCam(dt){
 }
 function collect(g){
   const p=G.player;
-  if(g.kind==='gem'){G.xp+=g.v;SFX.play('gem');parts(p.x,p.y,2,'spark');}
+  if(g.kind==='gem'){
+    G.xp+=g.v;
+    G.gemsCollected=(G.gemsCollected||0)+1;
+    SFX.play('gem');parts(p.x,p.y,2,'spark');
+  }
   else if(g.kind==='coin'){G.coins+=g.v;SFX.play('coin');}
   else{p.hp=Math.min(p.maxhp,p.hp+g.v);SFX.play('heal');dmgNum(p.x,p.y,'+'+g.v,'#c8ff3c',false);parts(p.x,p.y,6,'heal');}
 }
@@ -1457,20 +1675,37 @@ function update(dt){
   const regen=G.d.regen+.4*(G.p.regen||0);
   if(regen>0)p.hp=Math.min(p.maxhp,p.hp+regen*dt);
   if(G.t>1.2){
-    const rate=(.85+G.t/ch.dur*2.6)*ch.rateM*(G.bossSpawned?.35:1);
+    const rate=(.85+G.t/G.minDur*2.6)*ch.rateM*(G.bossSpawned?.35:1);
     G.spawnAcc=Math.min(4,G.spawnAcc+rate*dt);
     while(G.spawnAcc>=1){G.spawnAcc--;
       const r=Math.random(),rw=G.t>25?Math.min(1,(G.t-25)/60)*.8:0,tw=G.t>70?Math.min(1,(G.t-70)/80)*.45:0,tot=1+rw+tw;
-      spawnEnemy(r<1/tot?'walk':r<(1+rw)/tot?'run':'tank');}
+      if(G.lvlData.quest.type==='rats'&&Math.random()<.35){
+        spawnEnemy('rat');
+      }else{
+        spawnEnemy(r<1/tot?'walk':r<(1+rw)/tot?'run':'tank');
+      }
+    }
     G.eliteT-=dt;
-    if(G.eliteT<=0&&!G.bossSpawned){G.eliteT=40;spawnEnemy(G.t>100?'tank':'run',null,true);SFX.play('roar');}
+    if(G.eliteT<=0&&!G.bossSpawned){
+      G.eliteT=G.lvlData.quest.type==='elites'?22:36;
+      spawnEnemy(G.t>100?'tank':'run',null,true);
+      SFX.play('roar');
+    }
     for(const ev of G.evTimes){
       if(G.t>=ev.t&&!G.events[ev.t]){G.events[ev.t]=true;
         if(ev.k==='horde'){banner('⚠️ HORDE EN APPROCHE','','amber');for(let i=0;i<22;i++)spawnEnemy(Math.random()<.6?'walk':'run');SFX.play('roar');}
         else{banner('🐀 NUÉE DE RATS','','cyan');const base=rand(0,TAU),dist=Math.hypot(W,H)/2+100;
-          for(let i=0;i<16;i++){const a=base+rand(-.5,.5);spawnEnemy('rat',{x:p.x+Math.cos(a)*dist,y:p.y+Math.sin(a)*dist});}}}}
-    if(!G.bossWarned&&G.t>=ch.dur-15){G.bossWarned=true;banner('⚠️ LE SOL TREMBLE…',ch.boss+' approche','red');SFX.play('roar');G.cam.shake=Math.max(G.cam.shake,6);}
-    if(!G.bossSpawned&&G.t>=ch.dur)spawnBoss();
+          for(let i=0;i<20;i++){const a=base+rand(-.5,.5);spawnEnemy('rat',{x:p.x+Math.cos(a)*dist,y:p.y+Math.sin(a)*dist});}}}}
+    // Boss only spawns on boss level (lvl 5) after 3 minutes survived.
+    if(G.lvlData.isBoss){
+      if(!G.bossWarned&&G.t>=G.minDur-15){
+        G.bossWarned=true;
+        banner('⚠️ LE SOL TREMBLE…',ch.boss+' approche dans 15 secondes !','red');
+        SFX.play('roar');
+        G.cam.shake=Math.max(G.cam.shake,10);
+      }
+      if(!G.bossSpawned&&G.t>=G.minDur)spawnBoss();
+    }
   }
   buildGrid();
   for(const a of G.grid.values())for(let i=0;i<a.length;i++)for(let j=i+1;j<a.length;j++){
@@ -1724,7 +1959,7 @@ function hudTick(rdt){
   HUD.kill.textContent=fmt(G.kills);HUD.coin.textContent=fmt(G.coins);
   HUD.lvl.textContent=G.lvl;
   HUD.xp.style.width=clamp(G.xp/G.xpNeed*100,0,100)+'%';
-  HUD.mission.style.width=clamp(G.t/G.ch.dur*100,0,100)+'%';
+  HUD.mission.style.width=clamp(G.t/G.minDur*100,0,100)+'%';
   HUD.hp.style.width=clamp(p.hp/p.maxhp*100,0,100)+'%';
   HUD.hpt.textContent=Math.ceil(p.hp)+'/'+p.maxhp;
   const low=p.hp/p.maxhp<.3&&!G.over;
@@ -1736,6 +1971,55 @@ function hudTick(rdt){
     const ws=Object.entries(G.w).map(([id,o])=>`<span class="arsTile">${WEAPONS[id].icon}<i>${o.lvl}</i></span>`).join('');
     const ps=Object.entries(G.p).map(([id,l])=>`<span class="arsTile pas">${PASSIVES[id].icon}<i>${l}</i></span>`).join('');
     HUD.ars.innerHTML=`<div class="arsRow">${ws}</div>${ps?`<div class="arsRow">${ps}</div>`:''}`;}
+
+  // Update in-game objective tracker
+  const qt=$('#questTracker');
+  if(qt&&G.lvlData){
+    const survDone=G.t>=G.minDur;
+    const qProg=getQuestProgress();
+    const allDone=survDone&&qProg.done;
+    qt.classList.toggle('show',true);
+    qt.classList.toggle('boss',!!G.lvlData.isBoss);
+    qt.classList.toggle('all-done',allDone);
+
+    if(survDone&&!G.surviveCompleted){
+      G.surviveCompleted=true;
+      SFX.play('claim');
+      toast('⏱️ Survie 3:00 min accomplie !','info');
+    }
+    if(qProg.done&&!G.questCompleted){
+      G.questCompleted=true;
+      SFX.play('claim');
+      toast(`📋 Objectif validé : ${G.lvlData.quest.label} !`,'gold');
+    }
+
+    $('#qtLvlBadge').textContent=`NIV. ${G.secLvl}/5`;
+    $('#qtLvlName').textContent=G.lvlData.title.toUpperCase();
+
+    const sRow=$('#qtSurviveRow');
+    sRow.classList.toggle('done',survDone);
+    $('#qtSurviveVal').textContent=`${mmss(Math.min(G.t,G.minDur))} / ${mmss(G.minDur)}`;
+    $('#qtSurviveCheck').textContent=survDone?'✓':'⏳';
+
+    const qRow=$('#qtQuestRow');
+    qRow.classList.toggle('done',qProg.done);
+    $('#qtQuestIco').textContent=G.lvlData.quest.icon||'📋';
+    $('#qtQuestTxt').textContent=G.lvlData.quest.label;
+    $('#qtQuestVal').textContent=`${Math.min(qProg.cur,qProg.target)} / ${qProg.target}`;
+    $('#qtQuestCheck').textContent=qProg.done?'✓':'⏳';
+
+    const pct=clamp(qProg.cur/qProg.target*100,0,100);
+    $('#qtBarFill').style.width=pct+'%';
+
+    // For non-boss levels: victory condition when 3 minutes survived AND quest completed.
+    if(!G.lvlData.isBoss&&survDone&&qProg.done&&!G.over){
+      G.over=true;
+      G.result='victory';
+      G.deathT=1.25;
+      banner('🎉 NIVEAU VALIDÉ !','Objectifs de survie et quête complétés !','');
+      SFX.play('victory');
+    }
+  }
 }
 /* ---------- boucle (sous-pas) ---------- */
 function frame(ts){
@@ -1759,32 +2043,55 @@ function stopRun(){
   cancelAnimationFrame(raf);SFX.stopAmb();SFX.duck(1);clearTimeout(luT);
   $('#joy').classList.remove('show');$$('.gov').forEach(o=>o.classList.remove('open'));
 }
-function startRun(chIdx){
-  stopRun();newRun(chIdx);buildChapterSprites(G.ch);
+function startRun(chIdx, secLvl){
+  stopRun();newRun(chIdx,secLvl);buildChapterSprites(G.ch);
   showScreen('game');resize();
   if(document.activeElement)document.activeElement.blur();
-  $('#chChip').textContent='SECTEUR '+String(G.ch.id).padStart(2,'0')+' · '+G.ch.name;
+  const lvlData=G.lvlData;
+  $('#chChip').textContent='SECTEUR '+String(G.ch.id).padStart(2,'0')+' · NV.'+G.secLvl;
   $('#chChip').classList.remove('boss');
   $('#bossBar').classList.remove('show');$('#missionTrack').classList.remove('boss');
   const scEl=$('#speedChip');scEl.textContent='×'+G.ch.speed;scEl.style.color=G.ch.acc;
   $('#moveHint').classList.remove('hide');HUD.dmg.classList.remove('low');HUD.dmg.style.opacity=0;
+  // Reset quest tracker UI
+  $('#questTracker').classList.remove('all-done','boss');
+  $('#qtSurviveRow').classList.remove('done');
+  $('#qtQuestRow').classList.remove('done');
   G.lastSec=-1;G.hudT=1;G.arsDirty=true;hudTick(1);
-  banner('SECTEUR '+String(G.ch.id).padStart(2,'0')+' — '+G.ch.name,'TEMPO ×'+G.ch.speed+' · '+G.ch.intName+' · tenir '+mmss(G.ch.dur),'');
+  const lvlTag=lvlData.isBoss?'☠️ BOSS FINAL':'NIVEAU '+G.secLvl+'/5';
+  banner('SECTEUR '+String(G.ch.id).padStart(2,'0')+' — '+lvlTag,'TEMPO ×'+G.ch.speed+' · '+G.ch.intName+' · tenir '+mmss(G.minDur),'');
   SFX.init();SFX.resume();SFX.startAmb();SFX.play('roar');
   G.running=true;last=performance.now();raf=requestAnimationFrame(frame);
 }
 function bankRun(result){
   const ch=G.ch,runTime=G.t,kills=G.kills,lvl=G.lvl,coins=G.coins;
-  const first=result==='victory'&&!meta.cleared.includes(ch.id);
+  const lvlKey=`${ch.id}-${G.secLvl}`;
+  const lvlCleared=meta.clearedLevels.includes(lvlKey);
+  const sectorFirst=result==='victory'&&!meta.cleared.includes(ch.id)&&G.secLvl===5;
   let bonusC=0,bonusG=0;
-  if(result==='victory'){bonusC=first?150:60;if(first){bonusG=40;meta.cleared.push(ch.id);}unlockUpTo(Math.min(ch.id+1,4));}
+  if(result==='victory'){
+    // Reward from the level config
+    bonusC=G.lvlData.rw.coins||0;
+    bonusG=G.lvlData.rw.gems||0;
+    if(!lvlCleared){
+      meta.clearedLevels.push(lvlKey);
+      if(meta.sectorLevels[ch.id]<G.secLvl+1&&G.secLvl<5){
+        meta.sectorLevels[ch.id]=G.secLvl+1;
+      }
+    }
+    // Sector cleared when boss level (5) is beaten
+    if(G.secLvl===5&&!meta.cleared.includes(ch.id)){
+      meta.cleared.push(ch.id);
+      unlockUpTo(Math.min(ch.id+1,4));
+    }
+  }
   const newRecord=runTime>meta.bestTime&&runTime>10;
   meta.bestTime=Math.max(meta.bestTime,runTime);
   meta.totalKills+=kills;meta.coins+=coins+bonusC;meta.gems+=bonusG;
   questEvent('kills',kills);questEvent('survive',runTime,'max');questEvent('level',lvl,'max');questEvent('coins',coins);
-  if(result==='victory')questEvent('boss',1);
+  if(result==='victory'&&G.secLvl===5)questEvent('boss',1);
   save();renderAll();
-  return {runTime,kills,lvl,coins,bonusC,bonusG,first,newRecord};
+  return {runTime,kills,lvl,coins,bonusC,bonusG,sectorFirst,lvlCleared,newRecord};
 }
 function finish(result){
   stopRun();
@@ -1792,13 +2099,16 @@ function finish(result){
   SFX.play(result==='victory'?'victory':'defeat');
   const tags=[];
   if(r.newRecord)tags.push('<span class="endTag">🏆 NOUVEAU RECORD DE SURVIE</span>');
-  if(r.first)tags.push('<span class="endTag green">🎉 SECTEUR VALIDÉ · +40 💎</span>');
-  if(result==='victory'&&G.chIdx<3)tags.push(`<span class="endTag cyan">🔓 SECTEUR ${String(ch.id+1).padStart(2,'0')} OUVERT</span>`);
-  const nextExists=result==='victory'&&G.chIdx<3;
+  if(result==='victory'&&!r.lvlCleared)tags.push(`<span class="endTag green">✅ NIVEAU ${G.secLvl}/5 VALIDÉ · +${r.bonusC}🪙 +${r.bonusG}💎</span>`);
+  if(r.sectorFirst)tags.push(`<span class="endTag green">🎉 SECTEUR ${String(ch.id).padStart(2,'0')} LIBÉRÉ !</span>`);
+  // Sector next exists if boss level cleared and a next sector exists
+  const nextExists=result==='victory'&&G.secLvl===5&&G.chIdx<3;
+  if(nextExists)tags.push(`<span class="endTag cyan">🔓 SECTEUR ${String(ch.id+1).padStart(2,'0')} OUVERT</span>`);
+  const nextLvlExists=result==='victory'&&G.secLvl<5;
   $('#endContent').innerHTML=`<span id="endIcon">${result==='victory'?'🏆':'💀'}</span>
-    <div class="govKicker">DÉBRIEFING · SECTEUR ${String(ch.id).padStart(2,'0')} · TEMPO ×${ch.speed}</div>
+    <div class="govKicker">DÉBRIEFING · SECTEUR ${String(ch.id).padStart(2,'0')} · NV.${G.secLvl}/5 · TEMPO ×${ch.speed}</div>
     <div class="govTitle" style="color:${result==='victory'?'var(--lime)':'var(--crimson)'}">${result==='victory'?'MISSION ACCOMPLIE':'FIN DE MISSION'}</div>
-    <div class="govSub">${result==='victory'?ch.boss+' a été abattu. Le secteur respire… pour l\u2019instant.':'Tu as combattu avec bravoure contre la horde. Ton butin est en sécurité au bunker.'}</div>
+    <div class="govSub">${result==='victory'?(G.lvlData.isBoss?ch.boss+' a été abattu. Le secteur respire… pour l\u2019instant.':'Objectifs de survie et quête accomplis. La horde se replie.'):'Tu as combattu avec bravoure contre la horde. Ton butin est en sécurité au bunker.'}</div>
     ${tags.length?`<div class="endTags">${tags.join('')}</div>`:''}
     <div class="endGrid">
       <div class="endStat"><div class="k">⏱️ SURVIE</div><div class="v">${mmss(r.runTime)}</div></div>
@@ -1809,12 +2119,14 @@ function finish(result){
       <div class="endStat gem"><div class="k">💎 GEMMES</div><div class="v">+${r.bonusG}</div></div>
     </div>
     <div class="endBtns"><button class="btn btn-lime" id="endReplay">🔄 REJOUER</button>
-      ${nextExists?'<button class="btn btn-amber" id="endNext">SECTEUR SUIVANT ▶</button>':''}
+      ${nextLvlExists?'<button class="btn btn-amber" id="endNextLvl">NIVEAU SUIVANT ▶</button>':''}
+      ${nextExists?'<button class="btn btn-red" id="endNext">SECTEUR SUIVANT ▶</button>':''}
       <button class="btn btn-ghost" id="endLobby">🏠 BUNKER</button></div>
     <div class="endHint">R : REJOUER · ÉCHAP : BUNKER</div>`;
-  $('#endReplay').addEventListener('click',()=>startRun(G.chIdx));
-  $('#endLobby').addEventListener('click',()=>{uiCh=Math.min(G.chIdx+(r.first?1:0),3);showScreen('lobby');renderMissions();});
-  if(nextExists)$('#endNext').addEventListener('click',()=>startRun(G.chIdx+1));
+  $('#endReplay').addEventListener('click',()=>startRun(G.chIdx,G.secLvl));
+  $('#endLobby').addEventListener('click',()=>{uiCh=G.chIdx;uiLvl=G.secLvl;showScreen('lobby');renderMissions();});
+  if(nextLvlExists)$('#endNextLvl').addEventListener('click',()=>startRun(G.chIdx,G.secLvl+1));
+  if(nextExists)$('#endNext').addEventListener('click',()=>startRun(G.chIdx+1,1));
   $('#endOv').classList.add('open');
 }
 function doPause(){
@@ -1840,8 +2152,8 @@ window.addEventListener('keydown',e=>{
   if($('#game').classList.contains('active')&&G){
     if(['ArrowUp','ArrowDown','ArrowLeft','ArrowRight','Space'].includes(e.code))e.preventDefault();
     if($('#endOv').classList.contains('open')){
-      if(e.code==='KeyR')startRun(G.chIdx);
-      if(e.code==='Escape'){uiCh=G.chIdx;showScreen('lobby');renderMissions();}
+      if(e.code==='KeyR')startRun(G.chIdx,G.secLvl);
+      if(e.code==='Escape'){uiCh=G.chIdx;uiLvl=G.secLvl;showScreen('lobby');renderMissions();}
       return;}
     if(G.luOpen){
       if(e.code==='Digit1'||e.code==='Numpad1')pickOffer(0);
@@ -1853,9 +2165,11 @@ window.addEventListener('keydown',e=>{
   }else{
     if(e.code==='Escape'&&stack.length){closeTop();return;}
     if($('#pane-missions').classList.contains('active')&&!stack.length){
-      if(e.code==='ArrowLeft'){uiCh=(uiCh+3)%4;renderMissions();SFX.play('click');}
-      if(e.code==='ArrowRight'){uiCh=(uiCh+1)%4;renderMissions();SFX.play('click');}
-      if(e.code==='Enter'&&chUnlocked(uiCh))startRun(uiCh);}
+      if(e.code==='ArrowLeft'){uiCh=(uiCh+3)%4;uiLvl=1;for(let l=1;l<=5;l++){if(!isLevelCleared(uiCh,l)&&isLevelUnlocked(uiCh,l)){uiLvl=l;break;}}renderMissions();SFX.play('click');}
+      if(e.code==='ArrowRight'){uiCh=(uiCh+1)%4;uiLvl=1;for(let l=1;l<=5;l++){if(!isLevelCleared(uiCh,l)&&isLevelUnlocked(uiCh,l)){uiLvl=l;break;}}renderMissions();SFX.play('click');}
+      if(e.code==='ArrowUp'){uiLvl=Math.max(1,uiLvl-1);if(!isLevelUnlocked(uiCh,uiLvl))uiLvl++;renderMissions();SFX.play('click');}
+      if(e.code==='ArrowDown'){uiLvl=Math.min(5,uiLvl+1);if(!isLevelUnlocked(uiCh,uiLvl))uiLvl--;renderMissions();SFX.play('click');}
+      if(e.code==='Enter'&&chUnlocked(uiCh)&&isLevelUnlocked(uiCh,uiLvl))startRun(uiCh,uiLvl);}
   }
 });
 window.addEventListener('keyup',e=>{if(G)G.keys[e.code]=false;});
@@ -1898,6 +2212,8 @@ $('#pauseSoundBtn').addEventListener('click',()=>{SFX.setOn(!meta.sound);SFX.pla
 load();
 if(!meta.quests||Date.now()>=meta.quests.refreshAt)genQuests();
 uiCh=Math.min(Math.max(...meta.unlocked)-1,3);
+uiLvl=1;
+for(let l=1;l<=5;l++){if(!isLevelCleared(uiCh,l)&&isLevelUnlocked(uiCh,l)){uiLvl=l;break;}}
 buildSprites();renderAll();updateSoundBtns();
 for(let i=0;i<12;i++){const s=document.createElement('span');s.className='spore';
   s.style.left=rand(2,98)+'vw';s.style.animationDuration=rand(10,21)+'s';s.style.animationDelay=rand(0,15)+'s';$('#bgFx').appendChild(s);}
