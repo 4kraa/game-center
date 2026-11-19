@@ -271,7 +271,7 @@ h1{
     <div class="hspace"></div>
     <div class="tbChip always"><span class="dot"></span>SYSTÈME ACTIF</div>
     <div class="tbChip">🎮 <b>2</b> JEUX</div>
-    <div class="tbChip">⚙ <b>1</b> EN DEV</div>
+    <div class="tbChip">⏸ <b>1</b> EN PAUSE</div>
     <div class="tbChip">⚡ <b>OFFLINE</b></div>
   </header>
 
@@ -280,7 +280,7 @@ h1{
     <span class="kicker"><span class="dot"></span>ARCADE TERMINAL · PÉRIMÈTRE SÉCURISÉ</span>
     <h1>GAME CENTER</h1>
     <div class="heroTag"> plateforme <b>100% offline</b> · zéro dépendance · <b>zéro build</b></div>
-    <p class="heroSub">Deux jeux complets jouables dès maintenant, <b>plus un troisième en développement</b>. <b>Aucune installation</b>, aucune connexion requise, sauvegarde locale automatique. Choisis ton expérience et lance-toi.</p>
+    <p class="heroSub">Deux jeux complets jouables dès maintenant, <b>plus un troisième en pause</b>. <b>Aucune installation</b>, aucune connexion requise, sauvegarde locale automatique. Choisis ton expérience et lance-toi.</p>
   </section>
 
   <!-- ========= DIVIDER ========= -->
@@ -417,98 +417,77 @@ h1{
   <!-- ========= DIVIDER ========= -->
   <div class="divider">
     <span class="idx">02 /</span>
-    <h2>En développement</h2>
+    <h2>Projet en pause</h2>
     <span class="ln"></span>
-    <span class="note">Prochain jeu — en cours de conception</span>
+    <span class="note">Fixer — figé en v0.3, en attente de reprise</span>
   </div>
 
   <!-- ========= DEV CARD : FIXER ========= -->
   <div class="cards" style="grid-template-columns:1fr;max-width:680px">
-    <div class="gcard dev" aria-disabled="false" style="cursor:pointer" onclick="window.location.href='fixer.html'">
-      <div class="devBanner">⚙ BETA v0.3 · REFONTE BLUEPRINT TECH · EN DÉVELOPPEMENT ACTIF ⚙</div>
+    <div class="gcard dev" aria-disabled="true" style="cursor:default">
+      <div class="devBanner">⏸ PROJET EN PAUSE · EN ATTENTE DE REPRISE ⏸</div>
       <div class="gcScene"><svg viewBox="0 0 480 280" preserveAspectRatio="xMidYMid slice">
         <defs>
           <linearGradient id="devbg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0a1422"/><stop offset="1" stop-color="#050a14"/></linearGradient>
           <pattern id="devpat" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
-            <path d="M0 0 L20 0 M0 0 L0 20" stroke="#5eead4" stroke-width=".3" opacity=".3"/>
+            <path d="M0 0 L20 0 M0 0 L0 20" stroke="#5eead4" stroke-width=".3" opacity=".2"/>
           </pattern>
         </defs>
         <rect width="480" height="280" fill="url(#devbg)"/>
         <rect width="480" height="280" fill="url(#devpat)"/>
-        <!-- Phone blueprint with annotations -->
-        <g opacity=".9">
-          <!-- Phone body outline -->
-          <rect x="190" y="50" width="100" height="180" rx="10" fill="none" stroke="#5eead4" stroke-width="1.5" stroke-dasharray="0"/>
-          <rect x="196" y="56" width="88" height="168" rx="6" fill="rgba(94,234,212,.05)" stroke="#5eead4" stroke-width=".5" opacity=".6"/>
-          <!-- Crosshair center -->
-          <line x1="240" y1="135" x2="240" y2="145" stroke="#fde047" stroke-width=".5" opacity=".6"/>
-          <line x1="235" y1="140" x2="245" y2="140" stroke="#fde047" stroke-width=".5" opacity=".6"/>
-          <!-- Screen -->
+        <!-- Phone blueprint dimmed -->
+        <g opacity=".4">
+          <rect x="190" y="50" width="100" height="180" rx="10" fill="none" stroke="#5eead4" stroke-width="1.5"/>
+          <rect x="196" y="56" width="88" height="168" rx="6" fill="rgba(94,234,212,.05)" stroke="#5eead4" stroke-width=".5"/>
+          <line x1="240" y1="135" x2="240" y2="145" stroke="#fde047" stroke-width=".5"/>
+          <line x1="235" y1="140" x2="245" y2="140" stroke="#fde047" stroke-width=".5"/>
           <rect x="200" y="70" width="80" height="100" fill="rgba(94,234,212,.1)" stroke="#5eead4" stroke-width=".5"/>
-          <rect x="206" y="80" width="68" height="3" fill="#5eead4" opacity=".5"/>
-          <rect x="206" y="90" width="50" height="2" fill="#5eead4" opacity=".3"/>
-          <rect x="206" y="96" width="60" height="2" fill="#5eead4" opacity=".3"/>
-          <rect x="206" y="102" width="48" height="2" fill="#5eead4" opacity=".3"/>
-          <!-- Camera bump -->
           <rect x="260" y="60" width="22" height="22" rx="3" fill="none" stroke="#fde047" stroke-width=".8"/>
-          <circle cx="271" cy="71" r="4" fill="none" stroke="#fde047" stroke-width=".8"/>
-          <circle cx="271" cy="71" r="1.5" fill="#fde047" opacity=".7"/>
-          <!-- Battery icon -->
           <rect x="210" y="180" width="60" height="14" rx="2" fill="none" stroke="#86efac" stroke-width=".8"/>
-          <rect x="270" y="183" width="2" height="8" fill="#86efac"/>
-          <rect x="212" y="182" width="48" height="10" rx="1" fill="#86efac" opacity=".4"/>
-          <!-- Component callouts (blueprint style) -->
-          <line x1="260" y1="71" x2="380" y2="71" stroke="#5eead4" stroke-width=".5" stroke-dasharray="3 2"/>
-          <text x="384" y="74" font-family="JetBrains Mono" font-size="9" fill="#5eead4" opacity=".9">[CAM-01]</text>
-          <line x1="190" y1="100" x2="80" y2="80" stroke="#5eead4" stroke-width=".5" stroke-dasharray="3 2"/>
-          <text x="76" y="83" font-family="JetBrains Mono" font-size="9" fill="#5eead4" opacity=".9" text-anchor="end">[SCR-01]</text>
-          <line x1="190" y1="140" x2="80" y2="140" stroke="#5eead4" stroke-width=".5" stroke-dasharray="3 2"/>
-          <text x="76" y="143" font-family="JetBrains Mono" font-size="9" fill="#5eead4" opacity=".9" text-anchor="end">[CPU-01]</text>
-          <line x1="290" y1="140" x2="380" y2="140" stroke="#5eead4" stroke-width=".5" stroke-dasharray="3 2"/>
-          <text x="384" y="143" font-family="JetBrains Mono" font-size="9" fill="#5eead4" opacity=".9">[RAM-01]</text>
-          <line x1="210" y1="187" x2="80" y2="200" stroke="#5eead4" stroke-width=".5" stroke-dasharray="3 2"/>
-          <text x="76" y="203" font-family="JetBrains Mono" font-size="9" fill="#5eead4" opacity=".9" text-anchor="end">[BAT-01]</text>
-          <line x1="270" y1="187" x2="380" y2="200" stroke="#5eead4" stroke-width=".5" stroke-dasharray="3 2"/>
-          <text x="384" y="203" font-family="JetBrains Mono" font-size="9" fill="#5eead4" opacity=".9">[PWR-01]</text>
-          <!-- Bottom annotations -->
-          <text x="20" y="30" font-family="JetBrains Mono" font-size="9" fill="#5eead4" opacity=".7">&gt; BLUEPRINT_REV_0.3</text>
-          <text x="20" y="50" font-family="JetBrains Mono" font-size="9" fill="#fde047" opacity=".7">&gt; PHONE_MODEL: PROTO-G1</text>
-          <text x="20" y="260" font-family="JetBrains Mono" font-size="9" fill="#5eead4" opacity=".5">SCALE: 1:2 · UNITS: mm</text>
-          <text x="380" y="270" text-anchor="end" font-family="JetBrains Mono" font-size="9" fill="#5eead4" opacity=".5">v0.3-beta</text>
         </g>
+        <!-- Pause overlay -->
+        <g opacity=".85">
+          <circle cx="240" cy="140" r="40" fill="rgba(5,10,20,.85)" stroke="#5eead4" stroke-width="1.5"/>
+          <rect x="226" y="125" width="8" height="30" rx="2" fill="#5eead4"/>
+          <rect x="246" y="125" width="8" height="30" rx="2" fill="#5eead4"/>
+        </g>
+        <text x="20" y="30" font-family="JetBrains Mono" font-size="9" fill="#5eead4" opacity=".5">&gt; BLUEPRINT_REV_0.3</text>
+        <text x="20" y="50" font-family="JetBrains Mono" font-size="9" fill="#fde047" opacity=".5">&gt; STATUS: PAUSED</text>
+        <text x="20" y="260" font-family="JetBrains Mono" font-size="9" fill="#5eead4" opacity=".4">PROJET FIGÉ · EN ATTENTE DE REPRISE</text>
+        <text x="380" y="270" text-anchor="end" font-family="JetBrains Mono" font-size="9" fill="#5eead4" opacity=".4">v0.3-paused</text>
       </svg></div>
       <div class="gcVeil"></div>
       <div class="gcBody">
         <div class="gcTop">
           <div class="gcIconWrap">
-            <div class="gcIcon">📐</div>
+            <div class="gcIcon" style="opacity:.5">📐</div>
             <div>
               <div class="gcTitle">FIXER</div>
-              <div class="gcVer">VERSION <b>v0.3-beta</b> · BLUEPRINT TECH</div>
+              <div class="gcVer">VERSION <b>v0.3</b> · PROJET EN PAUSE</div>
             </div>
           </div>
-          <span class="gcBadge dev" style="background:linear-gradient(90deg,rgba(94,234,212,.25),rgba(253,224,71,.18));color:#fff;border-color:var(--teal)">▶ BETA v0.3</span>
+          <span class="gcBadge dev" style="background:rgba(94,234,212,.08);color:var(--mut);border-color:var(--line2)">⏸ EN PAUSE</span>
         </div>
-        <p class="gcDesc">Tycoon blueprint où tu conçois des <b>téléphones portables</b> pièce par pièce dans une <b>vue éclatée technique</b>. 12 composants, <b>concurrence IA</b> (Pear, Samsong, Xiomi, Huwai), <b>équipe</b> d'employés, <b>marketing</b>, et <b>événements aléatoires</b>. 4 phases : Garage → Atelier → PME → Multinationale.</p>
+        <p class="gcDesc">Tycoon blueprint où tu conçois des <b>téléphones portables</b> pièce par pièce — vue éclatée technique, 12 composants, concurrence IA, employés, marketing et événements. Le projet est actuellement <b>figé en v0.3</b> en attendant de reprendre le développement. Le fichier et la sauvegarde restent disponibles.</p>
         <div class="gcTags">
-          <span class="gcTag" style="color:var(--teal);border-color:#1d5866">📐 Blueprint</span>
-          <span class="gcTag" style="color:var(--cyan);border-color:#1d5866">🔧 12 Composants</span>
-          <span class="gcTag" style="color:var(--amber);border-color:#5c4a1c">🍎 Concurrence IA</span>
-          <span class="gcTag" style="color:var(--lime);border-color:#2d4218">👥 Équipe & Marketing</span>
+          <span class="gcTag" style="color:var(--dim)">📐 Blueprint</span>
+          <span class="gcTag" style="color:var(--dim)">🔧 12 Composants</span>
+          <span class="gcTag" style="color:var(--dim)">🍎 Concurrence IA</span>
+          <span class="gcTag" style="color:var(--dim)">⏸ En pause</span>
         </div>
         <div>
-          <div class="progressBar"><i style="width:50%"></i></div>
-          <div class="progressLabel"><span>PROGRESSION</span><span><b>50%</b> · BETA v0.3 JOUABLE</span></div>
+          <div class="progressBar"><i style="width:50%;background:var(--line2)"></i></div>
+          <div class="progressLabel"><span>PROGRESSION</span><span><b style="color:var(--mut)">50%</b> · EN PAUSE</span></div>
         </div>
         <div class="gcFooter">
-          <button class="gcPlay" style="background:linear-gradient(135deg,#5eead4,#2dd4bf);color:#04141a;border:none;cursor:pointer;box-shadow:0 0 14px rgba(94,234,212,.4);opacity:1">▶ JOUER À LA BETA v0.3</button>
+          <button class="gcPlay" disabled style="background:var(--paper2);color:var(--mut);border:1px dashed var(--line2);cursor:not-allowed;opacity:.6">⏸ PROJET EN PAUSE</button>
           <div class="gcStats">
-            <span>STATUT <b style="color:var(--teal)">BETA</b></span>
-            <span>SAUVEGARDE <b>AUTO</b></span>
+            <span>STATUT <b style="color:var(--mut)">PAUSE</b></span>
+            <span>SAUVEGARDE <b>—</b></span>
           </div>
         </div>
       </div>
-      <div class="gcStripe" style="background:linear-gradient(90deg,var(--teal),var(--yellow))"></div>
+      <div class="gcStripe" style="background:var(--line2)"></div>
     </div>
   </div>
 
@@ -534,7 +513,7 @@ h1{
   <footer id="footer">
     <div class="footGrid">
       <div class="footBrand">GAME <span>CENTER</span> · ARCADE HUB</div>
-      <div class="footMeta">v7.0 · <b>2 JEUX + 1 EN DEV</b> · OPEN-SOURCE</div>
+      <div class="footMeta">v7.0 · <b>2 JEUX + 1 EN PAUSE</b> · OPEN-SOURCE</div>
     </div>
     <p class="footNote">Plateforme web autonome développée pour le plaisir du gameplay rétro-arcade et du tycoon addictif. Toute la progression est sauvegardée localement dans ton navigateur.</p>
   </footer>
