@@ -426,7 +426,7 @@ h1{
   <!-- ========= DEV CARD : FIXER ========= -->
   <div class="cards" style="grid-template-columns:1fr;max-width:680px">
     <div class="gcard dev" aria-disabled="true">
-      <div class="devBanner">⚙ PROJET EN DÉVELOPPEMENT · PHASE DE CONCEPTION ⚙</div>
+      <div class="devBanner">⚙ PROJET EN DÉVELOPPEMENT · DESIGN DOC TERMINÉ ⚙</div>
       <div class="gcScene"><svg viewBox="0 0 480 280" preserveAspectRatio="xMidYMid slice">
         <defs>
           <linearGradient id="devbg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1a1228"/><stop offset="1" stop-color="#07060c"/></linearGradient>
@@ -436,54 +436,69 @@ h1{
         </defs>
         <rect width="480" height="280" fill="url(#devbg)"/>
         <rect width="480" height="280" fill="url(#devpat)"/>
-        <circle cx="240" cy="140" r="80" fill="none" stroke="#a855f7" stroke-width="1" stroke-dasharray="4 6" opacity=".5">
-          <animateTransform attributeName="transform" type="rotate" from="0 240 140" to="360 240 140" dur="20s" repeatCount="indefinite"/>
-        </circle>
-        <circle cx="240" cy="140" r="50" fill="none" stroke="#22d3ee" stroke-width="1" stroke-dasharray="2 4" opacity=".4">
-          <animateTransform attributeName="transform" type="rotate" from="360 240 140" to="0 240 140" dur="14s" repeatCount="indefinite"/>
-        </circle>
-        <g opacity=".7">
-          <rect x="220" y="120" width="40" height="40" fill="none" stroke="#a855f7" stroke-width="1.5"/>
-          <rect x="230" y="130" width="20" height="20" fill="#a855f7" opacity=".3"/>
-          <line x1="220" y1="140" x2="200" y2="140" stroke="#a855f7" stroke-width="1" opacity=".5"/>
-          <line x1="260" y1="140" x2="280" y2="140" stroke="#a855f7" stroke-width="1" opacity=".5"/>
-          <line x1="240" y1="120" x2="240" y2="100" stroke="#a855f7" stroke-width="1" opacity=".5"/>
-          <line x1="240" y1="160" x2="240" y2="180" stroke="#a855f7" stroke-width="1" opacity=".5"/>
-          <circle cx="200" cy="140" r="3" fill="#22d3ee" opacity=".7"/>
-          <circle cx="280" cy="140" r="3" fill="#22d3ee" opacity=".7"/>
-          <circle cx="240" cy="100" r="3" fill="#22d3ee" opacity=".7"/>
-          <circle cx="240" cy="180" r="3" fill="#22d3ee" opacity=".7"/>
+        <!-- Smartphone schematic -->
+        <g opacity=".85">
+          <rect x="200" y="50" width="80" height="160" rx="8" fill="none" stroke="#a855f7" stroke-width="1.5"/>
+          <rect x="206" y="56" width="68" height="148" rx="4" fill="#0a0814" stroke="#22d3ee" stroke-width=".5" opacity=".6"/>
+          <!-- Speaker -->
+          <rect x="232" y="60" width="16" height="2" rx="1" fill="#22d3ee" opacity=".7"/>
+          <!-- Camera lens -->
+          <circle cx="218" cy="74" r="3" fill="none" stroke="#22d3ee" stroke-width=".8"/>
+          <circle cx="218" cy="74" r="1.2" fill="#22d3ee"/>
+          <!-- Screen content lines -->
+          <rect x="212" y="84" width="56" height="6" fill="#a855f7" opacity=".4"/>
+          <rect x="212" y="96" width="40" height="4" fill="#22d3ee" opacity=".3"/>
+          <rect x="212" y="106" width="56" height="4" fill="#22d3ee" opacity=".3"/>
+          <rect x="212" y="116" width="48" height="4" fill="#22d3ee" opacity=".3"/>
+          <!-- Battery icon -->
+          <rect x="220" y="180" width="40" height="14" rx="2" fill="none" stroke="#c8ff3c" stroke-width=".8" opacity=".6"/>
+          <rect x="260" y="184" width="2" height="6" fill="#c8ff3c" opacity=".6"/>
+          <rect x="222" y="182" width="28" height="10" rx="1" fill="#c8ff3c" opacity=".3"/>
+          <!-- Home button / nav -->
+          <circle cx="240" cy="200" r="3" fill="none" stroke="#a855f7" stroke-width=".8"/>
+          <!-- Component callouts -->
+          <line x1="218" y1="74" x2="120" y2="74" stroke="#22d3ee" stroke-width=".5" opacity=".5"/>
+          <text x="118" y="76" font-family="monospace" font-size="8" fill="#22d3ee" opacity=".7" text-anchor="end">CAM</text>
+          <line x1="200" y1="130" x2="100" y2="130" stroke="#a855f7" stroke-width=".5" opacity=".5"/>
+          <text x="98" y="132" font-family="monospace" font-size="8" fill="#a855f7" opacity=".7" text-anchor="end">CPU</text>
+          <line x1="280" y1="130" x2="380" y2="130" stroke="#a855f7" stroke-width=".5" opacity=".5"/>
+          <text x="382" y="132" font-family="monospace" font-size="8" fill="#a855f7" opacity=".7">RAM</text>
+          <line x1="280" y1="187" x2="380" y2="187" stroke="#c8ff3c" stroke-width=".5" opacity=".5"/>
+          <text x="382" y="189" font-family="monospace" font-size="8" fill="#c8ff3c" opacity=".7">BAT</text>
+          <line x1="218" y1="50" x2="120" y2="30" stroke="#22d3ee" stroke-width=".5" opacity=".5"/>
+          <text x="118" y="32" font-family="monospace" font-size="8" fill="#22d3ee" opacity=".7" text-anchor="end">SCR</text>
         </g>
         <g fill="#a855f7" opacity=".35" font-family="monospace" font-size="9">
           <text x="20" y="30">&gt; INIT_FIXER.SYS</text>
-          <text x="20" y="50">&gt; LOADING_THEME...</text>
-          <text x="20" y="70">&gt; AWAITING_INPUT</text>
+          <text x="20" y="50">&gt; LOADING_COMPONENTS...</text>
+          <text x="20" y="70">&gt; DESIGN_DOC_READY</text>
         </g>
         <g fill="#22d3ee" opacity=".4" font-family="monospace" font-size="9">
-          <text x="380" y="260" text-anchor="end">v0.0.1-dev</text>
+          <text x="380" y="270" text-anchor="end">v0.1-dev</text>
         </g>
       </svg></div>
       <div class="gcVeil"></div>
       <div class="gcBody">
         <div class="gcTop">
           <div class="gcIconWrap">
-            <div class="gcIcon">⚙️</div>
+            <div class="gcIcon">📱</div>
             <div>
               <div class="gcTitle">FIXER</div>
-              <div class="gcVer">VERSION <b>v0.0.1-dev</b> · CONCEPT INITIAL</div>
+              <div class="gcVer">VERSION <b>v0.1-dev</b> · DESIGN DOC TERMINÉ</div>
             </div>
           </div>
           <span class="gcBadge dev">⚡ EN DÉVELOPPEMENT</span>
         </div>
-        <p class="gcDesc">Nouveau <b>jeu de gestion</b> en cours de conception. Le thème et les mécaniques principales sont en cours de définition avec l'opérateur. Disponible prochainement sur cette plateforme.</p>
+        <p class="gcDesc">Tycoon où tu conçois des <b>téléphones portables</b> pièce par pièce — <b>écran, processeur, RAM, batterie, caméra, châssis, OS</b>… Tu démarres pauvre dans un garage, monte des modèles à partir de composants bas de gamme, vends sur le marché et réinvestis en R&D pour débloquer les technologies premium et devenir le leader mondial.</p>
         <div class="gcTags">
-          <span class="gcTag" style="color:var(--violet);border-color:#5c3a8a">Jeu de Gestion</span>
-          <span class="gcTag" style="color:var(--dim)">Thème — TBD</span>
-          <span class="gcTag" style="color:var(--dim)">Mécaniques — TBD</span>
+          <span class="gcTag" style="color:var(--violet);border-color:#5c3a8a">📱 Smartphones</span>
+          <span class="gcTag" style="color:var(--cyan);border-color:#1d5866">🔧 9 Composants</span>
+          <span class="gcTag" style="color:var(--amber);border-color:#5c4a1c">📈 4 Phases</span>
+          <span class="gcTag" style="color:var(--lime);border-color:#2d4218">🏭 Usines & R&D</span>
         </div>
         <div>
-          <div class="progressBar"><i></i></div>
-          <div class="progressLabel"><span>PROGRESSION</span><span><b>8%</b> · CONCEPTION</span></div>
+          <div class="progressBar"><i style="width:18%"></i></div>
+          <div class="progressLabel"><span>PROGRESSION</span><span><b>18%</b> · DESIGN TERMINÉ</span></div>
         </div>
         <div class="gcFooter">
           <button class="gcPlay" disabled>🔒 BIENTÔT DISPONIBLE</button>
