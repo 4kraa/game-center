@@ -140,6 +140,31 @@ h1{
 .gcard.money .gcPlay{background:linear-gradient(135deg,#ffc766,#eb9410);color:#1a1204;filter:drop-shadow(0 0 12px rgba(255,176,46,.28))}
 .gcard.money .gcStripe{background:linear-gradient(90deg,var(--amber),var(--crimson))}
 
+/* ---- card : dev / in-development (violet dimmed) ---- */
+.gcard.dev{
+  border-style:dashed;
+  border-color:#2a2238;
+  background:linear-gradient(180deg,#120e1a,#0a080f);
+  cursor:default;
+  position:relative;
+}
+.gcard.dev:hover{transform:none;border-color:#5c3a8a;box-shadow:0 12px 40px rgba(168,85,247,.12)}
+.gcard.dev .gcScene{background:radial-gradient(circle at 70% 30%,rgba(168,85,247,.14),transparent 60%),radial-gradient(circle at 30% 80%,rgba(34,211,238,.06),transparent 60%),linear-gradient(180deg,#15101e,#07060c);opacity:.35}
+.gcard.dev:hover .gcScene{opacity:.5}
+.gcard.dev .gcIcon{filter:drop-shadow(0 0 18px rgba(168,85,247,.45));opacity:.85}
+.gcard.dev .gcTitle{color:var(--violet)}
+.gcard.dev .gcStripe{background:linear-gradient(90deg,var(--violet),var(--cyan))}
+.gcard.dev .gcPlay{background:#1a1426;color:#7a6c95;border:1px dashed #5c3a8a;filter:none;cursor:not-allowed;opacity:.8}
+.gcard.dev .gcPlay i{font-style:normal;opacity:.7}
+.gcard.dev .gcBadge.dev{color:var(--violet);border-color:#5c3a8a;background:rgba(20,8,30,.78);font-weight:700;animation:devPulse 2s ease-in-out infinite}
+@keyframes devPulse{0%,100%{box-shadow:0 0 0 0 rgba(168,85,247,.4)}50%{box-shadow:0 0 14px 2px rgba(168,85,247,.4)}}
+.gcard.dev .devBanner{position:absolute;top:0;left:0;right:0;padding:6px 14px;background:linear-gradient(90deg,rgba(168,85,247,.18),rgba(34,211,238,.1));border-bottom:1px dashed #5c3a8a;font-family:var(--fm);font-size:10px;letter-spacing:2.5px;text-align:center;color:var(--violet);z-index:5;text-transform:uppercase}
+.gcard.dev .progressBar{height:4px;width:100%;background:#0a0810;border:1px solid #2a1f3a;overflow:hidden;clip-path:var(--cutS)}
+.gcard.dev .progressBar i{display:block;height:100%;width:8%;background:linear-gradient(90deg,var(--violet),var(--cyan));transition:width .4s}
+.gcard.dev .progressLabel{display:flex;justify-content:space-between;font-family:var(--fm);font-size:9.5px;color:var(--dim);letter-spacing:1px;margin-top:5px}
+.gcard.dev .progressLabel b{color:var(--violet)}
+.gcard.dev::after{display:none}
+
 /* ---- card : Zombie Survivor (lime/crimson bunker) ---- */
 .gcard.zombie:hover{border-color:var(--lime);box-shadow:0 16px 50px rgba(200,255,60,.18),0 0 0 1px rgba(200,255,60,.4) inset}
 .gcard.zombie .gcScene{background:radial-gradient(circle at 70% 30%,rgba(200,255,60,.14),transparent 60%),radial-gradient(circle at 20% 80%,rgba(34,211,238,.08),transparent 60%),linear-gradient(180deg,#0d1410,#070a08)}
@@ -247,6 +272,7 @@ h1{
     <div class="hspace"></div>
     <div class="tbChip always"><span class="dot"></span>SYSTÈME ACTIF</div>
     <div class="tbChip">🎮 <b>2</b> JEUX</div>
+    <div class="tbChip">⚙ <b>1</b> EN DEV</div>
     <div class="tbChip">⚡ <b>OFFLINE</b></div>
   </header>
 
@@ -255,7 +281,7 @@ h1{
     <span class="kicker"><span class="dot"></span>ARCADE TERMINAL · PÉRIMÈTRE SÉCURISÉ</span>
     <h1>GAME CENTER</h1>
     <div class="heroTag"> plateforme <b>100% offline</b> · zéro dépendance · <b>zéro build</b></div>
-    <p class="heroSub">Deux jeux complets, immersifs et jouables directement dans le navigateur. <b>Aucune installation</b>, aucune connexion requise, sauvegarde locale automatique. Choisis ton expérience et lance-toi.</p>
+    <p class="heroSub">Deux jeux complets jouables dès maintenant, <b>plus un troisième en développement</b>. <b>Aucune installation</b>, aucune connexion requise, sauvegarde locale automatique. Choisis ton expérience et lance-toi.</p>
   </section>
 
   <!-- ========= DIVIDER ========= -->
@@ -392,6 +418,88 @@ h1{
   <!-- ========= DIVIDER ========= -->
   <div class="divider">
     <span class="idx">02 /</span>
+    <h2>En développement</h2>
+    <span class="ln"></span>
+    <span class="note">Prochain jeu — en cours de conception</span>
+  </div>
+
+  <!-- ========= DEV CARD : FIXER ========= -->
+  <div class="cards" style="grid-template-columns:1fr;max-width:680px">
+    <div class="gcard dev" aria-disabled="true">
+      <div class="devBanner">⚙ PROJET EN DÉVELOPPEMENT · PHASE DE CONCEPTION ⚙</div>
+      <div class="gcScene"><svg viewBox="0 0 480 280" preserveAspectRatio="xMidYMid slice">
+        <defs>
+          <linearGradient id="devbg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1a1228"/><stop offset="1" stop-color="#07060c"/></linearGradient>
+          <pattern id="devpat" x="0" y="0" width="32" height="32" patternUnits="userSpaceOnUse">
+            <path d="M0 16 L16 0 M16 32 L32 16" stroke="#5c3a8a" stroke-width=".5" opacity=".4"/>
+          </pattern>
+        </defs>
+        <rect width="480" height="280" fill="url(#devbg)"/>
+        <rect width="480" height="280" fill="url(#devpat)"/>
+        <circle cx="240" cy="140" r="80" fill="none" stroke="#a855f7" stroke-width="1" stroke-dasharray="4 6" opacity=".5">
+          <animateTransform attributeName="transform" type="rotate" from="0 240 140" to="360 240 140" dur="20s" repeatCount="indefinite"/>
+        </circle>
+        <circle cx="240" cy="140" r="50" fill="none" stroke="#22d3ee" stroke-width="1" stroke-dasharray="2 4" opacity=".4">
+          <animateTransform attributeName="transform" type="rotate" from="360 240 140" to="0 240 140" dur="14s" repeatCount="indefinite"/>
+        </circle>
+        <g opacity=".7">
+          <rect x="220" y="120" width="40" height="40" fill="none" stroke="#a855f7" stroke-width="1.5"/>
+          <rect x="230" y="130" width="20" height="20" fill="#a855f7" opacity=".3"/>
+          <line x1="220" y1="140" x2="200" y2="140" stroke="#a855f7" stroke-width="1" opacity=".5"/>
+          <line x1="260" y1="140" x2="280" y2="140" stroke="#a855f7" stroke-width="1" opacity=".5"/>
+          <line x1="240" y1="120" x2="240" y2="100" stroke="#a855f7" stroke-width="1" opacity=".5"/>
+          <line x1="240" y1="160" x2="240" y2="180" stroke="#a855f7" stroke-width="1" opacity=".5"/>
+          <circle cx="200" cy="140" r="3" fill="#22d3ee" opacity=".7"/>
+          <circle cx="280" cy="140" r="3" fill="#22d3ee" opacity=".7"/>
+          <circle cx="240" cy="100" r="3" fill="#22d3ee" opacity=".7"/>
+          <circle cx="240" cy="180" r="3" fill="#22d3ee" opacity=".7"/>
+        </g>
+        <g fill="#a855f7" opacity=".35" font-family="monospace" font-size="9">
+          <text x="20" y="30">&gt; INIT_FIXER.SYS</text>
+          <text x="20" y="50">&gt; LOADING_THEME...</text>
+          <text x="20" y="70">&gt; AWAITING_INPUT</text>
+        </g>
+        <g fill="#22d3ee" opacity=".4" font-family="monospace" font-size="9">
+          <text x="380" y="260" text-anchor="end">v0.0.1-dev</text>
+        </g>
+      </svg></div>
+      <div class="gcVeil"></div>
+      <div class="gcBody">
+        <div class="gcTop">
+          <div class="gcIconWrap">
+            <div class="gcIcon">⚙️</div>
+            <div>
+              <div class="gcTitle">FIXER</div>
+              <div class="gcVer">VERSION <b>v0.0.1-dev</b> · CONCEPT INITIAL</div>
+            </div>
+          </div>
+          <span class="gcBadge dev">⚡ EN DÉVELOPPEMENT</span>
+        </div>
+        <p class="gcDesc">Nouveau <b>jeu de gestion</b> en cours de conception. Le thème et les mécaniques principales sont en cours de définition avec l'opérateur. Disponible prochainement sur cette plateforme.</p>
+        <div class="gcTags">
+          <span class="gcTag" style="color:var(--violet);border-color:#5c3a8a">Jeu de Gestion</span>
+          <span class="gcTag" style="color:var(--dim)">Thème — TBD</span>
+          <span class="gcTag" style="color:var(--dim)">Mécaniques — TBD</span>
+        </div>
+        <div>
+          <div class="progressBar"><i></i></div>
+          <div class="progressLabel"><span>PROGRESSION</span><span><b>8%</b> · CONCEPTION</span></div>
+        </div>
+        <div class="gcFooter">
+          <button class="gcPlay" disabled>🔒 BIENTÔT DISPONIBLE</button>
+          <div class="gcStats">
+            <span>STATUT <b>DEV</b></span>
+            <span>RELEASE <b>—</b></span>
+          </div>
+        </div>
+      </div>
+      <div class="gcStripe"></div>
+    </div>
+  </div>
+
+  <!-- ========= DIVIDER ========= -->
+  <div class="divider">
+    <span class="idx">03 /</span>
     <h2>Caractéristiques</h2>
     <span class="ln"></span>
     <span class="note">Plateforme 100% client-side</span>
@@ -411,7 +519,7 @@ h1{
   <footer id="footer">
     <div class="footGrid">
       <div class="footBrand">GAME <span>CENTER</span> · ARCADE HUB</div>
-      <div class="footMeta">v7.0 · <b>2 JEUX</b> · OPEN-SOURCE</div>
+      <div class="footMeta">v7.0 · <b>2 JEUX + 1 EN DEV</b> · OPEN-SOURCE</div>
     </div>
     <p class="footNote">Plateforme web autonome développée pour le plaisir du gameplay rétro-arcade et du tycoon addictif. Toute la progression est sauvegardée localement dans ton navigateur.</p>
   </footer>
@@ -427,8 +535,8 @@ for(let i=0;i<14;i++){
   s.style.animationDelay=Math.random()*15+'s';
   document.getElementById('bgFx').appendChild(s);
 }
-// Subtle parallax effect on cards
-document.querySelectorAll('.gcard').forEach(c=>{
+// Subtle parallax effect on cards (skip dev card)
+document.querySelectorAll('.gcard:not(.dev)').forEach(c=>{
   c.addEventListener('mousemove',e=>{
     const r=c.getBoundingClientRect();
     const x=(e.clientX-r.left)/r.width-.5;
