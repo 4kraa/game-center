@@ -226,11 +226,30 @@ ventes_réelles = ventes_potentielles × (1 + réputation × 0.05) × (1 + marke
 
 ---
 
-## 10. Décisions en attente (à valider avec l'operateur)
+## 10. Décisions finales (validées avec l'opérateur)
 
-- [ ] Temps réel ou tour-par-tour (mois simulés) ?
-- [ ] Profondeur : 9 slots ou plus (ex : refroidissement, biometrie, NFC) ?
-- [ ] Mode sandbox / carrière ?
-- [ ] Multijoueur / classement ?
-- [ ] Style graphique : flat design ou isométrique détaillée ?
-- [ ] Son : ambiance tech minimale ou musique ?
+- [x] **Rythme** : **Tour-par-tour** — le joueur clique sur "Mois suivant" pour avancer
+- [x] **Profondeur** : **12 composants** (ajout de refroidissement, biométrie, audio, réseau aux 9 initiaux)
+- [x] **Mode sandbox** : prévu mais **pas au lancement** (mode carrière uniquement pour la beta)
+- [x] **Style graphique** : **Mélange flat + isométrique** (téléphone en iso SVG, UI autour en flat)
+
+---
+
+## 11. Composants étendus (12 slots)
+
+| # | Slot | Rôle | Tiers 1 → 5 |
+|---|---|---|---|
+| 1 | Écran (screen) | Affichage | LCD 5" → LTPO 6.7" 144Hz |
+| 2 | Processeur (cpu) | Performance | 4-core 14nm → 10-core 3nm |
+| 3 | RAM (ram) | Multitâche | 2Go LPDDR4 → 24Go LPDDR5X |
+| 4 | Stockage (storage) | Capacité | 32Go eMMC → 1To UFS 4.0 |
+| 5 | Batterie (battery) | Autonomie | 2000mAh Li-Ion → 6000mAh Si-C |
+| 6 | Caméra arrière (camrear) | Photos | 8MP → 200MP + 4 modules |
+| 7 | Caméra avant (camfront) | Selfies | 5MP → 32MP 4K |
+| 8 | Châssis (chassis) | Construction | Plastique → Titane IP68 |
+| 9 | OS | Logiciel | Propriétaire → Custom premium |
+| 10 | Connectique (ports) | USB-C/jack/microSD | USB 2.0 → USB 4 + eSIM |
+| 11 | Réseau (network) | 4G/5G/WiFi | 4G → WiFi 7 + 5G mmWave |
+| 12 | Refroidissement (cooling) | Gaming/sustained perf | Passif → Vapor chamber |
+
+*Bonus à venir en v0.3+ : biométrie (empreinte/face ID), audio (DAC/haut-parleurs), NFC, capteurs AR.*

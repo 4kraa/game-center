@@ -425,8 +425,8 @@ h1{
 
   <!-- ========= DEV CARD : FIXER ========= -->
   <div class="cards" style="grid-template-columns:1fr;max-width:680px">
-    <div class="gcard dev" aria-disabled="true">
-      <div class="devBanner">⚙ PROJET EN DÉVELOPPEMENT · DESIGN DOC TERMINÉ ⚙</div>
+    <div class="gcard dev" aria-disabled="false" style="cursor:pointer" onclick="window.location.href='fixer.html'">
+      <div class="devBanner">⚙ BETA JOUABLE · v0.2 · EN DÉVELOPPEMENT ACTIF ⚙</div>
       <div class="gcScene"><svg viewBox="0 0 480 280" preserveAspectRatio="xMidYMid slice">
         <defs>
           <linearGradient id="devbg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1a1228"/><stop offset="1" stop-color="#07060c"/></linearGradient>
@@ -440,21 +440,16 @@ h1{
         <g opacity=".85">
           <rect x="200" y="50" width="80" height="160" rx="8" fill="none" stroke="#a855f7" stroke-width="1.5"/>
           <rect x="206" y="56" width="68" height="148" rx="4" fill="#0a0814" stroke="#22d3ee" stroke-width=".5" opacity=".6"/>
-          <!-- Speaker -->
           <rect x="232" y="60" width="16" height="2" rx="1" fill="#22d3ee" opacity=".7"/>
-          <!-- Camera lens -->
           <circle cx="218" cy="74" r="3" fill="none" stroke="#22d3ee" stroke-width=".8"/>
           <circle cx="218" cy="74" r="1.2" fill="#22d3ee"/>
-          <!-- Screen content lines -->
           <rect x="212" y="84" width="56" height="6" fill="#a855f7" opacity=".4"/>
           <rect x="212" y="96" width="40" height="4" fill="#22d3ee" opacity=".3"/>
           <rect x="212" y="106" width="56" height="4" fill="#22d3ee" opacity=".3"/>
           <rect x="212" y="116" width="48" height="4" fill="#22d3ee" opacity=".3"/>
-          <!-- Battery icon -->
           <rect x="220" y="180" width="40" height="14" rx="2" fill="none" stroke="#c8ff3c" stroke-width=".8" opacity=".6"/>
           <rect x="260" y="184" width="2" height="6" fill="#c8ff3c" opacity=".6"/>
           <rect x="222" y="182" width="28" height="10" rx="1" fill="#c8ff3c" opacity=".3"/>
-          <!-- Home button / nav -->
           <circle cx="240" cy="200" r="3" fill="none" stroke="#a855f7" stroke-width=".8"/>
           <!-- Component callouts -->
           <line x1="218" y1="74" x2="120" y2="74" stroke="#22d3ee" stroke-width=".5" opacity=".5"/>
@@ -470,11 +465,11 @@ h1{
         </g>
         <g fill="#a855f7" opacity=".35" font-family="monospace" font-size="9">
           <text x="20" y="30">&gt; INIT_FIXER.SYS</text>
-          <text x="20" y="50">&gt; LOADING_COMPONENTS...</text>
-          <text x="20" y="70">&gt; DESIGN_DOC_READY</text>
+          <text x="20" y="50">&gt; BETA_LIVE_v0.2</text>
+          <text x="20" y="70">&gt; READY_TO_PLAY</text>
         </g>
         <g fill="#22d3ee" opacity=".4" font-family="monospace" font-size="9">
-          <text x="380" y="270" text-anchor="end">v0.1-dev</text>
+          <text x="380" y="270" text-anchor="end">v0.2-beta</text>
         </g>
       </svg></div>
       <div class="gcVeil"></div>
@@ -484,27 +479,27 @@ h1{
             <div class="gcIcon">📱</div>
             <div>
               <div class="gcTitle">FIXER</div>
-              <div class="gcVer">VERSION <b>v0.1-dev</b> · DESIGN DOC TERMINÉ</div>
+              <div class="gcVer">VERSION <b>v0.2-beta</b> · BETA JOUABLE</div>
             </div>
           </div>
-          <span class="gcBadge dev">⚡ EN DÉVELOPPEMENT</span>
+          <span class="gcBadge dev" style="background:linear-gradient(90deg,rgba(168,85,247,.25),rgba(34,211,238,.18));color:#fff;border-color:var(--violet)">▶ BETA OUVERTE</span>
         </div>
-        <p class="gcDesc">Tycoon où tu conçois des <b>téléphones portables</b> pièce par pièce — <b>écran, processeur, RAM, batterie, caméra, châssis, OS</b>… Tu démarres pauvre dans un garage, monte des modèles à partir de composants bas de gamme, vends sur le marché et réinvestis en R&D pour débloquer les technologies premium et devenir le leader mondial.</p>
+        <p class="gcDesc">Tycoon où tu conçois des <b>téléphones portables</b> pièce par pièce — <b>12 composants</b> (écran, CPU, RAM, stockage, batterie, caméras, châssis, OS, connectique, réseau, refroidissement). Tu démarres pauvre dans un garage, monte des modèles, vends sur le marché, réinvestis en R&D et passes par <b>4 phases</b> jusqu'à devenir multinationale.</p>
         <div class="gcTags">
           <span class="gcTag" style="color:var(--violet);border-color:#5c3a8a">📱 Smartphones</span>
-          <span class="gcTag" style="color:var(--cyan);border-color:#1d5866">🔧 9 Composants</span>
+          <span class="gcTag" style="color:var(--cyan);border-color:#1d5866">🔧 12 Composants</span>
           <span class="gcTag" style="color:var(--amber);border-color:#5c4a1c">📈 4 Phases</span>
-          <span class="gcTag" style="color:var(--lime);border-color:#2d4218">🏭 Usines & R&D</span>
+          <span class="gcTag" style="color:var(--lime);border-color:#2d4218">🔬 R&D</span>
         </div>
         <div>
-          <div class="progressBar"><i style="width:18%"></i></div>
-          <div class="progressLabel"><span>PROGRESSION</span><span><b>18%</b> · DESIGN TERMINÉ</span></div>
+          <div class="progressBar"><i style="width:35%"></i></div>
+          <div class="progressLabel"><span>PROGRESSION</span><span><b>35%</b> · BETA JOUABLE</span></div>
         </div>
         <div class="gcFooter">
-          <button class="gcPlay" disabled>🔒 BIENTÔT DISPONIBLE</button>
+          <button class="gcPlay" style="background:linear-gradient(135deg,#c084fc,#7c3aed);color:#fff;border:none;cursor:pointer;filter:drop-shadow(0 0 14px rgba(168,85,247,.4));opacity:1">▶ JOUER À LA BETA</button>
           <div class="gcStats">
-            <span>STATUT <b>DEV</b></span>
-            <span>RELEASE <b>—</b></span>
+            <span>STATUT <b style="color:var(--violet)">BETA</b></span>
+            <span>SAUVEGARDE <b>AUTO</b></span>
           </div>
         </div>
       </div>
