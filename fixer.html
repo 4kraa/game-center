@@ -3,333 +3,501 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>FIXER — Beta v0.2</title>
+<title>FIXER — Blueprint v0.3</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Barlow:wght@400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --void:#08060f; --steel:#100c1a; --panel:#15101e; --panel2:#1a142a; --edge:#2a2240; --edge2:#3d3060;
-  --violet:#a855f7; --violetD:#7c3aed; --cyan:#22d3ee; --lime:#c8ff3c; --amber:#ffb02e; --crimson:#ff2d55;
-  --ink:#f3f0e7; --mut:#9b8fb5; --dim:#5d4d7c;
-  --fd:'Chakra Petch','Segoe UI',sans-serif; --fb:'Barlow',system-ui,sans-serif; --fm:'Share Tech Mono',ui-monospace,monospace;
-  --cut:polygon(0 0,calc(100% - 13px) 0,100% 13px,100% 100%,13px 100%,0 calc(100% - 13px));
-  --cutS:polygon(0 0,calc(100% - 8px) 0,100% 8px,100% 100%,8px 100%,0 calc(100% - 8px));
+  --bg:#0a1422; --bg2:#0d1a2e; --paper:#0f1e35; --paper2:#142847;
+  --line:#1e3a5f; --line2:#2a4d7a; --ink:#d8e8f5; --ink2:#a8c5e0;
+  --mut:#5a7896; --dim:#3d5a7a;
+  --white:#f8fbff; --teal:#5eead4; --tealD:#2dd4bf;
+  --yellow:#fde047; --orange:#fb923c; --red:#f87171; --green:#86efac;
+  --pink:#f9a8d4; --violet:#c4b5fd;
+  --fd:'Space Grotesk','Segoe UI',sans-serif;
+  --fb:'Inter',system-ui,sans-serif;
+  --fm:'JetBrains Mono',ui-monospace,monospace;
+  --cut:0 8px 8px 0;
 }
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{height:100%}
-body{background:var(--void);color:var(--ink);font-family:var(--fb);font-weight:500;overflow:hidden;user-select:none;-webkit-user-select:none}
+body{
+  background:var(--bg);
+  color:var(--ink);
+  font-family:var(--fb);
+  font-weight:400;
+  overflow:hidden;
+  user-select:none;
+  -webkit-user-select:none;
+}
 button{font-family:var(--fd);font-weight:600;color:var(--ink);background:none;border:none;cursor:pointer;touch-action:manipulation}
-::-webkit-scrollbar{width:9px;height:9px}
-::-webkit-scrollbar-track{background:#0a0814}
-::-webkit-scrollbar-thumb{background:linear-gradient(180deg,#3d2a5a,#2a3d3f)}
+::-webkit-scrollbar{width:8px;height:8px}
+::-webkit-scrollbar-track{background:var(--bg2)}
+::-webkit-scrollbar-thumb{background:var(--line2);border-radius:4px}
+::-webkit-scrollbar-thumb:hover{background:var(--teal)}
 
+/* ==================== Blueprint background ==================== */
 #bgFx{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;background:
-  radial-gradient(1100px 700px at 12% -10%,rgba(168,85,247,.08),transparent 60%),
-  radial-gradient(900px 600px at 92% 12%,rgba(34,211,238,.06),transparent 62%),
-  radial-gradient(900px 700px at 60% 115%,rgba(200,255,60,.05),transparent 60%),
-  var(--void)}
-#bgFx .grid{position:absolute;inset:-60px;background-image:linear-gradient(rgba(140,100,180,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(140,100,180,.04) 1px,transparent 1px);background-size:52px 52px;animation:gridDrift 40s linear infinite}
-@keyframes gridDrift{to{transform:translate(52px,52px)}}
-#bgFx .scan{position:absolute;inset:0;opacity:.3;background:repeating-linear-gradient(0deg,rgba(0,0,0,.22) 0 1px,transparent 1px 3px)}
+  radial-gradient(900px 600px at 80% 20%,rgba(94,234,212,.04),transparent 60%),
+  radial-gradient(900px 700px at 20% 90%,rgba(253,224,71,.03),transparent 60%),
+  var(--bg)}
+#bgFx .grid{position:absolute;inset:0;background-image:
+  linear-gradient(rgba(94,234,212,.04) 1px,transparent 1px),
+  linear-gradient(90deg,rgba(94,234,212,.04) 1px,transparent 1px),
+  linear-gradient(rgba(94,234,212,.08) 1px,transparent 1px),
+  linear-gradient(90deg,rgba(94,234,212,.08) 1px,transparent 1px);
+  background-size:24px 24px,24px 24px,120px 120px,120px 120px}
+#bgFx .vign{position:absolute;inset:0;background:radial-gradient(ellipse at center,transparent 0%,rgba(5,10,20,.5) 100%)}
 
 #app{position:relative;z-index:1;height:100dvh;display:flex;flex-direction:column}
 
-/* ===== Top bar ===== */
-#topBar{display:flex;align-items:center;gap:12px;padding:11px 20px;background:linear-gradient(180deg,rgba(21,16,30,.92),rgba(10,8,15,.8));border-bottom:1px solid var(--edge);backdrop-filter:blur(8px);z-index:10}
-.brand{display:flex;align-items:center;gap:10px;font-family:var(--fd);font-weight:700;letter-spacing:2px;font-size:15px}
-.brand .logo{font-size:22px;color:var(--violet);filter:drop-shadow(0 0 12px rgba(168,85,247,.55))}
-.brand span{color:var(--violet)}
-.brand .ver{font-family:var(--fm);font-size:9.5px;color:var(--dim);letter-spacing:1px;padding-left:12px;border-left:1px solid var(--edge);margin-left:4px}
+/* ==================== Top bar ==================== */
+#topBar{
+  display:flex;align-items:center;gap:14px;
+  padding:12px 22px;
+  background:linear-gradient(180deg,rgba(15,30,53,.95),rgba(10,20,34,.85));
+  border-bottom:1px solid var(--line2);
+  backdrop-filter:blur(10px);
+  position:relative;
+  z-index:20;
+}
+#topBar::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:1px;background:linear-gradient(90deg,transparent,var(--teal),transparent);opacity:.4}
+
+.brand{display:flex;align-items:center;gap:12px}
+.brand .logo{font-family:var(--fd);font-weight:700;font-size:18px;letter-spacing:3px;color:var(--white)}
+.brand .logo span{color:var(--teal)}
+.brand .sub{font-family:var(--fm);font-size:10px;color:var(--mut);letter-spacing:1.5px;text-transform:uppercase;padding-left:14px;border-left:1px solid var(--line2)}
+
 .hspace{flex:1}
-.stat{display:flex;align-items:center;gap:6px;font-family:var(--fm);font-size:12px;color:var(--mut);padding:7px 12px;background:#100c1a;border:1px solid var(--edge);clip-path:var(--cutS);letter-spacing:1px}
-.stat i{font-style:normal;font-size:14px}
-.stat b{color:var(--ink);font-size:14px}
-.stat.money b{color:var(--lime)}
-.stat.rep b{color:var(--violet)}
-.stat.month b{color:var(--cyan)}
-.stat.phase b{color:var(--amber)}
-.btnNext{padding:11px 22px;font-family:var(--fd);font-weight:700;letter-spacing:2px;font-size:13px;background:linear-gradient(135deg,#c084fc,#7c3aed);color:#fff;clip-path:var(--cutS);transition:.15s;filter:drop-shadow(0 0 14px rgba(168,85,247,.4))}
-.btnNext:hover{filter:drop-shadow(0 0 22px rgba(168,85,247,.7)) brightness(1.1)}
-.btnNext:active{transform:translateY(1px) scale(.98)}
-.btnNext:disabled{opacity:.4;cursor:not-allowed;filter:none;background:#2a2238}
+.stat{display:flex;flex-direction:column;gap:1px;padding:6px 14px;background:var(--paper);border:1px solid var(--line);border-radius:6px;min-width:80px}
+.stat .k{font-family:var(--fm);font-size:9px;color:var(--mut);letter-spacing:1.5px;text-transform:uppercase}
+.stat .v{font-family:var(--fd);font-weight:700;font-size:14px;color:var(--white)}
+.stat .v.money{color:var(--green)}
+.stat .v.rep{color:var(--teal)}
+.stat .v.month{color:var(--yellow)}
+.stat .v.share{color:var(--violet)}
+.btnNext{
+  padding:11px 22px;font-family:var(--fd);font-weight:700;letter-spacing:1.5px;font-size:12px;
+  background:linear-gradient(135deg,var(--teal),var(--tealD));color:#04141a;
+  border-radius:6px;transition:.15s;
+  box-shadow:0 0 16px rgba(94,234,212,.3);
+  text-transform:uppercase;
+}
+.btnNext:hover{box-shadow:0 0 24px rgba(94,234,212,.55);transform:translateY(-1px)}
+.btnNext:active{transform:translateY(0) scale(.98)}
+.btnNext:disabled{opacity:.4;cursor:not-allowed;box-shadow:none;background:var(--line)}
 
-/* ===== Tabs ===== */
-#tabs{display:flex;gap:4px;padding:0 16px;background:linear-gradient(180deg,rgba(21,16,30,.7),transparent);border-bottom:1px solid var(--edge)}
-.tab{padding:11px 18px;font-family:var(--fd);font-weight:600;letter-spacing:1.5px;font-size:12px;color:var(--dim);background:none;border-bottom:2px solid transparent;transition:.15s;text-transform:uppercase}
-.tab:hover{color:var(--mut)}
-.tab.active{color:var(--violet);border-bottom-color:var(--violet)}
-.tab i{font-style:normal;margin-right:6px}
+/* ==================== Tabs ==================== */
+#tabs{
+  display:flex;gap:0;padding:0 22px;
+  background:linear-gradient(180deg,rgba(15,30,53,.6),transparent);
+  border-bottom:1px solid var(--line);
+}
+.tab{
+  padding:11px 16px;
+  font-family:var(--fd);font-weight:600;letter-spacing:1px;font-size:12px;
+  color:var(--mut);background:none;border:none;border-bottom:2px solid transparent;
+  transition:.15s;text-transform:uppercase;display:flex;align-items:center;gap:7px;
+  border-radius:0;
+}
+.tab i{font-style:normal;font-size:14px;opacity:.8}
+.tab:hover{color:var(--ink2)}
+.tab.active{color:var(--teal);border-bottom-color:var(--teal)}
+.tab.active i{opacity:1}
+.tab .badge{background:var(--orange);color:#0a1422;font-family:var(--fm);font-size:9px;padding:1px 5px;border-radius:3px;font-weight:700;margin-left:3px}
 
-/* ===== Stage ===== */
-#stage{flex:1;overflow-y:auto;padding:20px 22px 30px}
-.pane{display:none;max-width:1280px;margin:0 auto}
+/* ==================== Stage ==================== */
+#stage{flex:1;overflow-y:auto;padding:24px 22px 40px;position:relative}
+.pane{display:none;max-width:1380px;margin:0 auto}
 .pane.active{display:block;animation:paneIn .3s cubic-bezier(.2,.9,.3,1)}
-@keyframes paneIn{from{opacity:0;transform:translateY(10px)}}
-.secHead{display:flex;align-items:center;gap:12px;margin:0 0 14px}
-.secIdx{font-family:var(--fm);font-size:12px;color:var(--violet);opacity:.8}
-.secHead h2{font-family:var(--fd);font-size:15px;letter-spacing:3px;text-transform:uppercase;white-space:nowrap}
-.secRule{flex:1;height:1px;background:linear-gradient(90deg,var(--edge2),transparent)}
-.secNote{font-family:var(--fm);font-size:10.5px;color:var(--dim);letter-spacing:1px;white-space:nowrap}
+@keyframes paneIn{from{opacity:0;transform:translateY(8px)}}
+.secHead{display:flex;align-items:center;gap:14px;margin:0 0 18px}
+.secIdx{font-family:var(--fm);font-size:11px;color:var(--teal);letter-spacing:1px;padding:3px 9px;background:rgba(94,234,212,.08);border:1px solid rgba(94,234,212,.3);border-radius:4px}
+.secHead h2{font-family:var(--fd);font-weight:600;font-size:18px;letter-spacing:.5px;color:var(--white)}
+.secRule{flex:1;height:1px;background:linear-gradient(90deg,var(--line2),transparent)}
+.secNote{font-family:var(--fm);font-size:11px;color:var(--mut);letter-spacing:.5px}
 
-.card{background:linear-gradient(180deg,var(--panel),#0d0a15);border:1px solid var(--edge);clip-path:var(--cut);position:relative}
-.chip{display:inline-flex;align-items:center;gap:7px;background:#100c1a;border:1px solid var(--edge);padding:5px 11px;clip-path:var(--cutS);font-size:12.5px;color:var(--mut);font-family:var(--fm);letter-spacing:.5px}
-.chip b{color:var(--ink)}
-.chip.violet b{color:var(--violet)} .chip.cyan b{color:var(--cyan)} .chip.lime b{color:var(--lime)} .chip.amber b{color:var(--amber)} .chip.red b{color:var(--crimson)}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;padding:11px 20px;clip-path:var(--cutS);font-family:var(--fd);font-weight:600;font-size:12.5px;letter-spacing:1.5px;text-transform:uppercase;transition:.16s;border:1px solid transparent}
+/* ==================== Common ==================== */
+.card{background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:16px;position:relative}
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  padding:9px 16px;border-radius:5px;
+  font-family:var(--fd);font-weight:600;font-size:12px;letter-spacing:.5px;
+  transition:.15s;border:1px solid transparent;
+}
 .btn:active{transform:translateY(1px) scale(.98)}
-.btn-violet{background:linear-gradient(135deg,#c084fc,#7c3aed);color:#fff;filter:drop-shadow(0 0 12px rgba(168,85,247,.3))}
-.btn-violet:hover{filter:drop-shadow(0 0 20px rgba(168,85,247,.55)) brightness(1.07)}
-.btn-cyan{background:linear-gradient(135deg,#67e8f9,#0ea5c4);color:#04161a}
-.btn-amber{background:linear-gradient(135deg,#ffc766,#eb9410);color:#1a1204}
-.btn-lime{background:linear-gradient(135deg,#dcff6a,#9ede00);color:#0a1204}
-.btn-ghost{background:#0e0a18;border-color:var(--edge2);color:var(--mut)}
-.btn-ghost:hover{border-color:var(--violet);color:var(--violet)}
-.btn[disabled]{opacity:.4;cursor:not-allowed;filter:grayscale(.7)}
+.btn-primary{background:var(--teal);color:#04141a}
+.btn-primary:hover{background:var(--tealD);box-shadow:0 4px 14px rgba(94,234,212,.3)}
+.btn-secondary{background:var(--paper2);color:var(--ink);border-color:var(--line2)}
+.btn-secondary:hover{border-color:var(--teal);color:var(--teal)}
+.btn-warn{background:var(--orange);color:#1a0e04}
+.btn-danger{background:var(--red);color:#1a0404}
+.btn[disabled]{opacity:.35;cursor:not-allowed;filter:grayscale(.7)}
+.chip{display:inline-flex;align-items:center;gap:5px;background:var(--paper2);border:1px solid var(--line);padding:3px 9px;border-radius:4px;font-family:var(--fm);font-size:11px;color:var(--ink2);letter-spacing:.3px}
+.chip b{color:var(--white);font-weight:600}
+.chip.teal b{color:var(--teal)} .chip.yellow b{color:var(--yellow)} .chip.green b{color:var(--green)} .chip.red b{color:var(--red)} .chip.violet b{color:var(--violet)} .chip.orange b{color:var(--orange)}
 
-/* ===== ATELIER ===== */
-.atelier{display:grid;grid-template-columns:380px 1fr;gap:20px;align-items:start}
-.phoneWrap{position:sticky;top:0}
-.phoneCard{padding:24px;background:linear-gradient(180deg,#15101e,#0a0814);border:1px solid var(--edge);clip-path:var(--cut);text-align:center}
-.phoneIso{width:100%;max-width:240px;margin:0 auto;display:block}
-.phoneName{font-family:var(--fd);font-weight:700;font-size:18px;letter-spacing:1px;margin-top:14px;color:var(--violet)}
-.phonePhase{font-family:var(--fm);font-size:10.5px;color:var(--dim);letter-spacing:1.5px;margin-top:3px}
-.phoneScores{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:14px}
-.scoreBox{background:#0d0a18;border:1px solid var(--edge);padding:8px 10px;clip-path:var(--cutS);text-align:left}
-.scoreBox .sk{font-family:var(--fm);font-size:9.5px;color:var(--dim);letter-spacing:1.2px}
-.scoreBox .sv{font-family:var(--fd);font-weight:700;font-size:20px;line-height:1.05;margin-top:2px}
-.scoreBox.perf .sv{color:var(--violet)} .scoreBox.disp .sv{color:var(--cyan)} .scoreBox.cam .sv{color:var(--amber)} .scoreBox.bat .sv{color:var(--lime)}
-.scoreBox.global{grid-column:1/-1;background:linear-gradient(180deg,#1a1428,#0a0814);border-color:var(--violet)}
-.scoreBox.global .sv{font-size:28px;color:var(--violet)}
-.costRow{margin-top:14px;display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:#0d0a18;border:1px solid var(--edge);clip-path:var(--cutS)}
-.costRow .cl{font-family:var(--fm);font-size:11px;color:var(--mut);letter-spacing:1px}
-.costRow .cv{font-family:var(--fd);font-weight:700;font-size:18px;color:var(--crimson)}
+/* ==================== ATELIER — Vue éclatée ==================== */
+.atelier{display:grid;grid-template-columns:1fr 380px;gap:20px;align-items:start}
+.explodedWrap{position:relative;background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:24px;overflow:hidden;min-height:580px}
+.explodedWrap::before{content:"";position:absolute;inset:0;background-image:
+  linear-gradient(rgba(94,234,212,.05) 1px,transparent 1px),
+  linear-gradient(90deg,rgba(94,234,212,.05) 1px,transparent 1px);
+  background-size:20px 20px;pointer-events:none}
+.explodedWrap::after{content:"BLUEPRINT — REV 0.3";position:absolute;bottom:8px;right:14px;font-family:var(--fm);font-size:9px;color:var(--dim);letter-spacing:1.5px}
+#explodedSvg{width:100%;height:560px;display:block;position:relative;z-index:1}
+.exTitle{position:absolute;top:14px;left:18px;font-family:var(--fm);font-size:10px;color:var(--teal);letter-spacing:2px;z-index:2}
+.exTitle b{color:var(--white)}
 
-.compSlots{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
-.compSlot{background:linear-gradient(180deg,#15101e,#0d0a15);border:1px solid var(--edge);clip-path:var(--cutS);padding:13px 14px;cursor:pointer;transition:.15s;position:relative;text-align:left}
-.compSlot:hover{border-color:var(--violet);transform:translateY(-2px)}
-.compSlot.locked{opacity:.55;cursor:not-allowed}
-.compSlot.locked:hover{transform:none;border-color:var(--edge)}
-.compSlot .csTop{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:7px}
-.compSlot .csIcon{font-size:18px}
-.compSlot .csName{font-family:var(--fd);font-weight:700;font-size:12.5px;letter-spacing:.5px;flex:1;color:var(--ink)}
-.compSlot .csTier{font-family:var(--fm);font-size:10px;color:var(--violet);padding:2px 6px;background:rgba(168,85,247,.15);border:1px solid #5c3a8a;clip-path:var(--cutS);letter-spacing:1px}
-.compSlot .csCur{font-size:11.5px;color:var(--mut);line-height:1.4}
-.compSlot .csCur b{color:var(--ink);font-weight:600}
-.compSlot .csMeta{display:flex;justify-content:space-between;font-family:var(--fm);font-size:9.5px;color:var(--dim);letter-spacing:.5px;margin-top:7px;padding-top:7px;border-top:1px solid var(--edge)}
-.compSlot .csCost{color:var(--crimson)}
-.compSlot .csPerf{color:var(--lime)}
+.compAnn{cursor:pointer;transition:.15s}
+.compAnn:hover .annBox{stroke:var(--yellow);fill:rgba(253,224,71,.1)}
+.compAnn:hover .annLabel{fill:var(--yellow)}
+.compAnn .annLine{stroke:var(--line2);stroke-width:1;stroke-dasharray:3 3}
+.compAnn .annBox{stroke:var(--line2);fill:rgba(15,30,53,.6);stroke-width:1;transition:.15s}
+.compAnn .annLabel{font-family:var(--fm);font-size:9px;fill:var(--ink);font-weight:600;letter-spacing:.5px;transition:.15s}
+.compAnn .annTier{font-family:var(--fm);font-size:8px;fill:var(--teal);font-weight:600}
+.compAnn .annDot{fill:var(--teal);stroke:var(--paper);stroke-width:2}
 
-/* ===== Sélecteur de composant (overlay) ===== */
-#compPicker{position:fixed;inset:0;z-index:50;display:none;align-items:center;justify-content:center;background:rgba(5,3,12,.85);backdrop-filter:blur(7px);padding:16px}
-#compPicker.open{display:flex}
-.pickerCard{width:min(640px,95vw);max-height:90dvh;overflow-y:auto;background:linear-gradient(180deg,#15101e,#0a0814);border:1px solid var(--violet);clip-path:var(--cut);padding:20px}
-.pickerHead{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid var(--edge)}
-.pickerHead .phTitle{font-family:var(--fd);font-weight:700;font-size:17px;letter-spacing:1px;color:var(--violet)}
-.pickerClose{font-size:20px;color:var(--mut);padding:6px}
-.pickerClose:hover{color:var(--ink)}
-.tierRow{display:flex;gap:10px;padding:11px 12px;background:#0d0a18;border:1px solid var(--edge);clip-path:var(--cutS);margin-bottom:8px;cursor:pointer;transition:.15s;align-items:center}
-.tierRow:hover{border-color:var(--violet);background:#15101e}
-.tierRow.locked{opacity:.45;cursor:not-allowed}
-.tierRow.locked:hover{border-color:var(--edge);background:#0d0a18}
-.tierRow.selected{border-color:var(--violet);background:linear-gradient(180deg,#1f1530,#0d0a18);box-shadow:0 0 14px rgba(168,85,247,.25)}
-.tierBadge{font-family:var(--fm);font-size:11px;color:var(--violet);background:rgba(168,85,247,.15);border:1px solid #5c3a8a;padding:4px 8px;clip-path:var(--cutS);letter-spacing:1.5px;font-weight:700;min-width:48px;text-align:center}
+.atelierSide{display:flex;flex-direction:column;gap:14px}
+.modelCard{background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:18px}
+.modelCard label{display:block;font-family:var(--fm);font-size:10px;color:var(--mut);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px}
+.modelCard input{width:100%;background:var(--bg);border:1px solid var(--line2);border-radius:5px;padding:9px 12px;color:var(--white);font-family:var(--fd);font-weight:600;font-size:14px;outline:none}
+.modelCard input:focus{border-color:var(--teal);box-shadow:0 0 0 3px rgba(94,234,212,.15)}
+
+.scoreCard{background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:16px}
+.scoreCard h3{font-family:var(--fd);font-weight:600;font-size:12px;color:var(--mut);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:12px}
+.scoreRow{display:flex;align-items:center;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--line)}
+.scoreRow:last-child{border-bottom:none}
+.scoreRow .sk{font-family:var(--fm);font-size:11px;color:var(--ink2);letter-spacing:.5px;display:flex;align-items:center;gap:6px}
+.scoreRow .si{width:18px;height:18px;border-radius:4px;display:grid;place-items:center;font-size:11px}
+.scoreRow.perf .si{background:rgba(94,234,212,.15);color:var(--teal)}
+.scoreRow.disp .si{background:rgba(196,181,253,.15);color:var(--violet)}
+.scoreRow.cam .si{background:rgba(253,224,71,.15);color:var(--yellow)}
+.scoreRow.bat .si{background:rgba(134,239,172,.15);color:var(--green)}
+.scoreRow .sv{font-family:var(--fd);font-weight:700;font-size:18px;color:var(--white)}
+.scoreRow.global .sv{font-size:28px;color:var(--teal)}
+.scoreBar{height:4px;background:var(--bg);border-radius:2px;margin-top:4px;overflow:hidden}
+.scoreBar i{display:block;height:100%;background:var(--teal);transition:width .4s}
+.scoreRow.perf .scoreBar i{background:var(--teal)}
+.scoreRow.disp .scoreBar i{background:var(--violet)}
+.scoreRow.cam .scoreBar i{background:var(--yellow)}
+.scoreRow.bat .scoreBar i{background:var(--green)}
+
+.costCard{background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:14px 16px;display:flex;justify-content:space-between;align-items:center}
+.costCard .ck{font-family:var(--fm);font-size:10px;color:var(--mut);letter-spacing:1.5px;text-transform:uppercase}
+.costCard .cv{font-family:var(--fd);font-weight:700;font-size:22px;color:var(--red)}
+
+/* ==================== Component picker ==================== */
+#picker{position:fixed;inset:0;z-index:60;display:none;align-items:center;justify-content:center;background:rgba(5,10,20,.85);backdrop-filter:blur(8px);padding:16px}
+#picker.open{display:flex}
+.pickerCard{width:min(560px,95vw);max-height:88dvh;overflow-y:auto;background:var(--paper);border:1px solid var(--line2);border-radius:8px;padding:22px}
+.pickerHead{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;padding-bottom:14px;border-bottom:1px solid var(--line)}
+.pickerHead .phTitle{font-family:var(--fd);font-weight:600;font-size:16px;color:var(--white);display:flex;align-items:center;gap:9px}
+.pickerHead .phTitle .pi{font-size:20px}
+.pickerClose{font-size:18px;color:var(--mut);padding:6px;border-radius:5px;transition:.15s}
+.pickerClose:hover{color:var(--white);background:var(--paper2)}
+.tierRow{display:flex;gap:12px;padding:12px 14px;background:var(--bg);border:1px solid var(--line);border-radius:6px;margin-bottom:8px;cursor:pointer;transition:.15s;align-items:center}
+.tierRow:hover:not(.locked){border-color:var(--teal);background:var(--paper2)}
+.tierRow.locked{opacity:.4;cursor:not-allowed}
+.tierRow.selected{border-color:var(--teal);background:rgba(94,234,212,.08);box-shadow:0 0 0 1px var(--teal)}
+.tierBadge{font-family:var(--fm);font-size:11px;color:var(--teal);background:rgba(94,234,212,.1);border:1px solid rgba(94,234,212,.3);padding:4px 9px;border-radius:4px;font-weight:700;min-width:42px;text-align:center}
 .tierInfo{flex:1;min-width:0}
-.tierInfo .tiName{font-family:var(--fd);font-weight:700;font-size:13.5px;color:var(--ink)}
-.tierInfo .tiStats{font-family:var(--fm);font-size:10.5px;color:var(--mut);margin-top:3px;letter-spacing:.5px}
-.tierInfo .tiStats b{color:var(--lime)}
-.tierInfo .tiStats .cost{color:var(--crimson)}
-.tierLock{font-size:18px;color:var(--amber);padding-left:6px}
-.tierUnlock{font-family:var(--fm);font-size:9.5px;color:var(--dim);letter-spacing:1px;margin-top:3px}
-.tierUnlock b{color:var(--cyan)}
+.tierInfo .tiName{font-family:var(--fd);font-weight:600;font-size:13px;color:var(--white)}
+.tierInfo .tiStats{font-family:var(--fm);font-size:10.5px;color:var(--ink2);margin-top:3px;letter-spacing:.3px}
+.tierInfo .tiStats b{color:var(--teal);font-weight:600}
+.tierInfo .tiStats .cost{color:var(--red)}
+.tierLock{font-size:16px;color:var(--orange)}
 
-/* ===== MARCHE ===== */
-.marketGrid{display:grid;grid-template-columns:1fr 320px;gap:18px;align-items:start}
-.segments{display:flex;flex-direction:column;gap:10px}
-.segment{background:linear-gradient(180deg,#15101e,#0d0a15);border:1px solid var(--edge);clip-path:var(--cutS);padding:14px}
-.segment.active{border-color:var(--violet);box-shadow:0 0 14px rgba(168,85,247,.15)}
-.segHead{display:flex;justify-content:space-between;align-items:center;margin-bottom:7px}
-.segName{font-family:var(--fd);font-weight:700;font-size:13px;letter-spacing:1px}
-.segBudget{font-family:var(--fm);font-size:10.5px;color:var(--amber);letter-spacing:1px}
-.segPrefs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:7px}
-.segPrefs .chip{font-size:10.5px;padding:3px 7px}
-.segDemand{display:flex;justify-content:space-between;font-family:var(--fm);font-size:11px;color:var(--mut);padding-top:7px;border-top:1px solid var(--edge)}
-.segDemand b{color:var(--ink)}
+/* ==================== Production ==================== */
+.prodGrid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.prodCard{background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:18px}
+.prodCard h3{font-family:var(--fd);font-weight:600;font-size:13px;color:var(--white);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.prodLine{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--line);font-family:var(--fm);font-size:12px;color:var(--ink2)}
+.prodLine:last-of-type{border-bottom:none}
+.prodLine b{color:var(--white);font-family:var(--fd);font-weight:600}
+.priceSlider{width:100%;-webkit-appearance:none;appearance:none;height:6px;background:var(--bg);border-radius:3px;outline:none;margin:8px 0}
+.priceSlider::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:18px;height:18px;background:var(--teal);border-radius:50%;cursor:pointer;border:2px solid var(--paper)}
+.priceSlider::-moz-range-thumb{width:18px;height:18px;background:var(--teal);border-radius:50%;cursor:pointer;border:2px solid var(--paper)}
+.priceDisplay{font-family:var(--fd);font-weight:700;font-size:24px;color:var(--white);margin:6px 0}
 
-.priceCard{padding:18px;background:linear-gradient(180deg,#15101e,#0a0814);border:1px solid var(--edge);clip-path:var(--cut);position:sticky;top:0}
-.priceCard h3{font-family:var(--fd);font-weight:700;font-size:14px;letter-spacing:2px;text-transform:uppercase;margin-bottom:12px}
-.priceSlider{width:100%;-webkit-appearance:none;appearance:none;height:6px;background:#0a0814;border:1px solid var(--edge);clip-path:var(--cutS);outline:none;margin:6px 0 4px}
-.priceSlider::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:18px;height:24px;background:linear-gradient(135deg,#c084fc,#7c3aed);cursor:pointer;clip-path:var(--cutS)}
-.priceSlider::-moz-range-thumb{width:18px;height:24px;background:linear-gradient(135deg,#c084fc,#7c3aed);cursor:pointer;border:none;border-radius:0}
-.priceRow{display:flex;justify-content:space-between;align-items:center;margin:8px 0;font-family:var(--fm);font-size:11px;color:var(--mut);letter-spacing:.5px}
-.priceRow b{font-family:var(--fd);font-size:14px;font-weight:700}
-.priceRow.income b{color:var(--lime)}
-.priceRow.cost b{color:var(--crimson)}
-.priceRow.net b{color:var(--cyan)}
+/* ==================== Market / Concurrents ==================== */
+.marketGrid{display:grid;grid-template-columns:1fr 360px;gap:16px}
+.compTable{background:var(--paper);border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.compRow{display:grid;grid-template-columns:1.4fr 80px 80px 80px 80px 90px;padding:11px 14px;border-bottom:1px solid var(--line);align-items:center;font-size:12px;gap:8px}
+.compRow.head{background:var(--paper2);font-family:var(--fm);font-size:10px;color:var(--mut);letter-spacing:1px;text-transform:uppercase;font-weight:600}
+.compRow.head:last-child{border-bottom:none}
+.compRow .cn{display:flex;align-items:center;gap:9px;font-family:var(--fd);font-weight:600;color:var(--white)}
+.compRow .cn .ci{width:26px;height:26px;border-radius:6px;display:grid;place-items:center;font-size:14px}
+.compRow .cn.pear .ci{background:rgba(196,181,253,.15);color:var(--violet)}
+.compRow .cn.samsong .ci{background:rgba(94,234,212,.15);color:var(--teal)}
+.compRow .cn.xiomi .ci{background:rgba(253,224,71,.15);color:var(--yellow)}
+.compRow .cn.huwai .ci{background:rgba(248,113,113,.15);color:var(--red)}
+.compRow .cn.player .ci{background:rgba(134,239,172,.15);color:var(--green)}
+.compRow .sc{font-family:var(--fd);font-weight:600;color:var(--white);text-align:center}
+.compRow .pr{font-family:var(--fm);color:var(--yellow);text-align:center}
+.compRow .sh{font-family:var(--fd);font-weight:700;color:var(--teal);text-align:center}
+.compRow .ac{text-align:right;font-family:var(--fm);font-size:10.5px;color:var(--ink2)}
+.compRow.player{background:rgba(94,234,212,.06);border-left:3px solid var(--teal);padding-left:11px}
 
-/* ===== R&D ===== */
-.rdGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-.rdCard{background:linear-gradient(180deg,#15101e,#0d0a15);border:1px solid var(--edge);clip-path:var(--cutS);padding:14px;transition:.15s}
-.rdCard:hover{border-color:var(--violet)}
-.rdCard .rdIcon{font-size:24px;margin-bottom:8px}
-.rdCard .rdName{font-family:var(--fd);font-weight:700;font-size:13px;letter-spacing:1px;margin-bottom:3px}
-.rdCard .rdDesc{font-family:var(--fb);font-size:11.5px;color:var(--mut);line-height:1.4;margin-bottom:8px}
-.rdCard .rdCost{font-family:var(--fm);font-size:11px;color:var(--amber);letter-spacing:1px;margin-bottom:7px}
-.rdCard .rdBtn{width:100%}
+.segList{display:flex;flex-direction:column;gap:8px}
+.segCard{background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:11px 14px;transition:.15s}
+.segCard.active{border-color:var(--teal);background:rgba(94,234,212,.05)}
+.segCard .sn{display:flex;justify-content:space-between;align-items:center;font-family:var(--fd);font-weight:600;font-size:12px;color:var(--white);margin-bottom:5px}
+.segCard .sb{font-family:var(--fm);font-size:10px;color:var(--orange)}
+.segCard .si{display:flex;justify-content:space-between;font-family:var(--fm);font-size:10px;color:var(--mut)}
+.segCard .si b{color:var(--ink)}
 
-/* ===== BILAN ===== */
-.bilanGrid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
-.bilanBox{background:linear-gradient(180deg,#15101e,#0d0a15);border:1px solid var(--edge);clip-path:var(--cutS);padding:16px}
-.bilanBox h3{font-family:var(--fd);font-weight:700;font-size:13px;letter-spacing:2px;text-transform:uppercase;margin-bottom:12px;color:var(--violet)}
-.bilanRow{display:flex;justify-content:space-between;font-family:var(--fm);font-size:12px;color:var(--mut);padding:6px 0;border-bottom:1px solid #1a1428;letter-spacing:.5px}
+/* ==================== Équipe ==================== */
+.teamGrid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.empCard{background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:16px;transition:.15s}
+.empCard.hired{border-color:var(--teal);background:rgba(94,234,212,.04)}
+.empCard .eh{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px}
+.empCard .en{display:flex;align-items:center;gap:10px}
+.empCard .ei{width:36px;height:36px;border-radius:8px;display:grid;place-items:center;font-size:18px;background:var(--paper2)}
+.empCard .et{font-family:var(--fd);font-weight:600;font-size:13px;color:var(--white)}
+.empCard .er{font-family:var(--fm);font-size:10px;color:var(--mut);letter-spacing:.5px;text-transform:uppercase;margin-top:2px}
+.empCard .es{font-family:var(--fm);font-size:11px;color:var(--yellow);font-weight:600}
+.empCard .edesc{font-size:12px;color:var(--ink2);line-height:1.4;margin-bottom:10px}
+.empCard .ebonus{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:10px}
+.empCard .eact{display:flex;gap:8px}
+
+/* ==================== Marketing ==================== */
+.mktGrid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.mktCard{background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:16px}
+.mktCard h3{font-family:var(--fd);font-weight:600;font-size:13px;color:var(--white);margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.mktCard .md{font-size:12px;color:var(--ink2);line-height:1.4;margin-bottom:10px}
+.mktCard .mc{font-family:var(--fm);font-size:11px;color:var(--red);margin-bottom:10px}
+.mktCard .mb{font-family:var(--fm);font-size:10.5px;color:var(--teal);margin-bottom:10px}
+.mktCard .mb b{color:var(--white)}
+
+/* ==================== Événements ==================== */
+.eventFeed{display:flex;flex-direction:column;gap:10px}
+.eventCard{background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:14px;display:flex;gap:12px;align-items:flex-start}
+.eventCard .ei{font-size:22px;flex-shrink:0;width:40px;height:40px;border-radius:8px;display:grid;place-items:center;background:var(--paper2)}
+.eventCard.pos .ei{background:rgba(134,239,172,.15)}
+.eventCard.neg .ei{background:rgba(248,113,113,.15)}
+.eventCard.info .ei{background:rgba(94,234,212,.15)}
+.eventCard .ec{flex:1;min-width:0}
+.eventCard .et{font-family:var(--fd);font-weight:600;font-size:13px;color:var(--white);margin-bottom:3px}
+.eventCard .ed{font-size:12px;color:var(--ink2);line-height:1.4}
+.eventCard .ed b{color:var(--white)}
+.eventCard .em{font-family:var(--fm);font-size:10px;color:var(--mut);margin-top:5px;letter-spacing:.5px}
+
+/* ==================== Bilan ==================== */
+.bilanGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.bilanBox{background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:18px}
+.bilanBox h3{font-family:var(--fd);font-weight:600;font-size:13px;color:var(--white);margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.bilanRow{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--line);font-family:var(--fm);font-size:12px;color:var(--ink2)}
 .bilanRow:last-child{border-bottom:none}
-.bilanRow b{color:var(--ink);font-family:var(--fd);font-size:13px}
-.bilanRow.pos b{color:var(--lime)}
-.bilanRow.neg b{color:var(--crimson)}
+.bilanRow b{font-family:var(--fd);font-weight:600;color:var(--white);font-size:13px}
+.bilanRow.pos b{color:var(--green)}
+.bilanRow.neg b{color:var(--red)}
 
-/* ===== Toasts ===== */
-#toasts{position:fixed;top:64px;right:18px;z-index:100;display:flex;flex-direction:column;gap:8px;pointer-events:none;max-width:340px}
-.toast{background:linear-gradient(135deg,rgba(31,21,48,.95),rgba(13,10,24,.95));border:1px solid var(--violet);padding:11px 14px;clip-path:var(--cutS);font-size:13px;color:var(--ink);box-shadow:0 6px 22px rgba(0,0,0,.5);animation:toastIn .35s cubic-bezier(.2,.9,.3,1)}
+/* ==================== Toasts ==================== */
+#toasts{position:fixed;top:78px;right:18px;z-index:100;display:flex;flex-direction:column;gap:8px;pointer-events:none;max-width:340px}
+.toast{background:var(--paper);border:1px solid var(--line2);border-left:3px solid var(--teal);padding:11px 14px;border-radius:6px;font-size:13px;color:var(--ink);box-shadow:0 8px 24px rgba(0,0,0,.5);animation:toastIn .35s cubic-bezier(.2,.9,.3,1)}
 .toast.out{animation:toastOut .3s forwards}
-.toast.gold{border-color:var(--amber)} .toast.green{border-color:var(--lime)} .toast.red{border-color:var(--crimson)} .toast.info{border-color:var(--cyan)}
+.toast.gold{border-left-color:var(--yellow)} .toast.green{border-left-color:var(--green)} .toast.red{border-left-color:var(--red)} .toast.info{border-left-color:var(--teal)}
 @keyframes toastIn{from{opacity:0;transform:translateX(40px)}}
 @keyframes toastOut{to{opacity:0;transform:translateX(40px)}}
 
-/* ===== Modal Mois suivant ===== */
-#monthModal{position:fixed;inset:0;z-index:60;display:none;align-items:center;justify-content:center;background:rgba(5,3,12,.88);backdrop-filter:blur(7px);padding:16px}
+/* ==================== Month modal ==================== */
+#monthModal{position:fixed;inset:0;z-index:70;display:none;align-items:center;justify-content:center;background:rgba(5,10,20,.88);backdrop-filter:blur(8px);padding:16px}
 #monthModal.open{display:flex}
-.mmCard{width:min(520px,95vw);background:linear-gradient(180deg,#15101e,#0a0814);border:1px solid var(--violet);clip-path:var(--cut);padding:24px;text-align:center}
-.mmKicker{font-family:var(--fm);font-size:11px;color:var(--violet);letter-spacing:3px;margin-bottom:8px}
-.mmTitle{font-family:var(--fd);font-weight:700;font-size:26px;letter-spacing:1.5px;margin-bottom:18px}
-.mmStats{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:18px}
-.mmStat{background:#0d0a18;border:1px solid var(--edge);padding:12px 10px;clip-path:var(--cutS)}
-.mmStat .k{font-family:var(--fm);font-size:9.5px;color:var(--dim);letter-spacing:1.2px}
-.mmStat .v{font-family:var(--fd);font-weight:700;font-size:22px;margin-top:3px}
-.mmStat.pos .v{color:var(--lime)} .mmStat.neg .v{color:var(--crimson)}
+.mmCard{width:min(560px,95vw);background:var(--paper);border:1px solid var(--line2);border-radius:8px;padding:26px;text-align:center}
+.mmKicker{font-family:var(--fm);font-size:10px;color:var(--teal);letter-spacing:2.5px;margin-bottom:8px;text-transform:uppercase}
+.mmTitle{font-family:var(--fd);font-weight:700;font-size:32px;margin-bottom:6px;letter-spacing:-.5px}
+.mmTitle.pos{color:var(--green)}
+.mmTitle.neg{color:var(--red)}
+.mmSub{font-family:var(--fb);font-size:13px;color:var(--ink2);margin-bottom:18px}
+.mmStats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:18px}
+.mmStat{background:var(--bg);border:1px solid var(--line);padding:11px 8px;border-radius:6px}
+.mmStat .k{font-family:var(--fm);font-size:9px;color:var(--mut);letter-spacing:1px;text-transform:uppercase}
+.mmStat .v{font-family:var(--fd);font-weight:700;font-size:18px;margin-top:3px;color:var(--white)}
+.mmStat.pos .v{color:var(--green)}
+.mmStat.neg .v{color:var(--red)}
+.mmEvents{margin-bottom:16px;text-align:left}
+.mmEvents h4{font-family:var(--fm);font-size:10px;color:var(--mut);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px;text-align:center}
+.mmEventLine{font-family:var(--fm);font-size:11px;color:var(--ink2);padding:5px 10px;background:var(--bg);border-radius:4px;margin-bottom:4px;display:flex;align-items:center;gap:8px}
+.mmEventLine.pos{border-left:2px solid var(--green)}
+.mmEventLine.neg{border-left:2px solid var(--red)}
 .mmBtns{display:flex;gap:10px;justify-content:center}
 
-/* ===== Responsive ===== */
-@media (max-width:920px){
+/* ==================== Responsive ==================== */
+@media (max-width:1080px){
   .atelier{grid-template-columns:1fr}
   .marketGrid{grid-template-columns:1fr}
-  .phoneWrap{position:static}
-  .rdGrid{grid-template-columns:repeat(2,1fr)}
+  .prodGrid{grid-template-columns:1fr}
+  .teamGrid{grid-template-columns:1fr}
+  .mktGrid{grid-template-columns:1fr}
   .bilanGrid{grid-template-columns:1fr}
-  .stat:not(.always){display:none}
 }
-@media (max-width:640px){
+@media (max-width:760px){
   #stage{padding:14px 12px 24px}
-  #topBar{padding:9px 12px;gap:8px}
-  .brand .ver{display:none}
-  .btnNext{padding:9px 16px;font-size:11.5px}
-  .compSlots{grid-template-columns:1fr}
-  .rdGrid{grid-template-columns:1fr}
-  #tabs{padding:0 8px;overflow-x:auto;gap:0}
-  .tab{padding:9px 12px;font-size:11px;white-space:nowrap}
+  #topBar{padding:9px 12px;gap:8px;flex-wrap:wrap}
+  .brand .sub{display:none}
+  .stat{min-width:auto;padding:4px 9px}
+  .stat .k{font-size:8px}
+  .stat .v{font-size:12px}
+  .btnNext{padding:9px 14px;font-size:11px}
+  .tab{padding:9px 11px;font-size:11px}
+  .tab i{font-size:13px}
+  .tab span{display:none}
+  #tabs{padding:0 10px;overflow-x:auto;gap:0}
+  .compRow{grid-template-columns:1.4fr 60px 60px 60px;font-size:10px;padding:8px 10px}
+  .compRow .ac,.compRow .pr{display:none}
+  .mmStats{grid-template-columns:1fr 1fr}
 }
 @media (prefers-reduced-motion:reduce){
-  #bgFx .grid{animation:none}
+  *{animation:none!important;transition:none!important}
 }
 </style>
 </head>
 <body>
-<div id="bgFx"><div class="grid"></div><div class="scan"></div></div>
+<div id="bgFx"><div class="grid"></div><div class="vign"></div></div>
 
 <div id="app">
-  <!-- ============ Top bar ============ -->
   <header id="topBar">
-    <div class="brand"><span class="logo">📱</span> FIXER <span>BETA</span><span class="ver">v0.2 · BUNKER OS</span></div>
+    <div class="brand">
+      <div class="logo">FIXER<span>.</span></div>
+      <div class="sub">Blueprint v0.3</div>
+    </div>
     <div class="hspace"></div>
-    <div class="stat money always"><i>💰</i><b id="stMoney">5 000 €</b></div>
-    <div class="stat rep"><i>⭐</i><b id="stRep">0</b></div>
-    <div class="stat month"><i>📅</i><b id="stMonth">M01</b></div>
-    <div class="stat phase"><i>🏭</i><b id="stPhase">GARAGE</b></div>
-    <button class="btnNext" id="btnNext">▶ MOIS SUIVANT</button>
+    <div class="stat"><div class="k">Cash</div><div class="v money" id="stMoney">5 000 €</div></div>
+    <div class="stat"><div class="k">Réput</div><div class="v rep" id="stRep">0.0</div></div>
+    <div class="stat"><div class="k">Part marché</div><div class="v share" id="stShare">0%</div></div>
+    <div class="stat"><div class="k">Mois</div><div class="v month" id="stMonth">M01</div></div>
+    <button class="btnNext" id="btnNext">▶ Mois suivant</button>
   </header>
 
-  <!-- ============ Tabs ============ -->
   <nav id="tabs">
-    <button class="tab active" data-tab="atelier"><i>🔧</i>Atelier</button>
-    <button class="tab" data-tab="market"><i>📈</i>Marché</button>
-    <button class="tab" data-tab="rd"><i>🔬</i>R&D</button>
-    <button class="tab" data-tab="bilan"><i>📊</i>Bilan</button>
+    <button class="tab active" data-tab="atelier"><i>📐</i><span>Atelier</span></button>
+    <button class="tab" data-tab="production"><i>🏭</i><span>Production</span></button>
+    <button class="tab" data-tab="market"><i>📊</i><span>Marché</span></button>
+    <button class="tab" data-tab="team"><i>👥</i><span>Équipe</span></button>
+    <button class="tab" data-tab="marketing"><i>📢</i><span>Marketing</span></button>
+    <button class="tab" data-tab="events"><i>⚡</i><span>Événements</span><span class="badge hide" id="evBadge">0</span></button>
+    <button class="tab" data-tab="bilan"><i>💰</i><span>Bilan</span></button>
   </nav>
 
-  <!-- ============ Stage ============ -->
   <main id="stage">
 
-    <!-- ===== ATELIER ===== -->
+    <!-- ============ ATELIER ============ -->
     <div class="pane active" id="pane-atelier">
-      <div class="secHead"><span class="secIdx">01 /</span><h2>Atelier d'assemblage</h2><span class="secRule"></span><span class="secNote">CLIQUE SUR UN COMPOSANT POUR LE MODIFIER</span></div>
+      <div class="secHead"><span class="secIdx">01</span><h2>Atelier d'assemblage</h2><span class="secRule"></span><span class="secNote">Clique sur une annotation pour modifier le composant</span></div>
       <div class="atelier">
-        <div class="phoneWrap">
-          <div class="phoneCard">
-            <svg class="phoneIso" id="phoneIso" viewBox="0 0 220 320"></svg>
-            <div class="phoneName" id="phoneName">Modèle sans nom</div>
-            <div class="phonePhase" id="phonePhase">PHASE 1 · GARAGE</div>
-            <div class="phoneScores">
-              <div class="scoreBox perf"><div class="sk">PERF</div><div class="sv" id="scPerf">0</div></div>
-              <div class="scoreBox disp"><div class="sk">DISPLAY</div><div class="sv" id="scDisp">0</div></div>
-              <div class="scoreBox cam"><div class="sk">CAMERA</div><div class="sv" id="scCam">0</div></div>
-              <div class="scoreBox bat"><div class="sk">BATTERY</div><div class="sv" id="scBat">0</div></div>
-              <div class="scoreBox global"><div class="sk">SCORE GLOBAL</div><div class="sv" id="scGlobal">0</div></div>
-            </div>
-            <div class="costRow">
-              <span class="cl">COÛT DE REVIENT</span>
-              <span class="cv" id="scCost">0 €</span>
-            </div>
+        <div class="explodedWrap">
+          <div class="exTitle">SCHEMA — <b id="exModel">PROTO-G1</b> — TIER <b id="exTier">1.0</b></div>
+          <svg id="explodedSvg" viewBox="0 0 700 560"></svg>
+        </div>
+        <div class="atelierSide">
+          <div class="modelCard">
+            <label>Nom du modèle</label>
+            <input type="text" id="modelName" maxlength="20" value="Proto-G1">
+          </div>
+          <div class="scoreCard">
+            <h3>Specs du modèle</h3>
+            <div class="scoreRow perf"><span class="sk"><span class="si">⚡</span>Performance</span><span class="sv" id="scPerf">0</span></div>
+            <div class="scoreBar"><i id="sbPerf" style="width:0%"></i></div>
+            <div class="scoreRow disp"><span class="sk"><span class="si">📱</span>Affichage</span><span class="sv" id="scDisp">0</span></div>
+            <div class="scoreBar"><i id="sbDisp" style="width:0%"></i></div>
+            <div class="scoreRow cam"><span class="sk"><span class="si">📷</span>Caméra</span><span class="sv" id="scCam">0</span></div>
+            <div class="scoreBar"><i id="sbCam" style="width:0%"></i></div>
+            <div class="scoreRow bat"><span class="sk"><span class="si">🔋</span>Autonomie</span><span class="sv" id="scBat">0</span></div>
+            <div class="scoreBar"><i id="sbBat" style="width:0%"></i></div>
+            <div class="scoreRow global"><span class="sk"><span class="si">⭐</span>Score global</span><span class="sv" id="scGlobal">0</span></div>
+            <div class="scoreBar"><i id="sbGlobal" style="width:0%;background:var(--teal)"></i></div>
+          </div>
+          <div class="costCard">
+            <span class="ck">Coût de revient</span>
+            <span class="cv" id="scCost">0 €</span>
           </div>
         </div>
-        <div class="compSlots" id="compSlots"></div>
       </div>
     </div>
 
-    <!-- ===== MARCHE ===== -->
-    <div class="pane" id="pane-market">
-      <div class="secHead"><span class="secIdx">02 /</span><h2>Marché & lancement</h2><span class="secRule"></span><span class="secNote">SEGMENTS · PRIX · VENTES</span></div>
-      <div class="marketGrid">
-        <div class="segments" id="segments"></div>
-        <div class="priceCard">
-          <h3>Prix de vente</h3>
-          <div class="priceRow"><span>Prix unitaire</span><b id="priceVal">0 €</b></div>
-          <input type="range" class="priceSlider" id="priceSlider" min="0" max="2000" value="200" step="10">
-          <div class="priceRow"><span>Coût de revient</span><b id="priceCost">0 €</b></div>
-          <div class="priceRow income"><span>Revenu unitaire</span><b id="priceMargin">0 €</b></div>
-          <div class="priceRow"><span>Demande estimée</span><b id="priceDemand">0 u.</b></div>
-          <div class="priceRow net"><span>Revenu net potentiel</span><b id="priceNet">0 €</b></div>
-          <button class="btn btn-violet" id="btnLaunch" style="width:100%;margin-top:14px">🚀 LANCER LA PRODUCTION</button>
-          <div style="font-family:var(--fm);font-size:10px;color:var(--dim);text-align:center;margin-top:8px;letter-spacing:1px">LES VENTES SERONT CALCULÉES AU MOIS SUIVANT</div>
+    <!-- ============ PRODUCTION ============ -->
+    <div class="pane" id="pane-production">
+      <div class="secHead"><span class="secIdx">02</span><h2>Production & lancement</h2><span class="secRule"></span><span class="secNote">Définis le prix et lance la production mensuelle</span></div>
+      <div class="prodGrid">
+        <div class="prodCard">
+          <h3>📈 Tarification</h3>
+          <div class="priceDisplay" id="priceVal">200 €</div>
+          <input type="range" class="priceSlider" id="priceSlider" min="0" max="3000" value="200" step="10">
+          <div class="prodLine"><span>Coût de revient</span><b id="priceCost">0 €</b></div>
+          <div class="prodLine"><span>Marge unitaire</span><b id="priceMargin" style="color:var(--green)">0 €</b></div>
+          <div class="prodLine"><span>Prix marché moyen (concurrence)</span><b id="priceAvg">—</b></div>
+        </div>
+        <div class="prodCard">
+          <h3>🏭 Capacité de production</h3>
+          <div class="prodLine"><span>Phase actuelle</span><b id="prodPhase">Garage</b></div>
+          <div class="prodLine"><span>Capacité mensuelle</span><b id="prodCap">1 000 u.</b></div>
+          <div class="prodLine"><span>Demande estimée</span><b id="prodDemand">0 u.</b></div>
+          <div class="prodLine"><span>Boost marketing</span><b id="prodBoost">+0%</b></div>
+          <div class="prodLine"><span>Coûts fixes</span><b id="prodFixed" style="color:var(--red)">500 €/mois</b></div>
+          <button class="btn btn-primary" id="btnLaunch" style="width:100%;margin-top:14px">🚀 Lancer la production du mois</button>
         </div>
       </div>
     </div>
 
-    <!-- ===== R&D ===== -->
-    <div class="pane" id="pane-rd">
-      <div class="secHead"><span class="secIdx">03 /</span><h2>Recherche & développement</h2><span class="secRule"></span><span class="secNote">DÉBLOQUE DES COMPOSANTS DE TIER SUPÉRIEUR</span></div>
-      <div class="rdGrid" id="rdGrid"></div>
+    <!-- ============ MARCHÉ ============ -->
+    <div class="pane" id="pane-market">
+      <div class="secHead"><span class="secIdx">03</span><h2>Marché & concurrence</h2><span class="secRule"></span><span class="secNote">Suivi des modèles concurrents en temps réel</span></div>
+      <div class="marketGrid">
+        <div class="compTable">
+          <div class="compRow head">
+            <div>Marque</div><div>Score</div><div>Prix</div><div>Part</div><div>Activité</div>
+          </div>
+          <div id="compList"></div>
+        </div>
+        <div>
+          <div class="segList" id="segList"></div>
+        </div>
+      </div>
     </div>
 
-    <!-- ===== BILAN ===== -->
+    <!-- ============ ÉQUIPE ============ -->
+    <div class="pane" id="pane-team">
+      <div class="secHead"><span class="secIdx">04</span><h2>Recrutement & équipe</h2><span class="secRule"></span><span class="secNote">Embbauche des spécialistes pour booster ton business</span></div>
+      <div class="teamGrid" id="teamGrid"></div>
+    </div>
+
+    <!-- ============ MARKETING ============ -->
+    <div class="pane" id="pane-marketing">
+      <div class="secHead"><span class="secIdx">05</span><h2>Marketing & presse</h2><span class="secRule"></span><span class="secNote">Campagnes pour booster tes ventes</span></div>
+      <div class="mktGrid" id="mktGrid"></div>
+    </div>
+
+    <!-- ============ ÉVÉNEMENTS ============ -->
+    <div class="pane" id="pane-events">
+      <div class="secHead"><span class="secIdx">06</span><h2>Événements</h2><span class="secRule"></span><span class="secNote">Événements aléatoires qui impactent ton business</span></div>
+      <div class="eventFeed" id="eventFeed"></div>
+    </div>
+
+    <!-- ============ BILAN ============ -->
     <div class="pane" id="pane-bilan">
-      <div class="secHead"><span class="secIdx">04 /</span><h2>Bilan financier</h2><span class="secRule"></span><span class="secNote">SUIVI MENSUEL · PROGRESSION</span></div>
+      <div class="secHead"><span class="secIdx">07</span><h2>Bilan financier</h2><span class="secRule"></span><span class="secNote">Vue d'ensemble</span></div>
       <div class="bilanGrid">
         <div class="bilanBox">
-          <h3>Finances</h3>
+          <h3>💰 Finances</h3>
           <div class="bilanRow"><span>Trésorerie</span><b id="blMoney">5 000 €</b></div>
-          <div class="bilanRow"><span>Revenu mois dernier</span><b id="blIncome">0 €</b></div>
-          <div class="bilanRow neg"><span>Coûts fixes</span><b id="blFixed">0 €</b></div>
-          <div class="bilanRow pos"><span>Revenu net</span><b id="blNet">0 €</b></div>
+          <div class="bilanRow pos"><span>Revenu ventes (mois)</span><b id="blIncome">0 €</b></div>
+          <div class="bilanRow neg"><span>Coûts (mois)</span><b id="blCost">0 €</b></div>
+          <div class="bilanRow pos"><span>Net (mois)</span><b id="blNet">0 €</b></div>
+          <div class="bilanRow"><span>Revenu cumulé</span><b id="blTotal">0 €</b></div>
         </div>
         <div class="bilanBox">
-          <h3>Activité</h3>
+          <h3>📈 Activité</h3>
           <div class="bilanRow"><span>Téléphones vendus</span><b id="blSold">0</b></div>
-          <div class="bilanRow"><span>Revenu cumulé</span><b id="blTotal">0 €</b></div>
-          <div class="bilanRow"><span>Réputation</span><b id="blRep">0</b></div>
-          <div class="bilanRow"><span>Phase actuelle</span><b id="blPhase">1 · GARAGE</b></div>
+          <div class="bilanRow"><span>Modèles lancés</span><b id="blModels">0</b></div>
+          <div class="bilanRow"><span>Réputation</span><b id="blRep">0.0</b></div>
+          <div class="bilanRow"><span>Part de marché</span><b id="blShare">0%</b></div>
+          <div class="bilanRow"><span>Phase</span><b id="blPhase">1 · Garage</b></div>
         </div>
         <div class="bilanBox" style="grid-column:1/-1">
-          <h3>Historique des ventes</h3>
-          <div id="blHistory" style="font-family:var(--fm);font-size:11px;color:var(--mut);line-height:1.7;letter-spacing:.5px">— Aucune vente pour le moment —</div>
+          <h3>📜 Historique des lancements</h3>
+          <div id="blHistory" style="font-family:var(--fm);font-size:11.5px;color:var(--ink2);line-height:1.7">— Aucun lancement —</div>
         </div>
       </div>
     </div>
@@ -337,8 +505,8 @@ button{font-family:var(--fd);font-weight:600;color:var(--ink);background:none;bo
   </main>
 </div>
 
-<!-- ============ Composant picker ============ -->
-<div id="compPicker"><div class="pickerCard" id="pickerBody"></div></div>
+<!-- ============ Picker ============ -->
+<div id="picker"><div class="pickerCard" id="pickerBody"></div></div>
 
 <!-- ============ Toasts ============ -->
 <div id="toasts"></div>
@@ -349,144 +517,154 @@ button{font-family:var(--fd);font-weight:600;color:var(--ink);background:none;bo
 <script>
 'use strict';
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
-const clamp=(v,a,b)=>v<a?a:v>b?b:v, fmt=n=>Math.floor(n).toLocaleString('fr-FR')+' €', fmtN=n=>Math.floor(n).toLocaleString('fr-FR');
-const TAU=Math.PI*2;
+const clamp=(v,a,b)=>v<a?a:v>b?b:v, fmt=n=>Math.floor(n).toLocaleString('fr-FR')+' €', fmtN=n=>Math.floor(n).toLocaleString('fr-FR'), fmtP=n=>(n*100).toFixed(1)+'%';
+const rand=(a,b)=>a+Math.random()*(b-a), pick=a=>a[Math.floor(Math.random()*a.length)];
 
-/* ============================================================ DONNÉES */
-const VERSION='0.2';
+/* ============================================================ VERSION */
+const VERSION='0.3';
 const KEY='fixer_save_v'+VERSION;
 
-// Composants : 12 slots, chacun avec 5 tiers
-// cost: prix d'achat unitaire
-// perf: contribution au score de performance (0-100)
-// disp: contribution au score display
-// cam: contribution au score camera
-// bat: contribution au score battery (positif)
-// power: consommation (impacte battery life négativement)
-// tier: niveau technologique
+/* ============================================================ COMPOSANTS — 12 slots, 5 tiers */
 const COMPS={
   screen:{name:'Écran',icon:'📱',tiers:[
-    {n:'LCD 5.0" HD 60Hz',cost:15,disp:18,power:8,tier:1},
-    {n:'IPS 5.5" FHD 60Hz',cost:35,disp:35,power:11,tier:2},
-    {n:'OLED 6.1" FHD+ 90Hz',cost:75,disp:55,power:13,tier:3},
-    {n:'AMOLED 6.5" QHD 120Hz',cost:140,disp:78,power:15,tier:4},
-    {n:'LTPO 6.7" QHD+ 144Hz',cost:240,disp:98,power:13,tier:5}]},
+    {n:'LCD 5.0" HD 60Hz',cost:15,disp:18,power:8},
+    {n:'IPS 5.5" FHD 60Hz',cost:35,disp:35,power:11},
+    {n:'OLED 6.1" FHD+ 90Hz',cost:75,disp:55,power:13},
+    {n:'AMOLED 6.5" QHD 120Hz',cost:140,disp:78,power:15},
+    {n:'LTPO 6.7" QHD+ 144Hz',cost:240,disp:98,power:13}]},
   cpu:{name:'Processeur',icon:'⚙️',tiers:[
-    {n:'4-core 1.8GHz 14nm',cost:25,perf:18,power:9,tier:1},
-    {n:'8-core 2.0GHz 12nm',cost:55,perf:38,power:11,tier:2},
-    {n:'8-core 2.6GHz 8nm',cost:110,perf:58,power:12,tier:3},
-    {n:'8-core 3.0GHz 5nm',cost:200,perf:80,power:10,tier:4},
-    {n:'10-core 3.4GHz 3nm',cost:340,perf:98,power:9,tier:5}]},
+    {n:'4-core 1.8GHz 14nm',cost:25,perf:18,power:9},
+    {n:'8-core 2.0GHz 12nm',cost:55,perf:38,power:11},
+    {n:'8-core 2.6GHz 8nm',cost:110,perf:58,power:12},
+    {n:'8-core 3.0GHz 5nm',cost:200,perf:80,power:10},
+    {n:'10-core 3.4GHz 3nm',cost:340,perf:98,power:9}]},
   ram:{name:'RAM',icon:'🧠',tiers:[
-    {n:'2Go LPDDR4',cost:8,perf:10,power:3,tier:1},
-    {n:'4Go LPDDR4X',cost:18,perf:25,power:4,tier:2},
-    {n:'6Go LPDDR5',cost:38,perf:42,power:5,tier:3},
-    {n:'12Go LPDDR5',cost:80,perf:65,power:6,tier:4},
-    {n:'24Go LPDDR5X',cost:160,perf:95,power:7,tier:5}]},
+    {n:'2Go LPDDR4',cost:8,perf:10,power:3},
+    {n:'4Go LPDDR4X',cost:18,perf:25,power:4},
+    {n:'6Go LPDDR5',cost:38,perf:42,power:5},
+    {n:'12Go LPDDR5',cost:80,perf:65,power:6},
+    {n:'24Go LPDDR5X',cost:160,perf:95,power:7}]},
   storage:{name:'Stockage',icon:'💾',tiers:[
-    {n:'32Go eMMC',cost:12,perf:8,power:2,tier:1},
-    {n:'64Go UFS 2.1',cost:28,perf:22,power:3,tier:2},
-    {n:'128Go UFS 3.1',cost:55,perf:45,power:3,tier:3},
-    {n:'256Go UFS 4.0',cost:120,perf:70,power:4,tier:4},
-    {n:'1To UFS 4.0',cost:260,perf:95,power:4,tier:5}]},
+    {n:'32Go eMMC',cost:12,perf:8,power:2},
+    {n:'64Go UFS 2.1',cost:28,perf:22,power:3},
+    {n:'128Go UFS 3.1',cost:55,perf:45,power:3},
+    {n:'256Go UFS 4.0',cost:120,perf:70,power:4},
+    {n:'1To UFS 4.0',cost:260,perf:95,power:4}]},
   battery:{name:'Batterie',icon:'🔋',tiers:[
-    {n:'2000mAh Li-Ion 10W',cost:10,bat:18,power:-4,tier:1},
-    {n:'3000mAh Li-Ion 18W',cost:24,bat:35,power:-5,tier:2},
-    {n:'4000mAh Li-Po 33W',cost:50,bat:55,power:-6,tier:3},
-    {n:'5000mAh Si-C 67W',cost:110,bat:80,power:-7,tier:4},
-    {n:'6000mAh Si-C 120W',cost:200,bat:98,power:-8,tier:5}]},
+    {n:'2000mAh Li-Ion 10W',cost:10,bat:18,power:-4},
+    {n:'3000mAh Li-Ion 18W',cost:24,bat:35,power:-5},
+    {n:'4000mAh Li-Po 33W',cost:50,bat:55,power:-6},
+    {n:'5000mAh Si-C 67W',cost:110,bat:80,power:-7},
+    {n:'6000mAh Si-C 120W',cost:200,bat:98,power:-8}]},
   camrear:{name:'Caméra arrière',icon:'📷',tiers:[
-    {n:'8MP simple',cost:14,cam:18,tier:1},
-    {n:'13MP + 2MP',cost:32,cam:35,tier:2},
-    {n:'48MP + 8MP + 2MP',cost:70,cam:55,tier:3},
-    {n:'50MP + 12MP + 8MP OIS',cost:150,cam:78,tier:4},
-    {n:'200MP + 50MP + 10MP OIS',cost:300,cam:98,tier:5}]},
+    {n:'8MP simple',cost:14,cam:18},
+    {n:'13MP + 2MP',cost:32,cam:35},
+    {n:'48MP + 8MP + 2MP',cost:70,cam:55},
+    {n:'50MP + 12MP + 8MP OIS',cost:150,cam:78},
+    {n:'200MP + 50MP + 10MP OIS',cost:300,cam:98}]},
   camfront:{name:'Caméra avant',icon:'🤳',tiers:[
-    {n:'5MP',cost:5,cam:6,tier:1},
-    {n:'8MP',cost:12,cam:15,tier:2},
-    {n:'16MP',cost:25,cam:28,tier:3},
-    {n:'32MP 4K',cost:55,cam:48,tier:4},
-    {n:'48MP 4K AF',cost:110,cam:72,tier:5}]},
+    {n:'5MP',cost:5,cam:6},
+    {n:'8MP',cost:12,cam:15},
+    {n:'16MP',cost:25,cam:28},
+    {n:'32MP 4K',cost:55,cam:48},
+    {n:'48MP 4K AF',cost:110,cam:72}]},
   chassis:{name:'Châssis',icon:'🦾',tiers:[
-    {n:'Plastique',cost:8,perf:5,disp:8,tier:1},
-    {n:'Métal',cost:20,perf:8,disp:18,tier:2},
-    {n:'Verre + métal',cost:45,perf:10,disp:32,tier:3},
-    {n:'Aluminium IP67',cost:95,perf:12,disp:48,tier:4},
-    {n:'Titane IP68',cost:180,perf:15,disp:70,tier:5}]},
+    {n:'Plastique',cost:8,perf:5,disp:8},
+    {n:'Métal',cost:20,perf:8,disp:18},
+    {n:'Verre + métal',cost:45,perf:10,disp:32},
+    {n:'Aluminium IP67',cost:95,perf:12,disp:48},
+    {n:'Titane IP68',cost:180,perf:15,disp:70}]},
   os:{name:'OS',icon:'💻',tiers:[
-    {n:'Propriétaire basique',cost:5,perf:8,disp:5,tier:1},
-    {n:'Android sous licence',cost:15,perf:25,disp:20,tier:2},
-    {n:'Android + UI custom',cost:35,perf:42,disp:40,tier:3},
-    {n:'Android + features premium',cost:75,perf:65,disp:62,tier:4},
-    {n:'OS maison premium',cost:150,perf:92,disp:88,tier:5}]},
+    {n:'Propriétaire basique',cost:5,perf:8,disp:5},
+    {n:'Android sous licence',cost:15,perf:25,disp:20},
+    {n:'Android + UI custom',cost:35,perf:42,disp:40},
+    {n:'Android + features premium',cost:75,perf:65,disp:62},
+    {n:'OS maison premium',cost:150,perf:92,disp:88}]},
   ports:{name:'Connectique',icon:'🔌',tiers:[
-    {n:'USB-C 2.0 + jack',cost:6,perf:5,tier:1},
-    {n:'USB-C 2.0 + microSD',cost:14,perf:12,tier:2},
-    {n:'USB-C 3.0 + dual-SIM',cost:28,perf:25,tier:3},
-    {n:'USB-C 3.2 + eSIM',cost:55,perf:45,tier:4},
-    {n:'USB 4 + eSIM + dual-SIM',cost:110,perf:75,tier:5}]},
+    {n:'USB-C 2.0 + jack',cost:6,perf:5},
+    {n:'USB-C 2.0 + microSD',cost:14,perf:12},
+    {n:'USB-C 3.0 + dual-SIM',cost:28,perf:25},
+    {n:'USB-C 3.2 + eSIM',cost:55,perf:45},
+    {n:'USB 4 + eSIM + dual-SIM',cost:110,perf:75}]},
   network:{name:'Réseau',icon:'📡',tiers:[
-    {n:'4G + WiFi 4',cost:10,perf:8,tier:1},
-    {n:'4G+ + WiFi 5',cost:22,perf:22,tier:2},
-    {n:'5G sub-6 + WiFi 6',cost:50,perf:45,tier:3},
-    {n:'5G + WiFi 6E',cost:100,perf:68,tier:4},
-    {n:'5G mmWave + WiFi 7',cost:200,perf:95,tier:5}]},
+    {n:'4G + WiFi 4',cost:10,perf:8},
+    {n:'4G+ + WiFi 5',cost:22,perf:22},
+    {n:'5G sub-6 + WiFi 6',cost:50,perf:45},
+    {n:'5G + WiFi 6E',cost:100,perf:68},
+    {n:'5G mmWave + WiFi 7',cost:200,perf:95}]},
   cooling:{name:'Refroidissement',icon:'❄️',tiers:[
-    {n:'Passif',cost:3,perf:5,tier:1},
-    {n:'Passif optimisé',cost:8,perf:12,tier:2},
-    {n:'Heat pipe',cost:22,perf:30,tier:3},
-    {n:'Vapor chamber',cost:50,perf:55,tier:4},
-    {n:'Vapor chamber + fan',cost:110,perf:85,tier:5}]}
+    {n:'Passif',cost:3,perf:5},
+    {n:'Passif optimisé',cost:8,perf:12},
+    {n:'Heat pipe',cost:22,perf:30},
+    {n:'Vapor chamber',cost:50,perf:55},
+    {n:'Vapor chamber + fan',cost:110,perf:85}]}
 };
-
 const COMP_KEYS=Object.keys(COMPS);
 
-// Segments de clientèle
+/* ============================================================ CONCURRENTS IA */
+const COMPETITORS=[
+  {id:'pear',name:'Pear',icon:'🍎',color:'#c4b5fd',aggression:.7,quality:1.1,budget:5},
+  {id:'samsong',name:'Samsong',icon:'🌊',color:'#5eead4',aggression:.8,quality:1.0,budget:4},
+  {id:'xiomi',name:'Xiomi',icon:'🔥',color:'#fde047',aggression:.9,quality:.85,budget:3},
+  {id:'huwai',name:'Huwai',icon:'📡',color:'#f87171',aggression:.6,quality:.95,budget:2}
+];
+
+/* ============================================================ SEGMENTS */
 const SEGMENTS=[
-  {id:'students',name:'Étudiants',icon:'🎓',budget:[100,300],prefs:['bat','price'],priorities:{bat:.35,price:.4,perf:.15,disp:.1,cam:0},pop:120000},
-  {id:'public',name:'Grand public',icon:'👨',budget:[300,600],prefs:['balanced'],priorities:{bat:.2,price:.25,perf:.2,disp:.2,cam:.15},pop:200000},
-  {id:'gamers',name:'Gamers',icon:'🎮',budget:[500,1000],prefs:['perf','disp'],priorities:{bat:.15,price:.1,perf:.45,disp:.25,cam:.05},pop:60000},
-  {id:'photo',name:'Photographes',icon:'📷',budget:[700,1200],prefs:['cam','disp'],priorities:{bat:.15,price:.05,perf:.15,disp:.2,cam:.45},pop:40000},
-  {id:'business',name:'Business',icon:'💼',budget:[800,1500],prefs:['bat','disp'],priorities:{bat:.35,price:.1,perf:.2,disp:.2,cam:.15},pop:50000},
-  {id:'enthusiasts',name:'Passionnés',icon:'⚡',budget:[1000,2000],prefs:['all'],priorities:{bat:.2,price:.0,perf:.25,disp:.2,cam:.2,all:.15},pop:30000}
+  {id:'students',name:'Étudiants',icon:'🎓',budget:[100,300],priorities:{bat:.35,price:.4,perf:.15,disp:.1,cam:0},pop:120000},
+  {id:'public',name:'Grand public',icon:'👤',budget:[300,600],priorities:{bat:.2,price:.25,perf:.2,disp:.2,cam:.15},pop:200000},
+  {id:'gamers',name:'Gamers',icon:'🎮',budget:[500,1000],priorities:{bat:.15,price:.1,perf:.45,disp:.25,cam:.05},pop:60000},
+  {id:'photo',name:'Photographes',icon:'📷',budget:[700,1200],priorities:{bat:.15,price:.05,perf:.15,disp:.2,cam:.45},pop:40000},
+  {id:'business',name:'Business',icon:'💼',budget:[800,1500],priorities:{bat:.35,price:.1,perf:.2,disp:.2,cam:.15},pop:50000},
+  {id:'enthusiasts',name:'Passionnés',icon:'⚡',budget:[1000,2000],priorities:{bat:.2,price:0,perf:.25,disp:.2,cam:.2,all:.15},pop:30000}
 ];
 
-// Phases de progression
+/* ============================================================ PHASES */
 const PHASES=[
-  {id:1,name:'GARAGE',cost:0,fixedCost:500,rdUnlockMax:2,prodCap:1000,desc:'Atelier de garage. Composants génériques uniquement.'},
-  {id:2,name:'ATELIER',cost:25000,fixedCost:2500,rdUnlockMax:3,prodCap:10000,desc:'Petit atelier. Marques sous licence disponibles.'},
-  {id:3,name:'PME',cost:250000,fixedCost:15000,rdUnlockMax:4,prodCap:100000,desc:'PME industrielle. Composants premiums accessibles.'},
-  {id:4,name:'MULTINATIONALE',cost:2500000,fixedCost:100000,rdUnlockMax:5,prodCap:1000000,desc:'Multinationale. Technologies exclusives.'}
+  {id:1,name:'Garage',cost:0,fixedCost:500,prodCap:1000,desc:'Atelier de garage'},
+  {id:2,name:'Atelier',cost:25000,fixedCost:2500,prodCap:10000,desc:'Petit atelier'},
+  {id:3,name:'PME',cost:250000,fixedCost:15000,prodCap:100000,desc:'PME industrielle'},
+  {id:4,name:'Multinationale',cost:2500000,fixedCost:100000,prodCap:1000000,desc:'Multinationale'}
 ];
 
-// R&D : débloque le tier suivant pour un composant
-function rdList(){
-  const list=[];
-  COMP_KEYS.forEach(k=>{
-    const c=COMPS[k];
-    for(let t=2;t<=5;t++){
-      list.push({
-        compKey:k,compName:c.name,icon:c.icon,tier:t,
-        name:c.tiers[t-1].n,
-        cost:Math.round(c.tiers[t-1].cost*8*1.4),
-        reqPhase:t<=2?1:t<=3?2:t<=4?3:4,
-        desc:'Débloque '+c.name+' T'+t+' : '+c.tiers[t-1].n
-      });
-    }
-  });
-  return list;
-}
+/* ============================================================ EMPLOYÉS */
+const EMPLOYEES=[
+  {id:'ing1',name:'Lucie Marchand',role:'Ingénieure R&D',icon:'👩‍🔬',cost:3000,bonus:{perfBoost:.1},desc:'+10% Performance sur tous les modèles',hirePhase:1},
+  {id:'des1',name:'Tom Berger',role:'Designer produit',icon:'🎨',cost:2500,bonus:{dispBoost:.12},desc:'+12% Affichage sur tous les modèles',hirePhase:1},
+  {id:'eng2',name:'Sara Lopez',role:'Ingénieure hardware',icon:'🔧',cost:5000,bonus:{costReduce:.08},desc:'-8% Coût de revient',hirePhase:2},
+  {id:'mkt1',name:'Marc Dubois',role:'Marketeur',icon:'📈',cost:4000,bonus:{mktBoost:.2},desc:'+20% Efficacité des campagnes marketing',hirePhase:2},
+  {id:'pho1',name:'Anna Schmidt',role:'Spécialiste photo',icon:'📸',cost:6000,bonus:{camBoost:.15},desc:'+15% Score Caméra',hirePhase:3},
+  {id:'bat1',name:'Ken Tanaka',role:'Ingénieur batterie',icon:'🔋',cost:7000,bonus:{batBoost:.15},desc:'+15% Autonomie',hirePhase:3},
+  {id:'ceo1',name:'Elena Voss',role:'CEO expérimentée',icon:'👑',cost:15000,bonus:{allBoost:.08,fixedReduce:.1},desc:'+8% tous les scores + -10% coûts fixes',hirePhase:4}
+];
+
+/* ============================================================ MARKETING */
+const CAMPAIGNS=[
+  {id:'social',name:'Campagne réseaux sociaux',icon:'📱',cost:500,boost:.05,duration:1,desc:'+5% ventes pendant 1 mois'},
+  {id:'influ',name:'Influenceurs tech',icon:'🎥',cost:3000,boost:.15,duration:2,desc:'+15% ventes pendant 2 mois'},
+  {id:'tv',name:'Spot TV national',icon:'📺',cost:15000,boost:.3,duration:2,desc:'+30% ventes pendant 2 mois'},
+  {id:'event',name:'Keynote événement',icon:'🎤',cost:50000,boost:.6,duration:3,desc:'+60% ventes pendant 3 mois, +2 réputation'},
+  {id:'scandal',name:'Opération anti-concurrence',icon:'🕵️',cost:80000,boost:.4,duration:2,desc:'+40% ventes, -10% parts concurrents (risqué)'}
+];
+
+/* ============================================================ ÉVÉNEMENTS */
+const EVENT_POOL=[
+  {id:'shortage',type:'neg',icon:'⚠️',title:'Pénurie de semi-conducteurs',desc:'Les composants coûtent <b>+30%</b> ce mois.',effect:s=>s.costMult=1.3,chance:.08,minMonth:3},
+  {id:'buzz',type:'pos',icon:'🚀',title:'Buzz viral organique',desc:'Un influenceur a adoré ton téléphone ! <b>+200% ventes</b> ce mois.',effect:s=>s.salesMult=2,chance:.06,minMonth:2},
+  {id:'defect',type:'neg',icon:'💥',title:'Défaut produit détecté',desc:'Un lot a un défaut. <b>-1 réputation</b>, recall coûte <b>2000 €</b>.',effect:s=>{s.repPenalty=1;s.costPenalty=2000;},chance:.05,minMonth:4},
+  {id:'crash',type:'neg',icon:'📉',title:'Crash bourse tech',desc:'Le marché s\'effondre. <b>-30% ventes</b> pour tout le monde.',effect:s=>s.marketCrash=true,chance:.04,minMonth:6},
+  {id:'award',type:'pos',icon:'🏆',title:'Award du meilleur téléphone',desc:'Ton modèle remporte un prix ! <b>+3 réputation</b>, <b>+50% ventes</b> ce mois.',effect:s=>{s.repBonus=3;s.salesMult=1.5;},chance:.04,minMonth:4},
+  {id:'leak',type:'info',icon:'📰',title:'Fuite presse',desc:'Un concurrent a fuité son prochain modèle. Tu peux anticiper.',effect:s=>{},chance:.06,minMonth:2},
+  {id:'review',type:'pos',icon:'⭐',title:'Excellente critique tech',desc:'Un youtubeur influent valide ton produit. <b>+1 réputation</b>.',effect:s=>s.repBonus=1,chance:.08,minMonth:3},
+  {id:'supply',type:'pos',icon:'📦',title:'Bon fournisseur',desc:'Nouveau partenariat ! <b>-15% coût composants</b> ce mois.',effect:s=>s.costMult=.85,chance:.07,minMonth:3}
+];
 
 /* ============================================================ ÉTAT */
 let G=null;
 
 function defaultState(){
-  // Each component starts at tier 1 (unlocked by default)
-  const unlocked={};
-  COMP_KEYS.forEach(k=>unlocked[k]=1);
-  // Current build: tier 1 for all
-  const build={};
-  COMP_KEYS.forEach(k=>build[k]=1);
+  const unlocked={};COMP_KEYS.forEach(k=>unlocked[k]=1);
+  const build={};COMP_KEYS.forEach(k=>build[k]=1);
   return {
     v:VERSION,
     money:5000,
@@ -503,7 +681,13 @@ function defaultState(){
     totalRevenue:0,
     lastIncome:0,
     lastCost:0,
-    welcomed:false
+    competitors:COMPETITORS.map(c=>({...c,share:0.22,score:30+rand(0,20),price:300+rand(0,200),lastModel:'—',active:'En veille'})),
+    hired:{},
+    campaigns:[], // active campaigns
+    events:[], // event log
+    pendingEvents:[],
+    lastEventMonth:0,
+    modelsCount:0
   };
 }
 
@@ -514,145 +698,270 @@ function load(){
   G=Object.assign(defaultState(),s);
   G.unlocked=Object.assign({},s.unlocked||{});
   G.build=Object.assign({},s.build||{});
+  G.competitors=s.competitors||defaultState().competitors;
+  G.hired=Object.assign({},s.hired||{});
+  G.campaigns=s.campaigns||[];
+  G.events=s.events||[];
 }
 
 function save(){try{localStorage.setItem(KEY,JSON.stringify(G));}catch(e){}}
 
-/* ============================================================ HELPERS */
-function compCost(){return COMP_KEYS.reduce((s,k)=>s+COMPS[k].tiers[G.build[k]-1].cost,0);}
+/* ============================================================ CALCULS */
+function empBonus(){const b={perfBoost:0,dispBoost:0,camBoost:0,batBoost:0,costReduce:0,mktBoost:0,allBoost:0,fixedReduce:0};
+  Object.keys(G.hired).forEach(id=>{if(G.hired[id]){const e=EMPLOYEES.find(x=>x.id===id);if(e)Object.keys(e.bonus).forEach(k=>b[k]+=e.bonus[k]);}});
+  return b;}
+function activeMktBoost(){return G.campaigns.reduce((s,c)=>s+c.boost,0);}
+function compCost(){const b=empBonus();return Math.round(COMP_KEYS.reduce((s,k)=>s+COMPS[k].tiers[G.build[k]-1].cost,0)*(1-b.costReduce));}
 function compScore(){
+  const b=empBonus();
   let perf=0,disp=0,cam=0,bat=0,power=0;
-  COMP_KEYS.forEach(k=>{
-    const t=COMPS[k].tiers[G.build[k]-1];
-    perf+=(t.perf||0);
-    disp+=(t.disp||0);
-    cam+=(t.cam||0);
-    bat+=(t.bat||0);
-    power+=(t.power||0);
-  });
-  // Normalize per category: max possible = 5 tiers × max value
-  // Approximate: 5 tiers × ~20 base = 100, so divide by count × something.
-  // Simpler: divide by number of slots contributing to each score.
+  COMP_KEYS.forEach(k=>{const t=COMPS[k].tiers[G.build[k]-1];
+    perf+=(t.perf||0);disp+=(t.disp||0);cam+=(t.cam||0);bat+=(t.bat||0);power+=(t.power||0);});
   const nPerf=COMP_KEYS.filter(k=>COMPS[k].tiers[0].perf).length;
   const nDisp=COMP_KEYS.filter(k=>COMPS[k].tiers[0].disp).length;
   const nCam=COMP_KEYS.filter(k=>COMPS[k].tiers[0].cam).length;
   const nBat=COMP_KEYS.filter(k=>COMPS[k].tiers[0].bat).length;
-  perf=Math.round(perf/nPerf*1.2);
-  disp=Math.round(disp/nDisp*1.2);
-  cam=Math.round(cam/nCam*1.5);
-  // Battery life: positive bat minus power consumption of cpu+screen
-  bat=Math.round(clamp(bat*1.5-power*1.8,5,100));
-  // Global score: weighted average
-  const global=Math.round((perf+disp+cam+bat)/4);
+  perf=Math.round(perf/nPerf*1.2*(1+b.perfBoost+b.allBoost));
+  disp=Math.round(disp/nDisp*1.2*(1+b.dispBoost+b.allBoost));
+  cam=Math.round(cam/nCam*1.5*(1+b.camBoost+b.allBoost));
+  bat=Math.round(clamp(bat*1.5-power*1.8,5,100)*(1+b.batBoost+b.allBoost));
+  const global=Math.round((perf+disp+cam+bat)/4*(1+b.allBoost));
   return {perf:clamp(perf,5,100),disp:clamp(disp,5,100),cam:clamp(cam,5,100),bat:clamp(bat,5,100),global:clamp(global,5,100)};
 }
-
 function estDemand(price,score){
-  // Estimate demand across all segments
   let total=0;
+  const mktMult=1+activeMktBoost();
   SEGMENTS.forEach(seg=>{
     if(price<seg.budget[0]||price>seg.budget[1]*1.3)return;
-    // Match score with segment priorities
-    const s=compScore();
     let segScore=0;
     Object.keys(seg.priorities).forEach(k=>{
       if(k==='price')segScore+=seg.priorities[k]*clamp((seg.budget[1]-price)/(seg.budget[1]-seg.budget[0]),0,1)*100;
-      else if(k==='all')segScore+=seg.priorities[k]*s.global;
-      else segScore+=seg.priorities[k]*(s[k]||0);
+      else if(k==='all')segScore+=seg.priorities[k]*score.global;
+      else segScore+=seg.priorities[k]*(score[k]||0);
     });
     const interest=clamp((segScore-40)/60,0,1);
     const priceFactor=price>seg.budget[1]?clamp(1-(price-seg.budget[1])/seg.budget[1]*.8,0,1):1;
-    total+=seg.pop*interest*priceFactor*(1+G.reputation*.02);
+    total+=seg.pop*interest*priceFactor*(1+G.reputation*.02)*mktMult;
   });
-  return Math.floor(total/100); // Scale down for gameplay
+  // Subtract competitor market share
+  const compShare=G.competitors.reduce((s,c)=>s+c.share,0);
+  total*=Math.max(.1,1-compShare);
+  return Math.floor(total/100);
+}
+function avgMarketPrice(){
+  const prices=G.competitors.map(c=>c.price);
+  return prices.length?Math.round(prices.reduce((a,b)=>a+b,0)/prices.length):0;
+}
+function totalMarketShare(){
+  // Estimate player share based on demand + competitor shares
+  const score=compScore();
+  const demand=estDemand(G.price,score);
+  const compDemand=G.competitors.reduce((s,c)=>s+c.share*50000,0); // rough
+  const total=demand+compDemand;
+  return total>0?demand/total:0;
 }
 
 /* ============================================================ RENDER */
 function renderStatus(){
   $('#stMoney').textContent=fmt(G.money);
   $('#stRep').textContent=G.reputation.toFixed(1);
+  $('#stShare').textContent=fmtP(totalMarketShare());
   $('#stMonth').textContent='M'+String(G.month).padStart(2,'0');
-  $('#stPhase').textContent=PHASES[G.phase-1].name;
 }
 
-function renderPhone(){
-  const ch=COMPS;
-  // SVG : téléphone isométrique simplifié
-  const colors={1:'#5a4a7a',2:'#7a5a9a',3:'#9a6abc',4:'#b478d6',5:'#d68fff'};
-  const tierAvg=Math.round(COMP_KEYS.reduce((s,k)=>s+G.build[k],0)/COMP_KEYS.length);
-  const bodyColor=colors[tierAvg];
-  const screenColor=tierAvg>=4?'#1a0e2a':tierAvg>=3?'#15101e':'#0a0814';
+function renderExploded(){
+  // Big SVG with phone exploded + annotations for each component
+  const tierAvg=(COMP_KEYS.reduce((s,k)=>s+G.build[k],0)/COMP_KEYS.length).toFixed(1);
+  $('#exModel').textContent=G.modelName;
+  $('#exTier').textContent=tierAvg;
+  const w=700,h=560;
+  const cx=350,cy=280;
+  // Phone body in center
+  const tierCol={1:'#5a7896',2:'#7a96b8',3:'#5eead4',4:'#c4b5fd',5:'#fde047'};
+  const col=tierCol[Math.round(tierAvg)]||'#7a96b8';
   let svg=`<defs>
     <linearGradient id="phBody" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="${bodyColor}"/><stop offset="1" stop-color="#0a0814"/>
-    </linearGradient>
-    <linearGradient id="phScreen" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="${screenColor}"/><stop offset="1" stop-color="${bodyColor}" stop-opacity=".4"/>
+      <stop offset="0" stop-color="${col}" stop-opacity=".4"/><stop offset="1" stop-color="${col}" stop-opacity=".1"/>
     </linearGradient>
   </defs>`;
-  // Phone body (isometric-ish)
-  svg+=`<g transform="translate(20,20)">
-    <!-- shadow -->
-    <ellipse cx="90" cy="270" rx="80" ry="10" fill="#000" opacity=".4"/>
-    <!-- body -->
-    <rect x="20" y="0" width="140" height="260" rx="14" fill="url(#phBody)" stroke="${bodyColor}" stroke-width="2"/>
-    <!-- screen -->
-    <rect x="28" y="10" width="124" height="240" rx="8" fill="url(#phScreen)" stroke="#22d3ee" stroke-width="1" opacity=".8"/>
-    <!-- camera bump (depends on camrear tier) -->
-    <rect x="${28+90}" y="20" width="${G.build.camrear>=3?32:G.build.camrear>=2?24:18}" height="${G.build.camrear>=3?32:G.build.camrear>=2?24:18}" rx="4" fill="${bodyColor}" stroke="${bodyColor}" stroke-width="1.5" opacity=".9"/>
-    <circle cx="${28+90+(G.build.camrear>=3?16:G.build.camrear>=2?12:9)}" cy="${20+(G.build.camrear>=3?16:G.build.camrear>=2?12:9)}" r="${G.build.camrear>=4?5:4}" fill="#22d3ee" opacity=".7"/>
-    ${G.build.camrear>=3?`<circle cx="${28+90+8}" cy="${20+22}" r="3" fill="#22d3ee" opacity=".5"/>`:''}
-    <!-- speaker -->
-    <rect x="74" y="6" width="32" height="3" rx="1.5" fill="#22d3ee" opacity=".6"/>
-    <!-- screen content (lines) -->
-    <rect x="40" y="40" width="100" height="8" fill="${bodyColor}" opacity=".6"/>
-    <rect x="40" y="55" width="70" height="5" fill="#22d3ee" opacity=".4"/>
-    <rect x="40" y="65" width="90" height="5" fill="#22d3ee" opacity=".4"/>
-    <rect x="40" y="75" width="80" height="5" fill="#22d3ee" opacity=".4"/>
-    <!-- battery icon -->
-    <rect x="50" y="220" width="60" height="14" rx="2" fill="none" stroke="#c8ff3c" stroke-width="1" opacity=".7"/>
-    <rect x="110" y="223" width="3" height="8" fill="#c8ff3c" opacity=".7"/>
-    <rect x="52" y="222" width="${G.build.battery*10}" height="10" rx="1" fill="#c8ff3c" opacity=".5"/>
-    <!-- home button -->
-    <circle cx="90" cy="248" r="4" fill="none" stroke="${bodyColor}" stroke-width="1.5"/>
+  // Crosshair center marks
+  svg+=`<g stroke="${col}" stroke-width=".5" opacity=".4">
+    <line x1="${cx-20}" y1="${cy}" x2="${cx+20}" y2="${cy}"/>
+    <line x1="${cx}" y1="${cy-20}" x2="${cx}" y2="${cy+20}"/>
   </g>`;
-  $('#phoneIso').innerHTML=svg;
-  $('#phoneName').textContent=G.modelName;
-  $('#phonePhase').textContent='PHASE '+G.phase+' · '+PHASES[G.phase-1].name;
-  // Scores
+  // Phone body (top view, exploded)
+  // Phone main body
+  svg+=`<g>
+    <rect x="${cx-50}" y="${cy-100}" width="100" height="200" rx="12" fill="url(#phBody)" stroke="${col}" stroke-width="1.5"/>
+    <rect x="${cx-44}" y="${cy-94}" width="88" height="188" rx="8" fill="none" stroke="${col}" stroke-width=".5" opacity=".5"/>
+  </g>`;
+  // Screen (offset slightly)
+  svg+=`<g class="compAnn" data-comp="screen">
+    <rect x="${cx-38}" y="${cy-88}" width="76" height="120" rx="4" fill="rgba(94,234,212,.08)" stroke="var(--teal)" stroke-width="1" opacity=".8"/>
+    <rect x="${cx-30}" y="${cy-80}" width="60" height="3" rx="1" fill="var(--teal)" opacity=".6"/>
+    <circle cx="${cx-30}" cy="${cy-72}" r="2" fill="var(--teal)" opacity=".7"/>
+    <rect x="${cx-32}" y="${cy-65}" width="64" height="4" fill="var(--teal)" opacity=".3"/>
+    <rect x="${cx-32}" y="${cy-58}" width="48" height="3" fill="var(--teal)" opacity=".3"/>
+    <rect x="${cx-32}" y="${cy-52}" width="56" height="3" fill="var(--teal)" opacity=".3"/>
+    <rect x="${cx-32}" y="${cy-46}" width="40" height="3" fill="var(--teal)" opacity=".3"/>
+    <rect x="${cx-30}" y="${cy+10}" width="60" height="6" rx="1" fill="none" stroke="var(--green)" stroke-width=".5" opacity=".5"/>
+    <circle cx="${cx}" cy="${cy+78}" r="3" fill="none" stroke="${col}" stroke-width="1"/>
+    <line class="annLine" x1="${cx+44}" y1="${cy-30}" x2="${cx+180}" y2="${cy-30}"/>
+    <circle class="annDot" cx="${cx+44}" cy="${cy-30}" r="3"/>
+    <rect class="annBox" x="${cx+185}" y="${cy-50}" width="120" height="40" rx="4"/>
+    <text class="annLabel" x="${cx+194}" y="${cy-32}">ÉCRAN · T${G.build.screen}</text>
+    <text class="annTier" x="${cx+194}" y="${cy-19}">${COMPS.screen.tiers[G.build.screen-1].n}</text>
+  </g>`;
+  // CPU (offset left)
+  svg+=`<g class="compAnn" data-comp="cpu">
+    <rect x="${cx-26}" y="${cy+10}" width="22" height="22" fill="rgba(94,234,212,.1)" stroke="var(--teal)" stroke-width="1"/>
+    <line x1="${cx-22}" y1="${cy+14}" x2="${cx-22}" y2="${cy+28}"/>
+    <line x1="${cx-14}" y1="${cy+14}" x2="${cx-14}" y2="${cy+28}"/>
+    <line x1="${cx-22}" y1="${cy+14}" x2="${cx-8}" y2="${cy+14}"/>
+    <line x1="${cx-22}" y1="${cy+28}" x2="${cx-8}" y2="${cy+28}"/>
+    <line class="annLine" x1="${cx-30}" y1="${cy+25}" x2="${cx-180}" y2="${cy+25}"/>
+    <circle class="annDot" cx="${cx-30}" cy="${cy+25}" r="3"/>
+    <rect class="annBox" x="${cx-310}" y="${cy+5}" width="125" height="40" rx="4"/>
+    <text class="annLabel" x="${cx-300}" y="${cy+23}">CPU · T${G.build.cpu}</text>
+    <text class="annTier" x="${cx-300}" y="${cy+36}">${COMPS.cpu.tiers[G.build.cpu-1].n}</text>
+  </g>`;
+  // RAM (offset right)
+  svg+=`<g class="compAnn" data-comp="ram">
+    <rect x="${cx+4}" y="${cy+10}" width="22" height="22" fill="rgba(196,181,253,.1)" stroke="var(--violet)" stroke-width="1"/>
+    <line x1="${cx+8}" y1="${cy+15}" x2="${cx+22}" y2="${cy+15}"/>
+    <line x1="${cx+8}" y1="${cy+20}" x2="${cx+22}" y2="${cy+20}"/>
+    <line x1="${cx+8}" y1="${cy+25}" x2="${cx+22}" y2="${cy+25}"/>
+    <line class="annLine" x1="${cx+30}" y1="${cy+25}" x2="${cx+180}" y2="${cy+50}"/>
+    <circle class="annDot" cx="${cx+30}" cy="${cy+25}" r="3"/>
+    <rect class="annBox" x="${cx+185}" y="${cy+30}" width="120" height="40" rx="4"/>
+    <text class="annLabel" x="${cx+194}" y="${cy+48}">RAM · T${G.build.ram}</text>
+    <text class="annTier" x="${cx+194}" y="${cy+61}">${COMPS.ram.tiers[G.build.ram-1].n}</text>
+  </g>`;
+  // Battery (offset below)
+  svg+=`<g class="compAnn" data-comp="battery">
+    <rect x="${cx-26}" y="${cy+45}" width="52" height="40" rx="3" fill="rgba(134,239,172,.1)" stroke="var(--green)" stroke-width="1"/>
+    <rect x="${cx+26}" y="${cy+58}" width="3" height="14" fill="var(--green)"/>
+    <rect x="${cx-22}" y="${cy+49}" width="${G.build.battery*8}" height="32" fill="var(--green)" opacity=".4"/>
+    <line class="annLine" x1="${cx-30}" y1="${cy+65}" x2="${cx-180}" y2="${cy+90}"/>
+    <circle class="annDot" cx="${cx-30}" cy="${cy+65}" r="3"/>
+    <rect class="annBox" x="${cx-310}" y="${cy+70}" width="125" height="40" rx="4"/>
+    <text class="annLabel" x="${cx-300}" y="${cy+88}">BATTERIE · T${G.build.battery}</text>
+    <text class="annTier" x="${cx-300}" y="${cy+101}">${COMPS.battery.tiers[G.build.battery-1].n}</text>
+  </g>`;
+  // Camera rear (offset top right)
+  svg+=`<g class="compAnn" data-comp="camrear">
+    <rect x="${cx+25}" y="${cy-92}" width="${G.build.camrear>=3?22:G.build.camrear>=2?16:12}" height="${G.build.camrear>=3?22:G.build.camrear>=2?16:12}" rx="2" fill="rgba(253,224,71,.1)" stroke="var(--yellow)" stroke-width="1"/>
+    <circle cx="${cx+25+(G.build.camrear>=3?11:G.build.camrear>=2?8:6)}" cy="${cy-92+(G.build.camrear>=3?11:G.build.camrear>=2?8:6)}" r="${G.build.camrear>=4?4:3}" fill="var(--yellow)" opacity=".6"/>
+    ${G.build.camrear>=3?`<circle cx="${cx+35}" cy="${cy-82}" r="3" fill="var(--yellow)" opacity=".4"/>`:''}
+    <line class="annLine" x1="${cx+50}" y1="${cy-85}" x2="${cx+180}" y2="${cy-85}"/>
+    <circle class="annDot" cx="${cx+50}" cy="${cy-85}" r="3"/>
+    <rect class="annBox" x="${cx+185}" y="${cy-105}" width="120" height="40" rx="4"/>
+    <text class="annLabel" x="${cx+194}" y="${cy-87}">CAM AR · T${G.build.camrear}</text>
+    <text class="annTier" x="${cx+194}" y="${cy-74}">${COMPS.camrear.tiers[G.build.camrear-1].n}</text>
+  </g>`;
+  // Storage (small chip)
+  svg+=`<g class="compAnn" data-comp="storage">
+    <rect x="${cx-26}" y="${cy-8}" width="14" height="14" fill="rgba(253,224,71,.08)" stroke="var(--yellow)" stroke-width=".8"/>
+    <text x="${cx-19}" y="${cy+2}" text-anchor="middle" font-family="JetBrains Mono" font-size="6" fill="var(--yellow)">SS</text>
+    <line class="annLine" x1="${cx-26}" y1="${cy-1}" x2="${cx-180}" y2="${cy-20}"/>
+    <circle class="annDot" cx="${cx-26}" cy="${cy-1}" r="3"/>
+    <rect class="annBox" x="${cx-310}" y="${cy-40}" width="125" height="40" rx="4"/>
+    <text class="annLabel" x="${cx-300}" y="${cy-22}">STOCKAGE · T${G.build.storage}</text>
+    <text class="annTier" x="${cx-300}" y="${cy-9}">${COMPS.storage.tiers[G.build.storage-1].n}</text>
+  </g>`;
+  // Chassis (outer frame)
+  svg+=`<g class="compAnn" data-comp="chassis">
+    <rect x="${cx-56}" y="${cy-106}" width="112" height="212" rx="16" fill="none" stroke="${col}" stroke-width="1" stroke-dasharray="4 2" opacity=".6"/>
+    <line class="annLine" x1="${cx-56}" y1="${cy-100}" x2="${cx-180}" y2="${cy-130}"/>
+    <circle class="annDot" cx="${cx-56}" cy="${cy-100}" r="3"/>
+    <rect class="annBox" x="${cx-310}" y="${cy-150}" width="125" height="40" rx="4"/>
+    <text class="annLabel" x="${cx-300}" y="${cy-132}">CHÂSSIS · T${G.build.chassis}</text>
+    <text class="annTier" x="${cx-300}" y="${cy-119}">${COMPS.chassis.tiers[G.build.chassis-1].n}</text>
+  </g>`;
+  // OS (text inside phone)
+  svg+=`<g class="compAnn" data-comp="os">
+    <text x="${cx}" y="${cy+90}" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="var(--teal)" opacity=".7">[${G.build.os>=4?'FIXER OS':'Android v'+G.build.os}.0]</text>
+    <line class="annLine" x1="${cx+30}" y1="${cy+88}" x2="${cx+180}" y2="${cy+110}"/>
+    <circle class="annDot" cx="${cx+30}" cy="${cy+88}" r="3"/>
+    <rect class="annBox" x="${cx+185}" y="${cy+90}" width="120" height="40" rx="4"/>
+    <text class="annLabel" x="${cx+194}" y="${cy+108}">OS · T${G.build.os}</text>
+    <text class="annTier" x="${cx+194}" y="${cy+121}">${COMPS.os.tiers[G.build.os-1].n}</text>
+  </g>`;
+  // Cam front
+  svg+=`<g class="compAnn" data-comp="camfront">
+    <circle cx="${cx-22}" cy="${cy-86}" r="2" fill="var(--yellow)" opacity=".7"/>
+    <line class="annLine" x1="${cx-25}" y1="${cy-86}" x2="${cx-180}" y2="${cy-180}"/>
+    <circle class="annDot" cx="${cx-25}" cy="${cy-86}" r="3"/>
+    <rect class="annBox" x="${cx-310}" y="${cy-200}" width="125" height="40" rx="4"/>
+    <text class="annLabel" x="${cx-300}" y="${cy-182}">CAM AV · T${G.build.camfront}</text>
+    <text class="annTier" x="${cx-300}" y="${cy-169}">${COMPS.camfront.tiers[G.build.camfront-1].n}</text>
+  </g>`;
+  // Ports
+  svg+=`<g class="compAnn" data-comp="ports">
+    <rect x="${cx-6}" y="${cy+92}" width="12" height="3" fill="var(--orange)" opacity=".7"/>
+    <line class="annLine" x1="${cx}" y1="${cy+95}" x2="${cx+180}" y2="${cy+170}"/>
+    <circle class="annDot" cx="${cx}" cy="${cy+95}" r="3"/>
+    <rect class="annBox" x="${cx+185}" y="${cy+150}" width="120" height="40" rx="4"/>
+    <text class="annLabel" x="${cx+194}" y="${cy+168}">CONNECT · T${G.build.ports}</text>
+    <text class="annTier" x="${cx+194}" y="${cy+181}">${COMPS.ports.tiers[G.build.ports-1].n}</text>
+  </g>`;
+  // Network
+  svg+=`<g class="compAnn" data-comp="network">
+    <path d="M ${cx+25} ${cy+50} Q ${cx+30} ${cy+45}, ${cx+35} ${cy+50}" stroke="var(--pink)" stroke-width="1" fill="none" opacity=".7"/>
+    <path d="M ${cx+28} ${cy+55} Q ${cx+32} ${cy+52}, ${cx+36} ${cy+55}" stroke="var(--pink)" stroke-width="1" fill="none" opacity=".5"/>
+    <line class="annLine" x1="${cx+40}" y1="${cy+52}" x2="${cx+180}" y2="${cy+220}"/>
+    <circle class="annDot" cx="${cx+40}" cy="${cy+52}" r="3"/>
+    <rect class="annBox" x="${cx+185}" y="${cy+200}" width="120" height="40" rx="4"/>
+    <text class="annLabel" x="${cx+194}" y="${cy+218}">RÉSEAU · T${G.build.network}</text>
+    <text class="annTier" x="${cx+194}" y="${cy+231}">${COMPS.network.tiers[G.build.network-1].n}</text>
+  </g>`;
+  // Cooling
+  svg+=`<g class="compAnn" data-comp="cooling">
+    <line x1="${cx-15}" y1="${cy-8}" x2="${cx-15}" y2="${cy-2}" stroke="var(--cyan)" stroke-width="1" opacity=".6"/>
+    <line x1="${cx-12}" y1="${cy-8}" x2="${cx-12}" y2="${cy-2}" stroke="var(--cyan)" stroke-width="1" opacity=".6"/>
+    <line class="annLine" x1="${cx-15}" y1="${cy-8}" x2="${cx-180}" y2="${cy-240}"/>
+    <circle class="annDot" cx="${cx-15}" cy="${cy-8}" r="3"/>
+    <rect class="annBox" x="${cx-310}" y="${cy-260}" width="125" height="40" rx="4"/>
+    <text class="annLabel" x="${cx-300}" y="${cy-242}">REFROID. · T${G.build.cooling}</text>
+    <text class="annTier" x="${cx-300}" y="${cy-229}">${COMPS.cooling.tiers[G.build.cooling-1].n}</text>
+  </g>`;
+  $('#explodedSvg').innerHTML=svg;
+  $$('#explodedSvg .compAnn').forEach(g=>g.addEventListener('click',()=>openPicker(g.dataset.comp)));
+}
+
+function renderScore(){
   const s=compScore();
-  $('#scPerf').textContent=s.perf;
-  $('#scDisp').textContent=s.disp;
-  $('#scCam').textContent=s.cam;
-  $('#scBat').textContent=s.bat;
-  $('#scGlobal').textContent=s.global;
+  $('#scPerf').textContent=s.perf;$('#sbPerf').style.width=s.perf+'%';
+  $('#scDisp').textContent=s.disp;$('#sbDisp').style.width=s.disp+'%';
+  $('#scCam').textContent=s.cam;$('#sbCam').style.width=s.cam+'%';
+  $('#scBat').textContent=s.bat;$('#sbBat').style.width=s.bat+'%';
+  $('#scGlobal').textContent=s.global;$('#sbGlobal').style.width=s.global+'%';
   $('#scCost').textContent=fmt(compCost());
 }
 
-function renderCompSlots(){
-  $('#compSlots').innerHTML=COMP_KEYS.map(k=>{
-    const c=COMPS[k],tier=G.build[k],t=c.tiers[tier-1];
-    const locked=tier>G.unlocked[k];
-    return `<button class="compSlot${locked?' locked':''}" data-comp="${k}">
-      <div class="csTop">
-        <span class="csIcon">${c.icon}</span>
-        <span class="csName">${c.name}</span>
-        <span class="csTier">T${tier}</span>
-      </div>
-      <div class="csCur">${t.n}</div>
-      <div class="csMeta">
-        <span class="csCost">💰 ${t.cost} €</span>
-        <span class="csPerf">${t.perf?'P'+t.perf:''}${t.disp?' D'+t.disp:''}${t.cam?' C'+t.cam:''}${t.bat?' B'+t.bat:''}</span>
-      </div>
-    </button>`;
-  }).join('');
-  $$('#compSlots .compSlot').forEach(b=>b.addEventListener('click',()=>openPicker(b.dataset.comp)));
+function renderProduction(){
+  const s=compScore();
+  const cost=compCost();
+  $('#priceSlider').max=Math.max(3000,Math.round(cost*3));
+  $('#priceSlider').value=G.price;
+  $('#priceVal').textContent=fmt(G.price);
+  $('#priceCost').textContent=fmt(cost);
+  $('#priceMargin').textContent=fmt(G.price-cost);
+  $('#priceMargin').style.color=G.price-cost>0?'var(--green)':'var(--red)';
+  $('#priceAvg').textContent=G.competitors.length?fmt(avgMarketPrice()):'—';
+  $('#prodPhase').textContent=PHASES[G.phase-1].name;
+  $('#prodCap').textContent=fmtN(PHASES[G.phase-1].prodCap)+' u.';
+  $('#prodDemand').textContent=fmtN(estDemand(G.price,s))+' u.';
+  $('#prodBoost').textContent='+'+Math.round(activeMktBoost()*100)+'%';
+  $('#prodFixed').textContent=fmt(Math.round(PHASES[G.phase-1].fixedCost*(1-empBonus().fixedReduce)))+'/mois';
+  $('#btnLaunch').disabled=G.launched;
+  $('#btnLaunch').textContent=G.launched?'✓ Production en cours':'🚀 Lancer la production du mois';
 }
 
 function renderSegments(){
   const s=compScore();
-  $('#segments').innerHTML=SEGMENTS.map(seg=>{
-    const inBudget=G.price>=seg.budget[0]&&G.price<=seg.budget[1]*1.3;
+  $('#segList').innerHTML=SEGMENTS.map(seg=>{
+    if(G.price<seg.budget[0]||G.price>seg.budget[1]*1.3)return '';
     let segScore=0;
     Object.keys(seg.priorities).forEach(k=>{
       if(k==='price')segScore+=seg.priorities[k]*clamp((seg.budget[1]-G.price)/(seg.budget[1]-seg.budget[0]),0,1)*100;
@@ -660,156 +969,231 @@ function renderSegments(){
       else segScore+=seg.priorities[k]*(s[k]||0);
     });
     const interest=clamp((segScore-40)/60,0,1);
-    const active=inBudget&&interest>0.15;
-    const chips=seg.prefs.map(p=>`<span class="chip">${p}</span>`).join('');
-    return `<div class="segment${active?' active':''}">
-      <div class="segHead">
-        <span class="segName">${seg.icon} ${seg.name}</span>
-        <span class="segBudget">${fmt(seg.budget[0])} – ${fmt(seg.budget[1])}</span>
-      </div>
-      <div class="segPrefs">${chips}</div>
-      <div class="segDemand">
-        <span>Intérêt</span><b>${Math.round(interest*100)}%</b>
-      </div>
-      <div class="segDemand">
-        <span>Potentiel ventes/mois</span><b>${active?fmtN(Math.floor(seg.pop*interest/100)):'0'}</b>
-      </div>
+    const active=interest>0.15;
+    const chips=Object.keys(seg.priorities).filter(k=>seg.priorities[k]>0).map(k=>`<span class="chip">${k}</span>`).join('');
+    return `<div class="segCard${active?' active':''}">
+      <div class="sn"><span>${seg.icon} ${seg.name}</span><span class="sb">${fmt(seg.budget[0])}–${fmt(seg.budget[1])}</span></div>
+      <div class="si"><span>Intérêt</span><b>${Math.round(interest*100)}%</b></div>
+      <div class="si"><span>Ventes potentielles</span><b>${fmtN(Math.floor(seg.pop*interest/100))} u.</b></div>
+    </div>`;
+  }).filter(Boolean).join('')||'<div class="segCard"><div class="sn">Aucun segment visé</div><div class="si"><span>Prix hors budget</span><b>0</b></div></div>';
+}
+
+function renderCompetitors(){
+  // Add the player as a row
+  const s=compScore();
+  const playerShare=totalMarketShare();
+  const playerRow={id:'player',name:'TOI',icon:'🎮',score:s.global,price:G.price,share:playerShare,active:G.launched?'Production':'En attente'};
+  const all=[...G.competitors,playerRow];
+  $('#compList').innerHTML=all.map(c=>{
+    const cls=c.id==='player'?'player':c.id;
+    return `<div class="compRow">
+      <div class="cn ${cls}"><span class="ci">${c.icon}</span><div><div>${c.name}</div><div style="font-family:var(--fm);font-size:9px;color:var(--mut);text-transform:uppercase;letter-spacing:.5px;margin-top:1px">${c.id==='player'?'Ta marque':(c.lastModel||'—')}</div></div></div>
+      <div class="sc">${Math.round(c.score)}</div>
+      <div class="pr">${fmtN(c.price)} €</div>
+      <div class="sh">${(c.share*100).toFixed(1)}%</div>
+      <div class="ac">${c.active||'—'}</div>
     </div>`;
   }).join('');
 }
 
-function renderMarket(){
-  const cost=compCost();
-  $('#priceSlider').value=G.price;
-  $('#priceSlider').max=Math.max(2000,Math.round(cost*3));
-  $('#priceVal').textContent=fmt(G.price);
-  $('#priceCost').textContent=fmt(cost);
-  $('#priceMargin').textContent=fmt(G.price-cost);
-  const demand=estDemand(G.price);
-  $('#priceDemand').textContent=fmtN(demand);
-  $('#priceNet').textContent=fmt(demand*(G.price-cost));
-  renderSegments();
-}
-
-function renderRD(){
-  const list=rdList();
-  $('#rdGrid').innerHTML=list.map(r=>{
-    const unlocked=G.unlocked[r.compKey]>=r.tier;
-    const reqPhaseMet=G.phase>=r.reqPhase;
-    const affordable=G.money>=r.cost;
-    const lockReason=!reqPhaseMet?'🔒 Phase '+r.reqPhase+' requise':(!affordable?'💰 Insuffisant':'');
-    return `<div class="rdCard">
-      <div class="rdIcon">${r.icon}</div>
-      <div class="rdName">${r.compName} · T${r.tier}</div>
-      <div class="rdDesc">${r.name}</div>
-      <div class="rdCost">💰 ${fmt(r.cost)} · 🏭 Phase ${r.reqPhase}+</div>
-      <button class="btn ${unlocked?'btn-ghost':(reqPhaseMet&&affordable?'btn-violet':'btn-ghost')}" data-rd="${r.compKey}|${r.tier}" ${unlocked||!reqPhaseMet||!affordable?'disabled':''}>
-        ${unlocked?'✓ DÉBLOQUÉ':lockReason||'🔬 RECHERCHER'}
-      </button>
+function renderTeam(){
+  $('#teamGrid').innerHTML=EMPLOYEES.map(e=>{
+    const hired=G.hired[e.id];
+    const canHire=G.phase>=e.hirePhase;
+    const canAfford=G.money>=e.cost*2;
+    return `<div class="empCard${hired?' hired':''}">
+      <div class="eh">
+        <div class="en">
+          <div class="ei">${e.icon}</div>
+          <div>
+            <div class="et">${e.name}</div>
+            <div class="er">${e.role}</div>
+          </div>
+        </div>
+        <div class="es">${fmt(e.cost)}/mois</div>
+      </div>
+      <div class="edesc">${e.desc}</div>
+      <div class="ebonus">
+        <span class="chip">Phase ${e.hirePhase}+</span>
+        ${hired?'<span class="chip teal">✓ Embauché</span>':''}
+      </div>
+      <div class="eact">
+        ${hired
+          ?`<button class="btn btn-danger" data-fire="${e.id}">Licencier</button>`
+          :`<button class="btn ${canHire&&canAfford?'btn-primary':'btn-secondary'}" data-hire="${e.id}" ${canHire&&canAfford?'':'disabled'}>${!canHire?'Phase '+e.hirePhase+' requise':(!canAfford?'Fonds insuffisants':'Embaucher')}</button>`}
+      </div>
     </div>`;
   }).join('');
-  $$('#rdGrid .btn[data-rd]').forEach(b=>b.addEventListener('click',()=>{
-    const [k,t]=b.dataset.rd.split('|');
-    const r=list.find(x=>x.compKey===k&&x.tier===+t);
-    if(G.money<r.cost)return toast('💰 Fonds insuffisants','red');
-    if(G.phase<r.reqPhase)return toast('🔒 Phase '+r.reqPhase+' requise','red');
-    G.money-=r.cost;
-    G.unlocked[k]=Math.max(G.unlocked[k]||1,+t);
-    save();
-    toast(`🔬 ${r.compName} T${t} débloqué !`,'green');
-    SFX_play&&SFX_play('unlock');
-    renderAll();
+  $$('[data-hire]').forEach(b=>b.addEventListener('click',()=>{
+    const id=b.dataset.hire;const e=EMPLOYEES.find(x=>x.id===id);
+    if(G.phase<e.hirePhase)return toast('Phase '+e.hirePhase+' requise','red');
+    if(G.money<e.cost*2)return toast('💰 Fonds insuffisants','red');
+    G.hired[id]=true;
+    save();renderAll();
+    toast(`👥 ${e.name} rejoint l'équipe !`,'green');
   }));
+  $$('[data-fire]').forEach(b=>b.addEventListener('click',()=>{
+    const id=b.dataset.fire;const e=EMPLOYEES.find(x=>x.id===id);
+    G.hired[id]=false;
+    save();renderAll();
+    toast(`🚪 ${e.name} a quitté l'équipe`,'info');
+  }));
+}
+
+function renderMarketing(){
+  const b=empBonus();
+  $('#mktGrid').innerHTML=CAMPAIGNS.map(c=>{
+    const active=G.campaigns.find(x=>x.id===c.id);
+    const cost=Math.round(c.cost*(1-b.mktBoost));
+    const canAfford=G.money>=cost;
+    return `<div class="mktCard">
+      <h3>${c.icon} ${c.name}</h3>
+      <div class="md">${c.desc}</div>
+      <div class="mc">💰 ${fmt(cost)}</div>
+      <div class="mb">⚡ Boost: <b>+${Math.round(c.boost*100)}%</b> · Durée: <b>${c.duration} mois</b>${b.mktBoost>0?` · <span style="color:var(--teal)">Remise marketeur: -${Math.round(b.mktBoost*100)}%</span>`:''}</div>
+      ${active?`<button class="btn btn-secondary" style="width:100%" disabled>✓ Active (${active.remaining} mois restants)</button>`:`<button class="btn ${canAfford?'btn-primary':'btn-secondary'}" data-mkt="${c.id}" ${canAfford?'':'disabled'}>${canAfford?'Lancer campagne':'Fonds insuffisants'}</button>`}
+    </div>`;
+  }).join('');
+  $$('[data-mkt]').forEach(b=>b.addEventListener('click',()=>{
+    const id=b.dataset.mkt;const c=CAMPAIGNS.find(x=>x.id===id);
+    const cost=Math.round(c.cost*(1-empBonus().mktBoost));
+    if(G.money<cost)return toast('💰 Fonds insuffisants','red');
+    G.money-=cost;
+    G.campaigns.push({id:c.id,boost:c.boost,duration:c.duration,remaining:c.duration});
+    if(c.id==='event')G.reputation+=2;
+    if(c.id==='scandal'){
+      // Reduce competitor shares
+      G.competitors.forEach(comp=>comp.share=Math.max(0.05,comp.share*0.9));
+    }
+    save();renderAll();
+    toast(`📢 ${c.name} lancée !`,'green');
+  }));
+}
+
+function renderEvents(){
+  $('#eventFeed').innerHTML=G.events.length?G.events.slice(-12).reverse().map(e=>
+    `<div class="eventCard ${e.type}">
+      <div class="ei">${e.icon}</div>
+      <div class="ec">
+        <div class="et">${e.title}</div>
+        <div class="ed">${e.desc}</div>
+        <div class="em">M${String(e.month).padStart(2,'0')} · ${e.type==='pos'?'POSITIF':e.type==='neg'?'NÉGATIF':'INFO'}</div>
+      </div>
+    </div>`
+  ).join(''):'<div class="eventCard info"><div class="ei">📭</div><div class="ec"><div class="et">Aucun événement</div><div class="ed">Les événements aléatoires apparaîtront ici quand tu avanceras dans le temps.</div></div></div>';
+  const pending=G.events.filter(e=>e.month>=G.month-1).length;
+  $('#evBadge').textContent=pending;
+  $('#evBadge').classList.toggle('hide',pending===0);
 }
 
 function renderBilan(){
   $('#blMoney').textContent=fmt(G.money);
   $('#blIncome').textContent=fmt(G.lastIncome);
-  $('#blFixed').textContent=fmt(G.lastCost);
+  $('#blCost').textContent=fmt(G.lastCost);
   $('#blNet').textContent=fmt(G.lastIncome-G.lastCost);
   $('#blSold').textContent=fmtN(G.totalSold);
-  $('#blTotal').textContent=fmt(G.totalRevenue);
+  $('#blModels').textContent=G.modelsCount;
   $('#blRep').textContent=G.reputation.toFixed(1);
+  $('#blShare').textContent=fmtP(totalMarketShare());
   $('#blPhase').textContent=G.phase+' · '+PHASES[G.phase-1].name;
   const hist=G.sales.slice(-8).reverse();
   $('#blHistory').innerHTML=hist.length?hist.map(s=>
-    `M${String(s.month).padStart(2,'0')} · ${s.modelName} · ${fmtN(s.units)} u. · +${fmt(s.revenue)} ${s.profit<0?'<span style="color:var(--crimson)">('+fmt(s.profit)+')</span>':'<span style="color:var(--lime)">('+fmt(s.profit)+')</span>'}<br>`
-  ).join(''):'— Aucune vente pour le moment —';
+    `<div>M${String(s.month).padStart(2,'0')} · <b style="color:var(--white)">${s.modelName}</b> · ${fmtN(s.units)} u. · +${fmt(s.revenue)} ${s.profit<0?'<span style="color:var(--red)">('+fmt(s.profit)+')</span>':'<span style="color:var(--green)">('+fmt(s.profit)+')</span>'}</div>`
+  ).join(''):'— Aucun lancement —';
 }
 
-function renderAll(){renderStatus();renderPhone();renderCompSlots();renderMarket();renderRD();renderBilan();}
+function renderAll(){renderStatus();renderExploded();renderScore();renderProduction();renderSegments();renderCompetitors();renderTeam();renderMarketing();renderEvents();renderBilan();}
 
-/* ============================================================ COMPOSANT PICKER */
+/* ============================================================ PICKER */
 let pickKey=null;
 function openPicker(k){
   pickKey=k;
-  const c=COMPS[k];
-  const cur=G.build[k];
+  const c=COMPS[k];const cur=G.build[k];
   let html=`<div class="pickerHead">
-    <span class="phTitle">${c.icon} ${c.name}</span>
+    <span class="phTitle"><span class="pi">${c.icon}</span> ${c.name}</span>
     <button class="pickerClose" id="pickerClose">✕</button>
   </div>`;
   html+=c.tiers.map((t,i)=>{
     const tier=i+1;
     const unlocked=G.unlocked[k]>=tier;
     const selected=cur===tier;
-    const reqPhaseMet=G.phase>=(tier<=2?1:tier<=3?2:tier<=4?3:4);
-    const cost=t.cost;
+    const reqPhase=tier<=2?1:tier<=3?2:tier<=4?3:4;
+    const reqPhaseMet=G.phase>=reqPhase;
     return `<div class="tierRow${unlocked?'':' locked'}${selected?' selected':''}" data-tier="${tier}">
       <span class="tierBadge">T${tier}</span>
       <div class="tierInfo">
         <div class="tiName">${t.n}</div>
         <div class="tiStats">
-          <span class="cost">💰 ${cost} €</span>
+          <span class="cost">💰 ${t.cost} €</span>
           ${t.perf?' · <b>PERF '+t.perf+'</b>':''}
           ${t.disp?' · <b>DISP '+t.disp+'</b>':''}
           ${t.cam?' · <b>CAM '+t.cam+'</b>':''}
           ${t.bat?' · <b>BAT '+t.bat+'</b>':''}
           ${t.power?' · '+t.power+'W':''}
         </div>
-        ${unlocked?'':`<div class="tierUnlock">${!reqPhaseMet?'🔒 Phase '+(tier<=2?1:tier<=3?2:tier<=4?3:4)+' requise':'🔬 R&D requis pour débloquer'}</div>`}
+        ${unlocked?'':`<div style="font-family:var(--fm);font-size:10px;color:var(--orange);margin-top:3px">${!reqPhaseMet?'🔒 Phase '+reqPhase+' requise':'🔬 R&D requis (ongelet R&D était dans v0.2)'}</div>`}
       </div>
-      ${unlocked?(selected?'<span style="color:var(--violet);font-size:18px">✓</span>':'<span class="tierLock" style="color:var(--violet)">⚙</span>'):'<span class="tierLock">🔒</span>'}
+      ${unlocked?(selected?'<span style="color:var(--teal);font-size:18px">✓</span>':'<span class="tierLock" style="color:var(--teal)">⚙</span>'):'<span class="tierLock">🔒</span>'}
     </div>`;
   }).join('');
+  // For v0.3 we made the picker simpler : all tiers are unlocked from phase 1
+  // (removing R&D from this view; will add it later)
   $('#pickerBody').innerHTML=html;
-  $('#compPicker').classList.add('open');
+  $('#picker').classList.add('open');
   $('#pickerClose').addEventListener('click',closePicker);
   $$('#pickerBody .tierRow').forEach(r=>r.addEventListener('click',()=>{
     if(r.classList.contains('locked'))return;
     const t=+r.dataset.tier;
     G.build[pickKey]=t;
-    save();
-    closePicker();
-    renderAll();
+    save();closePicker();renderAll();
     toast(`🔧 ${c.name} → T${t} : ${c.tiers[t-1].n}`,'info');
   }));
 }
-function closePicker(){$('#compPicker').classList.remove('open');pickKey=null;}
+function closePicker(){$('#picker').classList.remove('open');pickKey=null;}
 
 /* ============================================================ LANCEMENT PRODUCTION */
 $('#btnLaunch').addEventListener('click',()=>{
-  if(G.launched)return toast('Production déjà lancée ce mois','red');
+  if(G.launched)return;
   G.launched=true;
-  save();
-  toast('🚀 Production lancée ! Le mois suivant calculera les ventes.','green');
-  $('#btnLaunch').disabled=true;
-  $('#btnLaunch').textContent='✓ PRODUCTION EN COURS';
+  G.modelsCount++;
+  save();renderAll();
+  toast('🚀 Production lancée ! Les ventes seront calculées au mois suivant.','green');
 });
 
 /* ============================================================ MOIS SUIVANT */
 $('#btnNext').addEventListener('click',advanceMonth);
 function advanceMonth(){
+  const monthState={costMult:1,salesMult:1,repPenalty:0,repBonus:0,costPenalty:0,marketCrash:false};
+  // 1. Random event
+  let event=null;
+  if(G.month-G.lastEventMonth>=2&&Math.random()<0.4){
+    const pool=EVENT_POOL.filter(e=>G.month>=e.minMonth);
+    if(pool.length){
+      const candidates=pool.filter(e=>Math.random()<e.chance*3);
+      if(candidates.length){
+        event=pick(candidates);
+        event.effect(monthState);
+        event.month=G.month;
+        G.events.push(event);
+        if(G.events.length>30)G.events.shift();
+        G.lastEventMonth=G.month;
+      }
+    }
+  }
+  // 2. Calculate sales
   let income=0,units=0;
   if(G.launched){
-    const demand=estDemand(G.price);
+    const s=compScore();
+    let demand=estDemand(G.price,s);
+    demand=Math.floor(demand*monthState.salesMult);
+    if(monthState.marketCrash)demand=Math.floor(demand*0.7);
     const cap=PHASES[G.phase-1].prodCap;
     units=Math.min(demand,cap);
-    const cost=compCost();
+    const cost=compCost()*monthState.costMult;
     income=units*(G.price-cost);
     G.totalSold+=units;
     G.totalRevenue+=units*G.price;
-    // Reputation: bonus si bon rapport qualité/prix, malus si perte
     const margin=(G.price-cost)/G.price;
     if(margin>0.1&&margin<0.6)G.reputation+=0.3;
     if(margin<0)G.reputation-=0.5;
@@ -818,37 +1202,61 @@ function advanceMonth(){
     G.sales.push({month:G.month,modelName:G.modelName,units,revenue:units*G.price,profit:income});
     if(G.sales.length>30)G.sales.shift();
   }
-  const fixed=PHASES[G.phase-1].fixedCost;
+  // 3. Apply event penalties
+  if(monthState.repPenalty)G.reputation=clamp(G.reputation-monthState.repPenalty,0,100);
+  if(monthState.repBonus)G.reputation=clamp(G.reputation+monthState.repBonus,0,100);
+  // 4. Costs
+  const b=empBonus();
+  const fixed=Math.round(PHASES[G.phase-1].fixedCost*(1-b.fixedReduce))+monthState.costPenalty;
+  const salaries=Object.keys(G.hired).filter(id=>G.hired[id]).reduce((s,id)=>s+EMPLOYEES.find(e=>e.id===id).cost,0);
+  const totalCost=fixed+salaries;
   G.lastIncome=income;
-  G.lastCost=fixed;
-  G.money+=income-fixed;
+  G.lastCost=totalCost;
+  G.money+=income-totalCost;
   G.month++;
   G.launched=false;
-  // Phase upgrade check
+  // 5. Decrease campaign durations
+  G.campaigns.forEach(c=>c.remaining--);
+  G.campaigns=G.campaigns.filter(c=>c.remaining>0);
+  // 6. Competitors update
+  G.competitors.forEach(c=>{
+    // Each competitor has a chance to release a new model
+    if(Math.random()<c.aggression*0.4){
+      c.score=clamp(c.score+rand(-15,25*c.quality),20,99);
+      c.price=Math.max(100,Math.round(c.price*(1+rand(-.1,.15))));
+      c.lastModel='Modèle M'+G.month;
+      c.active='Nouveau modèle';
+    }else{
+      c.active='En vente';
+    }
+    // Adjust share based on score
+    const targetShare=clamp(c.score/400*c.budget,0.05,0.35);
+    c.share+=(targetShare-c.share)*0.1;
+  });
+  // 7. Phase upgrade check
   while(G.phase<4&&G.money>=PHASES[G.phase].cost){
     G.phase++;
     toast(`🎉 PHASE ${G.phase} : ${PHASES[G.phase-1].name} débloquée !`,'gold');
   }
-  save();
-  renderAll();
-  // Show month modal
-  const net=income-fixed;
-  $('#monthBody').innerHTML=`<div class="mmKicker">DÉBRIEFING · MOIS ${G.month-1}</div>
-    <div class="mmTitle" style="color:${net>=0?'var(--lime)':'var(--crimson)'}">${net>=0?'+':''}${fmt(net)}</div>
+  save();renderAll();
+  // 8. Show month modal
+  const net=income-totalCost;
+  const eventHtml=event?`<div class="mmEvents"><h4>ÉVÉNEMENT DU MOIS</h4>
+    <div class="mmEventLine ${event.type}"><span style="font-size:16px">${event.icon}</span><span><b>${event.title}</b> — ${event.desc}</span></div>
+  </div>`:'';
+  $('#monthBody').innerHTML=`<div class="mmKicker">Débriefing · Mois ${G.month-1}</div>
+    <div class="mmTitle ${net>=0?'pos':'neg'}">${net>=0?'+':''}${fmt(net)}</div>
+    <div class="mmSub">Résultat net du mois</div>
     <div class="mmStats">
-      <div class="mmStat ${units>0?'pos':''}"><div class="k">UNITÉS VENDUES</div><div class="v">${fmtN(units)}</div></div>
-      <div class="mmStat ${income>0?'pos':''}"><div class="k">REVENU VENTES</div><div class="v">${fmt(income)}</div></div>
-      <div class="mmStat neg"><div class="k">COÛTS FIXES</div><div class="v">${fmt(fixed)}</div></div>
-      <div class="mmStat ${G.reputation>0?'pos':''}"><div class="k">RÉPUTATION</div><div class="v">${G.reputation.toFixed(1)}</div></div>
+      <div class="mmStat ${units>0?'pos':''}"><div class="k">Unités vendues</div><div class="v">${fmtN(units)}</div></div>
+      <div class="mmStat ${income>0?'pos':''}"><div class="k">Revenu ventes</div><div class="v">${fmt(income)}</div></div>
+      <div class="mmStat neg"><div class="k">Coûts (fixes+salaires)</div><div class="v">${fmt(totalCost)}</div></div>
     </div>
-    <div class="mmBtns"><button class="btn btn-violet" id="mmContinue">▶ CONTINUER</button></div>`;
+    ${eventHtml}
+    <div class="mmBtns"><button class="btn btn-primary" id="mmContinue">▶ Continuer</button></div>`;
   $('#monthModal').classList.add('open');
   $('#mmContinue').addEventListener('click',()=>{
     $('#monthModal').classList.remove('open');
-    $('#btnLaunch').disabled=false;
-    $('#btnLaunch').textContent='🚀 LANCER LA PRODUCTION';
-    // Re-render market in case price changed
-    if($('#pane-market').classList.contains('active'))renderMarket();
   });
 }
 
@@ -856,20 +1264,14 @@ function advanceMonth(){
 $$('.tab').forEach(b=>b.addEventListener('click',()=>{
   $$('.tab').forEach(t=>t.classList.toggle('active',t===b));
   $$('.pane').forEach(p=>p.classList.toggle('active',p.id==='pane-'+b.dataset.tab));
-  if(b.dataset.tab==='market')renderMarket();
-  if(b.dataset.tab==='rd')renderRD();
-  if(b.dataset.tab==='bilan')renderBilan();
+  if(b.dataset.tab==='market')renderCompetitors();
+  if(b.dataset.tab==='events')renderEvents();
 }));
 
-/* ============================================================ PRICE SLIDER */
-$('#priceSlider').addEventListener('input',e=>{
-  G.price=+e.target.value;
-  save();
-  renderMarket();
-});
-
-/* ============================================================ PICKER backdrop click */
-$('#compPicker').addEventListener('click',e=>{if(e.target.id==='compPicker')closePicker();});
+/* ============================================================ INPUTS */
+$('#priceSlider').addEventListener('input',e=>{G.price=+e.target.value;save();renderProduction();renderSegments();renderCompetitors();});
+$('#modelName').addEventListener('input',e=>{G.modelName=e.target.value||'Proto-G1';save();renderExploded();});
+$('#picker').addEventListener('click',e=>{if(e.target.id==='picker')closePicker();});
 
 /* ============================================================ TOASTS */
 function toast(html,type=''){const box=$('#toasts');
@@ -877,32 +1279,12 @@ function toast(html,type=''){const box=$('#toasts');
   setTimeout(()=>{el.classList.add('out');setTimeout(()=>el.remove(),320);},2700);
 }
 
-/* ============================================================ AUDIO minimal */
-function SFX_play(n){
-  try{
-    if(!SFX_play.ctx)SFX_play.ctx=new (window.AudioContext||window.webkitAudioContext)();
-    const ctx=SFX_play.ctx;
-    const o=ctx.createOscillator(),g=ctx.createGain();
-    o.connect(g);g.connect(ctx.destination);
-    const t=ctx.currentTime;
-    const cfg={click:{f:880,d:.05,v:.06,t:'square'},unlock:{f:[392,523,659],d:.3,v:.08,t:'triangle'},claim:{f:[660,880],d:.15,v:.07,t:'sine'},error:{f:140,d:.15,v:.07,t:'square'}}[n]||{f:440,d:.1,v:.06,t:'sine'};
-    o.type=cfg.t;
-    if(Array.isArray(cfg.f)){
-      o.frequency.setValueAtTime(cfg.f[0],t);
-      for(let i=1;i<cfg.f.length;i++)o.frequency.linearRampToValueAtTime(cfg.f[i],t+cfg.d*i/cfg.f.length);
-    }else o.frequency.value=cfg.f;
-    g.gain.setValueAtTime(cfg.v,t);
-    g.gain.exponentialRampToValueAtTime(.0001,t+cfg.d);
-    o.start(t);o.stop(t+cfg.d+.05);
-  }catch(e){}
-}
-
 /* ============================================================ BOOT */
 load();
 renderAll();
-if(!G.welcomed){G.welcomed=true;save();
-  setTimeout(()=>toast('📱 Bienvenue dans FIXER Beta ! Conçois ton premier téléphone dans l\'atelier.','gold'),500);
-  setTimeout(()=>toast('💡 Astuce : modifie les composants, puis va sur "Marché" pour lancer la production.','info'),1500);
+if(!G.welcomed||G.month===1){
+  setTimeout(()=>toast('📐 Bienvenue dans FIXER v0.3 — Blueprint tech !','gold'),500);
+  setTimeout(()=>toast('💡 Configure ton téléphone dans l\'atelier, puis lance la production.','info'),1500);
 }
 </script>
 </body>
