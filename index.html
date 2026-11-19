@@ -514,102 +514,108 @@ h1{
     <span class="idx">02.1 /</span>
     <h2>Nouveau projet IA</h2>
     <span class="ln"></span>
-    <span class="note">Void Raider · idée 100% IA · beta jouable</span>
+    <span class="note">Pastel Knight · idée 100% IA · beta jouable</span>
   </div>
 
-  <!-- ========= DEV CARD : VOID RAIDER ========= -->
+  <!-- ========= DEV CARD : PASTEL KNIGHT ========= -->
   <div class="cards" style="grid-template-columns:1fr;max-width:680px">
     <div class="gcard voidraider" aria-disabled="false" style="cursor:pointer" onclick="window.location.href='void_raider.html'">
-      <div class="devBanner" style="background:linear-gradient(90deg,rgba(255,45,149,.25),rgba(0,240,255,.18));border-bottom:1px dashed #5c1a4a;color:var(--pink)">▶ BETA v0.1 · IDÉE 100% IA · SYNTHWAVE ROGUE-LITE</div>
+      <div class="devBanner" style="background:linear-gradient(90deg,rgba(255,143,171,.35),rgba(189,178,255,.25));border-bottom:1px dashed #5c1a4a;color:#e85d75">▶ BETA v0.1 · IDÉE 100% IA · PLATEFORMER PASTEL</div>
       <div class="gcScene"><svg viewBox="0 0 480 280" preserveAspectRatio="xMidYMid slice">
         <defs>
-          <linearGradient id="vrBg" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0" stop-color="#1c0942"/><stop offset=".5" stop-color="#08020f"/><stop offset="1" stop-color="#13042a"/>
+          <linearGradient id="pkBg" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#bde0fe"/><stop offset=".5" stop-color="#cdb4db"/><stop offset="1" stop-color="#ffc8dd"/>
           </linearGradient>
-          <radialGradient id="vrSun" cx=".5" cy=".3" r=".3">
-            <stop offset="0" stop-color="#ffe45e"/><stop offset=".5" stop-color="#ff2d95"/><stop offset="1" stop-color="#9d4edd" stop-opacity="0"/>
-          </radialGradient>
-          <pattern id="vrGrid" x="0" y="0" width="30" height="30" patternUnits="userSpaceOnUse">
-            <path d="M0 0 L30 0 M0 0 L0 30" stroke="#ff2d95" stroke-width=".3" opacity=".4"/>
-          </pattern>
         </defs>
-        <rect width="480" height="280" fill="url(#vrBg)"/>
-        <rect width="480" height="280" fill="url(#vrGrid)" opacity=".5"/>
+        <rect width="480" height="280" fill="url(#pkBg)"/>
         <!-- Sun -->
-        <circle cx="240" cy="80" r="60" fill="url(#vrSun)" opacity=".7"/>
+        <circle cx="400" cy="60" r="32" fill="#fff5b8" opacity=".8"/>
+        <!-- Clouds -->
+        <g fill="#fff" opacity=".85">
+          <ellipse cx="80" cy="50" rx="35" ry="13"/>
+          <ellipse cx="65" cy="46" rx="20" ry="10"/>
+          <ellipse cx="95" cy="46" rx="22" ry="11"/>
+          <ellipse cx="350" cy="100" rx="30" ry="11"/>
+          <ellipse cx="335" cy="96" rx="18" ry="9"/>
+          <ellipse cx="365" cy="96" rx="20" ry="10"/>
+        </g>
+        <!-- Hills background -->
+        <ellipse cx="100" cy="240" rx="100" ry="35" fill="#caffbf" opacity=".7"/>
+        <ellipse cx="380" cy="245" rx="80" ry="28" fill="#b8e0a8" opacity=".7"/>
+        <!-- Ground -->
+        <rect x="0" y="230" width="480" height="50" fill="#9ad88a"/>
+        <rect x="0" y="225" width="480" height="8" fill="#caffbf"/>
+        <!-- Platforms -->
+        <rect x="120" y="180" width="80" height="14" rx="6" fill="#ffd6a5"/>
+        <rect x="240" y="140" width="90" height="14" rx="6" fill="#bdb2ff"/>
+        <rect x="370" y="180" width="70" height="14" rx="6" fill="#ffc8dd"/>
         <!-- Stars -->
-        <g fill="#fff5ff" opacity=".8">
-          <circle cx="50" cy="40" r="1"/>
-          <circle cx="420" cy="30" r="1.5"/>
-          <circle cx="80" cy="120" r="1"/>
-          <circle cx="400" cy="140" r="1"/>
-          <circle cx="120" cy="60" r="1"/>
-          <circle cx="350" cy="100" r="1.5"/>
+        <g fill="#fdffb6" stroke="#f4a261" stroke-width="1">
+          <polygon points="150,165 153,172 160,172 154,177 156,184 150,180 144,184 146,177 140,172 147,172"/>
+          <polygon points="275,125 278,132 285,132 279,137 281,144 275,140 269,144 271,137 265,132 272,132"/>
+          <polygon points="400,165 403,172 410,172 404,177 406,184 400,180 394,184 396,177 390,172 397,172"/>
         </g>
-        <!-- Perspective grid -->
-        <g stroke="#ff2d95" stroke-width=".5" opacity=".6" fill="none">
-          <line x1="0" y1="200" x2="480" y2="280"/>
-          <line x1="80" y1="200" x2="240" y2="280"/>
-          <line x1="240" y1="200" x2="240" y2="280"/>
-          <line x1="400" y1="200" x2="240" y2="280"/>
-          <line x1="480" y1="200" x2="0" y2="280"/>
-          <line x1="0" y1="220" x2="480" y2="220" opacity=".5"/>
-          <line x1="0" y1="240" x2="480" y2="240" opacity=".7"/>
-          <line x1="0" y1="260" x2="480" y2="260" opacity=".9"/>
+        <!-- Character (pink blob with face) -->
+        <g transform="translate(50,200)">
+          <rect x="0" y="0" width="30" height="35" rx="8" fill="#ff8fab"/>
+          <rect x="4" y="10" width="22" height="20" rx="5" fill="#fff"/>
+          <circle cx="11" cy="17" r="3" fill="#3d2c4a"/>
+          <circle cx="19" cy="17" r="3" fill="#3d2c4a"/>
+          <circle cx="8" cy="23" r="2.5" fill="#ff8fab" opacity=".5"/>
+          <circle cx="22" cy="23" r="2.5" fill="#ff8fab" opacity=".5"/>
+          <circle cx="9" cy="38" r="3" fill="#3d2c4a"/>
+          <circle cx="21" cy="38" r="3" fill="#3d2c4a"/>
         </g>
-        <!-- Cyan grid horizon -->
-        <line x1="0" y1="200" x2="480" y2="200" stroke="#00f0ff" stroke-width="1" opacity=".8"/>
-        <!-- Ship -->
-        <g transform="translate(240,140) rotate(-15)">
-          <polygon points="14,0 -10,8 -6,0 -10,-8" fill="#fff5ff" stroke="#ff2d95" stroke-width="1"/>
-          <circle cx="2" cy="0" r="3" fill="#00f0ff"/>
-          <line x1="-6" y1="0" x2="-30" y2="0" stroke="#ff2d95" stroke-width="2" opacity=".7"/>
+        <!-- Enemy walker -->
+        <g transform="translate(280,180)">
+          <rect x="-12" y="-12" width="24" height="24" rx="6" fill="#ff8fab"/>
+          <circle cx="-4" cy="-2" r="3" fill="#fff"/>
+          <circle cx="4" cy="-2" r="3" fill="#fff"/>
+          <circle cx="-3" cy="-2" r="1.5" fill="#3d2c4a"/>
+          <circle cx="5" cy="-2" r="1.5" fill="#3d2c4a"/>
         </g>
-        <!-- Enemy -->
-        <polygon points="120,100 110,90 100,100 110,110" fill="#9d4edd" stroke="#b056ff" stroke-width="1" opacity=".8"/>
-        <!-- Bullets -->
-        <g fill="#00f0ff" opacity=".9">
-          <circle cx="170" cy="135" r="2"/>
-          <circle cx="185" cy="138" r="2"/>
-          <circle cx="200" cy="140" r="2"/>
+        <!-- Flag -->
+        <g transform="translate(440,170)">
+          <rect x="0" y="0" width="3" height="60" fill="#3d2c4a"/>
+          <polygon points="3,5 35,15 3,25" fill="#ff8fab"/>
+          <polygon points="14,12 17,15 14,18" fill="#fdffb6"/>
         </g>
-        <!-- Text labels -->
-        <text x="20" y="30" font-family="Orbitron, monospace" font-size="11" fill="#ff2d95" opacity=".9" letter-spacing="2">VOID RAIDER</text>
-        <text x="20" y="46" font-family="Rajdhani, monospace" font-size="9" fill="#00f0ff" opacity=".7" letter-spacing="1.5">DRIFT · SHOOT · SURVIVE</text>
-        <text x="380" y="270" text-anchor="end" font-family="Orbitron, monospace" font-size="9" fill="#00f0ff" opacity=".7">v0.1-beta</text>
+        <text x="20" y="30" font-family="Fredoka, sans-serif" font-size="14" fill="#3d2c4a" font-weight="700">PASTEL KNIGHT</text>
+        <text x="20" y="46" font-family="Nunito, sans-serif" font-size="10" fill="#6b5575">SAUTE · COURS · COLLECTE</text>
+        <text x="460" y="270" text-anchor="end" font-family="Nunito, sans-serif" font-size="9" fill="#9a8aa8">v0.1-beta</text>
       </svg></div>
-      <div class="gcVeil"></div>
+      <div class="gcVeil" style="background:linear-gradient(180deg,rgba(255,250,252,.4) 0%,rgba(255,250,252,.2) 35%,rgba(255,250,252,.9) 75%,rgba(255,250,252,.98))"></div>
       <div class="gcBody">
         <div class="gcTop">
           <div class="gcIconWrap">
-            <div class="gcIcon">🚀</div>
+            <div class="gcIcon">🌸</div>
             <div>
-              <div class="gcTitle">VOID RAIDER</div>
-              <div class="gcVer">VERSION <b>v0.1-beta</b> · SYNTHWAVE ROGUE-LITE</div>
+              <div class="gcTitle">PASTEL KNIGHT</div>
+              <div class="gcVer">VERSION <b>v0.1-beta</b> · PLATEFORMER PASTEL</div>
             </div>
           </div>
-          <span class="gcBadge dev" style="background:linear-gradient(90deg,rgba(255,45,149,.25),rgba(0,240,255,.18));color:#fff;border-color:var(--pink)">▶ BETA v0.1</span>
+          <span class="gcBadge dev" style="background:linear-gradient(90deg,rgba(255,143,171,.35),rgba(189,178,255,.25));color:#3d2c4a;border-color:#e85d75">▶ BETA v0.1</span>
         </div>
-        <p class="gcDesc">Space shooter rogue-lite synthwave. Pilote un vaisseau néon, ralentis le temps avec le <b>drift temporel</b>, survis à <b>5 vagues</b> d'ennemis variés + boss. Récupère des crédits, améliore ton vaisseau au <b>hangar</b>, choisis 1 upgrade par vague. <b>Idée 100% IA</b>, conception entièrement autonome.</p>
+        <p class="gcDesc">Plateformer 2D à la Mario, vibe ultra stylée pastel doux. Pilote un <b>chevalier rose</b>, saute (avec <b>double saut</b>), cours à travers des niveaux procéduraux, collecte des <b>cristaux</b>, évite ou <b>stomp les ennemis</b>, et atteins le <b>drapeau rose</b>. <b>Idée 100% IA</b>, conception entièrement autonome.</p>
         <div class="gcTags">
-          <span class="gcTag" style="color:var(--pink);border-color:#5c1a4a">🚀 Synthwave</span>
-          <span class="gcTag" style="color:var(--cyan);border-color:#1d5866">⏱ Drift temporel</span>
-          <span class="gcTag" style="color:var(--amber);border-color:#5c4a1c">🔥 5 vagues + Boss</span>
-          <span class="gcTag" style="color:var(--lime);border-color:#2d4218">🤖 Idée 100% IA</span>
+          <span class="gcTag" style="color:#e85d75;border-color:#e85d75">🌸 Pastel doux</span>
+          <span class="gcTag" style="color:#9d8aff;border-color:#9d8aff">⬆️ Double saut</span>
+          <span class="gcTag" style="color:#5aa84a;border-color:#5aa84a">⭐ Cristaux</span>
+          <span class="gcTag" style="color:#6b5575;border-color:#6b5575">🤖 Idée 100% IA</span>
         </div>
         <div>
-          <div class="progressBar"><i style="width:25%;background:linear-gradient(90deg,var(--pink),var(--cyan))"></i></div>
-          <div class="progressLabel"><span>PROGRESSION</span><span><b style="color:var(--pink)">25%</b> · BETA v0.1 JOUABLE</span></div>
+          <div class="progressBar" style="background:rgba(255,250,252,.5);border:1px solid #e85d75"><i style="width:25%;background:linear-gradient(90deg,#ff8fab,#bdb2ff)"></i></div>
+          <div class="progressLabel"><span>PROGRESSION</span><span><b style="color:#e85d75">25%</b> · BETA v0.1 JOUABLE</span></div>
         </div>
         <div class="gcFooter">
-          <button class="gcPlay" style="background:linear-gradient(135deg,#ff2d95,#9d4edd);color:#fff;border:none;cursor:pointer;box-shadow:0 0 14px rgba(255,45,149,.4);opacity:1">▶ LANCER LA MISSION</button>
+          <button class="gcPlay" style="background:linear-gradient(135deg,#ff8fab,#e85d75);color:#fff;border:none;cursor:pointer;box-shadow:0 4px 0 #b04460;opacity:1">▶ JOUER</button>
           <div class="gcStats">
-            <span>STATUT <b style="color:var(--pink)">BETA</b></span>
+            <span>STATUT <b style="color:#e85d75">BETA</b></span>
             <span>SAUVEGARDE <b>AUTO</b></span>
           </div>
         </div>
       </div>
-      <div class="gcStripe" style="background:linear-gradient(90deg,var(--pink),var(--cyan))"></div>
+      <div class="gcStripe" style="background:linear-gradient(90deg,#ff8fab,#bdb2ff)"></div>
     </div>
   </div>
   <div class="divider">
