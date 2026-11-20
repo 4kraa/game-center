@@ -15,6 +15,22 @@ canvas{position:fixed;inset:0;width:100%;height:100%;cursor:crosshair;touch-acti
 #info{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);color:rgba(255,255,255,.2);font-size:12px;text-align:center;pointer-events:none;letter-spacing:1px}
 #reset{position:fixed;top:16px;right:16px;z-index:10;padding:8px 16px;background:rgba(0,0,0,.5);border:1px solid rgba(255,255,255,.08);color:rgba(255,255,255,.5);font-size:12px;font-weight:600;cursor:pointer;border-radius:100px;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);transition:all .2s}
 #reset:hover{color:#fff;background:rgba(255,255,255,.08)}
+#panel{position:fixed;top:60px;right:16px;z-index:10;width:220px;background:rgba(0,0,0,.6);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:16px;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);display:none;flex-direction:column;gap:14px}
+#panel.show{display:flex}
+#panel h3{font-size:11px;color:rgba(255,255,255,.4);letter-spacing:1.5px;text-transform:uppercase;font-weight:700;margin-bottom:-4px}
+.sl{display:flex;flex-direction:column;gap:6px}
+.sl label{font-size:11px;color:rgba(255,255,255,.6);font-weight:600;display:flex;justify-content:space-between}
+.sl label span{color:#00d9ff;font-weight:700}
+input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:4px;background:rgba(255,255,255,.1);border-radius:100px;outline:none;cursor:pointer}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:16px;height:16px;background:#fff;border-radius:50%;cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,.4)}
+input[type=range]::-moz-range-thumb{width:16px;height:16px;background:#fff;border-radius:50%;cursor:pointer;border:none;box-shadow:0 2px 6px rgba(0,0,0,.4)}
+.swatches{display:flex;gap:6px;flex-wrap:wrap}
+.sw{width:28px;height:28px;border-radius:8px;cursor:pointer;border:2px solid transparent;transition:transform .15s,border-color .15s}
+.sw:hover{transform:scale(1.1)}
+.sw.active{border-color:#fff}
+#panelBtn{position:fixed;top:16px;right:70px;z-index:10;padding:8px 16px;background:rgba(0,0,0,.5);border:1px solid rgba(255,255,255,.08);color:rgba(255,255,255,.5);font-size:12px;font-weight:600;cursor:pointer;border-radius:100px;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);transition:all .2s}
+#panelBtn:hover{color:#fff;background:rgba(255,255,255,.08)}
+#panelBtn.active{background:rgba(255,255,255,.1);color:#fff}
 </style>
 </head>
 <body>
@@ -24,7 +40,32 @@ canvas{position:fixed;inset:0;width:100%;height:100%;cursor:crosshair;touch-acti
   <button class="btn" data-tool="bubbles">BULLES</button>
   <button class="btn" data-tool="sand">SABLE</button>
 </div>
+<button id="panelBtn">⚙ RÉGLAGES</button>
 <button id="reset">↻ RESET</button>
+
+<div id="panel">
+  <h3>SLIME — PROPRIÉTÉS</h3>
+  <div class="sl">
+    <label>Molle <span id="vSoft">0.50</span></label>
+    <input type="range" id="rSoft" min="0" max="100" value="50">
+  </div>
+  <div class="sl">
+    <label>Gravité <span id="vGrav">0.30</span></label>
+    <input type="range" id="rGrav" min="0" max="100" value="30">
+  </div>
+  <div class="sl">
+    <label>Rebond <span id="vBounce">0.98</span></label>
+    <input type="range" id="rBounce" min="50" max="100" value="98">
+  </div>
+  <div class="sl">
+    <label>Taille <span id="vSize">20%</span></label>
+    <input type="range" id="rSize" min="10" max="40" value="20">
+  </div>
+  <div class="sl">
+    <label>Couleur</label>
+    <div class="swatches" id="swatches"></div>
+  </div>
+</div>
 <div id="info">Glisse pour interagir</div>
 
 <script>
@@ -109,6 +150,7 @@ document.querySelectorAll('.btn').forEach(b=>b.addEventListener('click',()=>{
   if(currentTool==='bubbles')initBubbles();
   if(currentTool==='sand')initSand();
   if(currentTool==='slime')initSlime();
+  updatePanelVisibility();
 }));
 document.getElementById('reset').addEventListener('click',()=>{
   if(currentTool==='slime')initSlime();
@@ -117,16 +159,35 @@ document.getElementById('reset').addEventListener('click',()=>{
 });
 
 // ==========================================
-// 1. SLIME — FIXED (no pinned center, free body)
+// 1. SLIME — with parameters
 // ==========================================
 let slime={points:[],sticks:[],drag:null};
 
+// Slime params (adjustable via panel)
+let slimeParams={
+  softness:0.5,   // 0=rigid, 1=very soft (spring stiffness multiplier)
+  gravity:0.3,   // 0=none, 1=heavy
+  bounce:0.98,   // damping (0.5=no bounce, 1=full bounce)
+  sizePct:0.20,  // % of min(W,H)
+  color1:'#00d9ff',
+  color2:'#7c5cff'
+};
+
+const SLIME_COLORS=[
+  {c1:'#00d9ff',c2:'#7c5cff'}, // cyan/violet
+  {c1:'#ff4488',c2:'#ff6b6b'}, // rose/rouge
+  {c1:'#aaff00',c2:'#22c55e'}, // vert/lime
+  {c1:'#ffaa00',c2:'#ff6b00'}, // orange
+  {c1:'#ffffff',c2:'#cccccc'}, // blanc/gris
+  {c1:'#feca57',c2:'#ff9ff3'}, // jaune/rose
+  {c1:'#54a0ff',c2:'#5f27cd'}, // bleu/violet
+];
+
 function initSlime(){
   const cx=W/2,cy=H/2;
-  const r=Math.min(W,H)*0.2;
+  const r=Math.min(W,H)*slimeParams.sizePct;
   const n=28;
   slime.points=[];slime.sticks=[];slime.drag=null;
-  // Edge points
   for(let i=0;i<n;i++){
     const a=i/n*TAU;
     const px=cx+Math.cos(a)*r,py=cy+Math.sin(a)*r;
@@ -136,27 +197,38 @@ function initSlime(){
   for(let i=0;i<n;i++){
     const j=(i+1)%n;
     const d=Math.hypot(slime.points[i].x-slime.points[j].x,slime.points[i].y-slime.points[j].y);
-    slime.sticks.push({p1:i,p2:j,len:d,k:1});
+    slime.sticks.push({p1:i,p2:j,len:d,type:'edge'});
   }
-  // Diagonal springs (across) for shape retention — soft
+  // Diagonal springs (across) for shape retention
   for(let i=0;i<n/2;i++){
     const j=(i+(n/2|0))%n;
     const d=Math.hypot(slime.points[i].x-slime.points[j].x,slime.points[i].y-slime.points[j].y);
-    slime.sticks.push({p1:i,p2:j,len:d,k:.08});
+    slime.sticks.push({p1:i,p2:j,len:d,type:'diag'});
   }
-  // Next-neighbor springs (smoother edges)
+  // Next-neighbor springs
   for(let i=0;i<n;i++){
     const j=(i+2)%n;
     const d=Math.hypot(slime.points[i].x-slime.points[j].x,slime.points[i].y-slime.points[j].y);
-    slime.sticks.push({p1:i,p2:j,len:d,k:.2});
+    slime.sticks.push({p1:i,p2:j,len:d,type:'next'});
   }
-  // Every 3rd point to center-ish (but no pinned center)
-  // Create internal structural springs from every 4th point to opposite
+  // Internal cross springs
   for(let i=0;i<n/4;i++){
     const j=(i+(n/4|0)*3)%n;
     const d=Math.hypot(slime.points[i].x-slime.points[j].x,slime.points[i].y-slime.points[j].y);
-    slime.sticks.push({p1:i,p2:j,len:d,k:.05});
+    slime.sticks.push({p1:i,p2:j,len:d,type:'cross'});
   }
+}
+
+function getSpringK(type){
+  const s=slimeParams.softness;
+  // Higher softness = lower stiffness
+  switch(type){
+    case 'edge':return 1-s*0.7;  // edges: 1.0 (rigid) → 0.3 (soft)
+    case 'diag':return 0.08*(1-s*0.8); // diag: 0.08 → 0.016
+    case 'next':return 0.2*(1-s*0.7);  // next: 0.2 → 0.06
+    case 'cross':return 0.05*(1-s*0.8); // cross: 0.05 → 0.01
+  }
+  return 1;
 }
 
 function grabSlime(){
@@ -186,19 +258,18 @@ function releaseSlime(){
 
 function updateSlime(){
   if(slime.points.length===0)return;
-  // Drag: move dragged point to mouse
   if(slime.drag!==null){
     slime.points[slime.drag].x=mouse.x;
     slime.points[slime.drag].y=mouse.y;
   }
-  // Verlet integration (no pinned points!)
+  // Verlet integration
   slime.points.forEach((p,i)=>{
     if(i===slime.drag)return;
-    const vx=(p.x-p.px)*0.985;
-    const vy=(p.y-p.py)*0.985;
+    const vx=(p.x-p.px)*slimeParams.bounce;
+    const vy=(p.y-p.py)*slimeParams.bounce;
     p.px=p.x;p.py=p.y;
     p.x+=vx;p.y+=vy;
-    p.y+=0.3; // gentle gravity
+    p.y+=slimeParams.gravity; // adjustable gravity
   });
   // Constraints
   for(let k=0;k<5;k++){
@@ -206,15 +277,15 @@ function updateSlime(){
       const p1=slime.points[s.p1],p2=slime.points[s.p2];
       const dx=p2.x-p1.x,dy=p2.y-p1.y;
       const d=Math.hypot(dx,dy)||1;
-      const diff=(s.len-d)/d*(s.k||1)*0.5;
+      const k=getSpringK(s.type);
+      const diff=(s.len-d)/d*k*0.5;
       const ox=dx*diff,oy=dy*diff;
       if(s.p1!==slime.drag){p1.x-=ox;p1.y-=oy;}
       if(s.p2!==slime.drag){p2.x+=ox;p2.y+=oy;}
     });
-    // Bounds (bounce off edges)
     slime.points.forEach(p=>{
-      if(p.x<5){p.x=5;}if(p.x>W-5){p.x=W-5;}
-      if(p.y<5){p.y=5;}if(p.y>H-5){p.y=H-5;}
+      if(p.x<5)p.x=5;if(p.x>W-5)p.x=W-5;
+      if(p.y<5)p.y=5;if(p.y>H-5)p.y=H-5;
     });
   }
 }
@@ -223,14 +294,13 @@ function drawSlime(){
   if(slime.points.length===0)return;
   const pts=slime.points;
   const n=pts.length;
-  // Centroid
   let cx=0,cy=0;pts.forEach(p=>{cx+=p.x;cy+=p.y;});
   cx/=n;cy/=n;
   let maxR=0;pts.forEach(p=>{const d=Math.hypot(p.x-cx,p.y-cy);if(d>maxR)maxR=d;});
   maxR=Math.max(maxR+50,50);
   // Glow shadow
   ctx.save();
-  ctx.shadowBlur=40;ctx.shadowColor='rgba(124,92,255,.5)';
+  ctx.shadowBlur=40;ctx.shadowColor=slimeParams.color2+'80';
   // Smooth curve
   ctx.beginPath();
   const m0x=(pts[0].x+pts[1].x)/2,m0y=(pts[0].y+pts[1].y)/2;
@@ -241,11 +311,10 @@ function drawSlime(){
     ctx.quadraticCurveTo(p1.x,p1.y,mx,my);
   }
   ctx.closePath();
-  // Gradient
   const grad=ctx.createRadialGradient(cx-maxR*.3,cy-maxR*.3,0,cx,cy,maxR);
-  grad.addColorStop(0,'#80e8ff');
-  grad.addColorStop(.4,'#00d9ff');
-  grad.addColorStop(1,'#7c5cff');
+  grad.addColorStop(0,lightenColor(slimeParams.color1,60));
+  grad.addColorStop(.4,slimeParams.color1);
+  grad.addColorStop(1,slimeParams.color2);
   ctx.fillStyle=grad;
   ctx.fill();
   ctx.restore();
@@ -270,6 +339,66 @@ function drawSlime(){
   ctx.beginPath();
   ctx.arc(cx-maxR*.3,cy-maxR*.4,maxR*.06,0,TAU);
   ctx.fill();
+}
+
+function lightenColor(hex,amt){
+  hex=hex.replace('#','');
+  let r=parseInt(hex.substr(0,2),16),g=parseInt(hex.substr(2,2),16),b=parseInt(hex.substr(4,2),16);
+  r=clamp(r+amt,0,255);g=clamp(g+amt,0,255);b=clamp(b+amt,0,255);
+  return'#'+[r,g,b].map(x=>x.toString(16).padStart(2,'0')).join('');
+}
+
+// Panel toggle
+const panelBtn=document.getElementById('panelBtn');
+const panel=document.getElementById('panel');
+panelBtn.addEventListener('click',()=>{
+  const show=!panel.classList.contains('show');
+  panel.classList.toggle('show',show);
+  panelBtn.classList.toggle('active',show);
+});
+
+// Sliders
+function bindSlider(id,labelId,fn){
+  const el=document.getElementById(id),lbl=document.getElementById(labelId);
+  el.addEventListener('input',()=>{fn(+el.value);lbl.textContent=fn.display||el.value;});
+}
+document.getElementById('rSoft').addEventListener('input',e=>{
+  slimeParams.softness=e.target.value/100;
+  document.getElementById('vSoft').textContent=slimeParams.softness.toFixed(2);
+});
+document.getElementById('rGrav').addEventListener('input',e=>{
+  slimeParams.gravity=e.target.value/100;
+  document.getElementById('vGrav').textContent=slimeParams.gravity.toFixed(2);
+});
+document.getElementById('rBounce').addEventListener('input',e=>{
+  slimeParams.bounce=e.target.value/100;
+  document.getElementById('vBounce').textContent=slimeParams.bounce.toFixed(2);
+});
+document.getElementById('rSize').addEventListener('input',e=>{
+  slimeParams.sizePct=e.target.value/100;
+  document.getElementById('vSize').textContent=e.target.value+'%';
+  if(currentTool==='slime')initSlime();
+});
+
+// Color swatches
+const swContainer=document.getElementById('swatches');
+SLIME_COLORS.forEach((c,i)=>{
+  const sw=document.createElement('div');
+  sw.className='sw'+(i===0?' active':'');
+  sw.style.background=`linear-gradient(135deg,${c.c1},${c.c2})`;
+  sw.addEventListener('click',()=>{
+    document.querySelectorAll('.sw').forEach(s=>s.classList.remove('active'));
+    sw.classList.add('active');
+    slimeParams.color1=c.c1;slimeParams.color2=c.c2;
+  });
+  swContainer.appendChild(sw);
+});
+
+// Show panel only on slime tool
+function updatePanelVisibility(){
+  const show=currentTool==='slime';
+  panelBtn.style.display=show?'block':'none';
+  if(!show)panel.classList.remove('show'),panelBtn.classList.remove('active');
 }
 
 // ==========================================
@@ -540,6 +669,7 @@ function loop(){
 }
 
 initSlime();
+updatePanelVisibility();
 loop();
 </script>
 </body>
