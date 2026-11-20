@@ -123,6 +123,9 @@ h1{
 .gcard.money::before{background:linear-gradient(135deg,var(--amber),transparent 60%)}
 .gcard.zombie:hover{border-color:var(--lime);box-shadow:0 20px 60px rgba(170,255,0,.15)}
 .gcard.zombie::before{background:linear-gradient(135deg,var(--lime),transparent 60%)}
+.gcard.squish:hover{border-color:var(--accent);box-shadow:0 20px 60px rgba(124,92,255,.2)}
+.gcard.squish::before{background:linear-gradient(135deg,var(--accent),transparent 60%)}
+.gcard.squish .gcTitle{color:var(--accent)}
 
 /* Card internals */
 .gcTop{display:flex;align-items:center;justify-content:space-between;gap:12px}
@@ -224,7 +227,7 @@ h1{
     <div class="brand"><div class="dot"></div> GAME <span>CENTER</span><div class="ver">HUB v7.0</div></div>
     <div class="hspace"></div>
     <div class="tbChip always"><div class="pulse"></div>EN LIGNE</div>
-    <div class="tbChip">🎮 <b>2</b> JEUX</div>
+    <div class="tbChip">🎮 <b>3</b> JEUX</div>
     <div class="tbChip">⏸ <b>2</b> EN PAUSE</div>
     <div class="tbChip">⚡ <b>OFFLINE</b></div>
   </header>
@@ -232,7 +235,7 @@ h1{
   <section id="hero">
     <div class="kicker"><div class="dot"></div>ARCADE HUB · PLATEFORME DE JEUX</div>
     <h1>GAME CENTER</h1>
-    <p class="heroSub">Deux jeux complets jouables dès maintenant, <b>plus deux en pause</b>. <b>Aucune installation</b>, aucune connexion requise, sauvegarde locale automatique.</p>
+    <p class="heroSub">Trois jeux jouables dès maintenant, <b>plus deux en pause</b>. <b>Aucune installation</b>, aucune connexion requise, sauvegarde locale automatique.</p>
   </section>
 
   <div class="divider"><div class="idx">01</div><h2>Sélection de jeu</h2><div class="ln"></div><div class="note">Clique pour démarrer ▶</div></div>
@@ -255,6 +258,15 @@ h1{
       <p class="gcDesc">Rogue-lite top-down : <b>4 secteurs × 5 niveaux</b> = 20 missions, <b>6 armes</b> évolutives, équipement RPG, et <b>4 boss titanesques</b> (16k à 110k HP).</p>
       <div class="gcTags"><span class="gcTag">Bullet Heaven</span><span class="gcTag">20 Niveaux</span><span class="gcTag">4 Boss</span></div>
       <div class="gcFooter"><button class="gcPlay">DÉPLOIEMENT <i>→</i></button><div class="gcStats">TEMPO <b>×0.75→×2</b><br>SAUVEGARDE <b>AUTO</b></div></div>
+    </div>
+    <div class="gcard squish" onclick="window.location.href='squish.html'">
+      <div class="gcTop">
+        <div class="gcIconWrap"><div class="gcIcon">🫧</div><div><div class="gcTitle">SQUISH</div><div class="gcVer">VERSION <b>v1.0</b> · SATISFYING POP</div></div></div>
+        <div class="gcBadge live"><div class="dot"></div>NOUVEAU</div>
+      </div>
+      <p class="gcDesc">Fais éclater des blobs <b>squishy</b> et colorés. Chaque pop déclenche des <b>particules</b>, des <b>éclaboussures d'eau</b>, des <b>ripples</b> et des sons satisfaisants. Chaîne les pops pour des <b>combos</b> avec slow-mo. Ultra relaxant.</p>
+      <div class="gcTags"><span class="gcTag">Satisfying</span><span class="gcTag">Squishy</span><span class="gcTag">Water Physics</span><span class="gcTag">Combos</span></div>
+      <div class="gcFooter"><button class="gcPlay">JOUER <i>→</i></button><div class="gcStats">PARTIE <b>∞</b><br>MEILLEUR <b>SCORE</b></div></div>
     </div>
   </div>
 
@@ -299,7 +311,7 @@ h1{
   <footer id="footer">
     <div class="footGrid">
       <div class="footBrand">GAME <span>CENTER</span></div>
-      <div class="footMeta">v7.0 · <b>2 JEUX + 2 EN PAUSE</b> · OPEN-SOURCE</div>
+      <div class="footMeta">v7.0 · <b>3 JEUX + 2 EN PAUSE</b> · OPEN-SOURCE</div>
     </div>
     <p class="footNote">Plateforme web autonome développée pour le plaisir du gameplay. Toute la progression est sauvegardée localement.</p>
   </footer>

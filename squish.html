@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+<title>SQUISH — Satisfying Pop</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;overflow:hidden;background:#080810;font-family:'Space Grotesk',sans-serif;user-select:none;-webkit-user-select:none;touch-action:none}
+canvas{position:fixed;inset:0;width:100%;height:100%;cursor:crosshair}
+#ui{position:fixed;inset:0;pointer-events:none;z-index:10}
+#score{position:absolute;top:20px;left:50%;transform:translateX(-50%);font-size:48px;font-weight:700;color:#fff;text-shadow:0 0 30px rgba(124,92,255,.6);letter-spacing:-1px}
+#combo{position:absolute;top:80px;left:50%;transform:translateX(-50%);font-size:20px;font-weight:500;color:#7c5cff;text-shadow:0 0 20px rgba(124,92,255,.5);opacity:0;transition:opacity .3s}
+#combo.show{opacity:1}
+#comboBar{position:absolute;top:108px;left:50%;transform:translateX(-50%);width:200px;height:4px;background:rgba(255,255,255,.1);border-radius:100px;overflow:hidden}
+#comboBar i{display:block;height:100%;background:linear-gradient(90deg,#7c5cff,#00d9ff);border-radius:100px;transition:width .1s linear;width:100%}
+#menu{position:fixed;inset:0;z-index:20;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:24px;background:rgba(8,8,16,.85);backdrop-filter:blur(20px);transition:opacity .5s,visibility .5s}
+#menu.hide{opacity:0;visibility:hidden;pointer-events:none}
+#menu h1{font-size:72px;font-weight:700;letter-spacing:-2px;background:linear-gradient(135deg,#7c5cff,#00d9ff,#ff4488);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:glow 3s ease-in-out infinite}
+@keyframes glow{50%{filter:brightness(1.2)}}
+#menu p{font-size:16px;color:#888;max-width:400px;text-align:center;line-height:1.5}
+#menu button{padding:16px 48px;font-size:18px;font-weight:700;font-family:'Space Grotesk',sans-serif;background:linear-gradient(135deg,#7c5cff,#5a3fd4);color:#fff;border:none;border-radius:100px;cursor:pointer;transition:transform .3s cubic-bezier(.34,1.56,.64,1);box-shadow:0 8px 30px rgba(124,92,255,.4)}
+#menu button:hover{transform:scale(1.05)}
+#menu button:active{transform:scale(.95)}
+#bestScore{position:absolute;bottom:30px;font-size:14px;color:#555}
+#bestScore b{color:#7c5cff}
+</style>
+</head>
+<body>
+<canvas id="cv"></canvas>
+<div id="ui">
+  <div id="score">0</div>
+  <div id="combo">×1 COMBO</div>
+  <div id="comboBar"><i></i></div>
+</div>
+<div id="menu">
+  <h1>SQUISH</h1>
+  <p>Clique ou tape les blobs pour les faire éclater. Chaine-les pour des combos. Détends-toi.</p>
+  <button id="start">▶ JOUER</button>
+  <div id="bestScore">Meilleur score : <b>0</b></div>
+</div>
+<script>
+const cv=document.getElementById('cv'),ctx=cv.getContext('2d');
+let W=0,H=0,DPR=1;
+function resize(){const r=window.devicePixelRatio||1;W=innerWidth;H=innerHeight;DPR=Math.min(2,r);cv.width=W*DPR;cv.height=H*DPR;ctx.setTransform(DPR,0,0,DPR,0,0);}
+resize();window.addEventListener('resize',resize);
+
+// Audio
+let AC=null;
+function initAudio(){if(!AC)try{AC=new(window.AudioContext||window.webkitAudioContext)();}catch(e){}}
+function popSound(pitch=1){
+  if(!AC)return;
+  const t=AC.currentTime;
+  // Pop: quick freq sweep
+  const o=AC.createOscillator(),g=AC.createGain();
+  o.type='sine';o.frequency.setValueAtTime(200*pitch,t);o.frequency.exponentialRampToValueAtTime(800*pitch,t+.05);
+  g.gain.setValueAtTime(.15,t);g.gain.exponentialRampToValueAtTime(.001,t+.15);
+  o.connect(g);g.connect(AC.destination);o.start(t);o.stop(t+.2);
+  // Noise burst
+  const buf=AC.createBuffer(1,AC.sampleRate*.1,AC.sampleRate),d=buf.getChannelData(0);
+  for(let i=0;i<d.length;i++)d[i]=(Math.random()*2-1)*(1-i/d.length);
+  const s=AC.createBufferSource(),ng=AC.createGain(),f=AC.createBiquadFilter();
+  s.buffer=buf;f.type='lowpass';f.frequency.setValueAtTime(2000,t);f.frequency.exponentialRampToValueAtTime(200,t+.1);
+  ng.gain.setValueAtTime(.08,t);ng.gain.exponentialRampToValueAtTime(.001,t+.1);
+  s.connect(f);f.connect(ng);ng.connect(AC.destination);s.start(t);
+}
+function splashSound(){
+  if(!AC)return;const t=AC.currentTime;
+  const buf=AC.createBuffer(1,AC.sampleRate*.3,AC.sampleRate),d=buf.getChannelData(0);
+  for(let i=0;i<d.length;i++)d[i]=(Math.random()*2-1)*Math.pow(1-i/d.length,2);
+  const s=AC.createBufferSource(),g=AC.createGain(),f=AC.createBiquadFilter();
+  s.buffer=buf;f.type='bandpass';f.frequency.value=1500;f.Q.value=2;
+  g.gain.setValueAtTime(.06,t);g.gain.exponentialRampToValueAtTime(.001,t+.3);
+  s.connect(f);f.connect(g);g.connect(AC.destination);s.start(t);
+}
+function comboSound(n){
+  if(!AC)return;const t=AC.currentTime;
+  [523,659,784,1046,1318].forEach((f,i)=>{if(i<n){const o=AC.createOscillator(),g=AC.createGain();o.type='triangle';o.frequency.value=f;g.gain.setValueAtTime(.06,t+i*.06);g.gain.exponentialRampToValueAtTime(.001,t+i*.06+.15);o.connect(g);g.connect(AC.destination);o.start(t+i*.06);o.stop(t+i*.06+.2);}});
+}
+
+// Colors
+const COLORS=['#ff4488','#00d9ff','#aaff00','#ffaa00','#7c5cff','#ff6b6b','#4ecdc4','#feca57','#ff9ff3','#54a0ff'];
+const TAU=Math.PI*2;
+const rand=(a,b)=>a+Math.random()*(b-a),pick=a=>a[Math.floor(Math.random()*a.length)],clamp=(v,a,b)=>v<a?a:v>b?b:v;
+
+// Game state
+let G={running:false,blobs:[],particles:[],droplets:[],ripples:[],floaters:[],score:0,combo:0,comboT:0,spawnT:0,shake:0,slowmo:0,best:0,time:0,last:0};
+
+// Load best score
+try{G.best=JSON.parse(localStorage.getItem('squish_best')||'0');document.querySelector('#bestScore b').textContent=G.best;}catch(e){}
+
+// Blob class — soft body with jiggle
+class Blob{
+  constructor(x,y,r,color){
+    this.x=x;this.y=y;this.r=r;this.baseR=r;this.color=color;
+    this.vx=rand(-.5,.5);this.vy=rand(-1,-.3);
+    this.jiggle=0;this.jigglePhase=rand(0,TAU);this.wobble=rand(0,TAU);
+    this.life=1;this.popped=false;this.popT=0;
+    this.squishX=1;this.squishY=1;
+  }
+  update(dt){
+    if(this.popped){this.popT+=dt;this.r*=0.92;return;}
+    this.x+=this.vx;this.y+=this.vy;
+    this.vy+=0.02; // gentle gravity
+    // Bounce off walls
+    if(this.x<this.r){this.x=this.r;this.vx*=-.6;this.jiggle=.5;}
+    if(this.x>W-this.r){this.x=W-this.r;this.vx*=-.6;this.jiggle=.5;}
+    if(this.y<this.r){this.y=this.r;this.vy*=-.6;}
+    if(this.y>H-this.r){this.y=H-this.r;this.vy*=-.6;this.jiggle=.5;}
+    // Jiggle decay
+    this.jiggle*=.92;
+    this.jigglePhase+=dt*8;
+    this.wobble+=dt*3;
+    // Squish recovery (spring back)
+    this.squishX+=(1-this.squishX)*.15;
+    this.squishY+=(1-this.squishY)*.15;
+    // Gentle floating wobble
+    this.vx+=Math.sin(this.wobble)*.01;
+  }
+  draw(){
+    if(this.popped&&this.r<2)return;
+    const j=this.jiggle;
+    const jiggleR=this.r*(1+Math.sin(this.jigglePhase)*j*.15);
+    const rx=jiggleR*this.squishX;
+    const ry=jiggleR*this.squishY;
+    // Glow
+    const glow=ctx.createRadialGradient(this.x,this.y,0,this.x,this.y,rx*1.6);
+    glow.addColorStop(0,this.color+'40');
+    glow.addColorStop(1,this.color+'00');
+    ctx.fillStyle=glow;
+    ctx.beginPath();ctx.arc(this.x,this.y,rx*1.6,0,TAU);ctx.fill();
+    // Body with gradient (squishy look)
+    const grad=ctx.createRadialGradient(this.x-rx*.3,this.y-ry*.3,0,this.x,this.y,rx);
+    grad.addColorStop(0,this.lightenColor(this.color,40));
+    grad.addColorStop(.7,this.color);
+    grad.addColorStop(1,this.darkenColor(this.color,30));
+    ctx.fillStyle=grad;
+    ctx.beginPath();ctx.ellipse(this.x,this.y,rx,ry,0,0,TAU);ctx.fill();
+    // Highlight (shine)
+    ctx.fillStyle='rgba(255,255,255,.4)';
+    ctx.beginPath();ctx.ellipse(this.x-rx*.3,this.y-ry*.35,rx*.25,ry*.15,-.5,0,TAU);ctx.fill();
+  }
+  lightenColor(hex,amt){
+    hex=hex.replace('#','');let r=parseInt(hex.substr(0,2),16),g=parseInt(hex.substr(2,2),16),b=parseInt(hex.substr(4,2),16);
+    r=clamp(r+amt,0,255);g=clamp(g+amt,0,255);b=clamp(b+amt,0,255);
+    return'#'+[r,g,b].map(x=>x.toString(16).padStart(2,'0')).join('');
+  }
+  darkenColor(hex,amt){return this.lightenColor(hex,-amt);}
+  hit(px,py){
+    const dx=px-this.x,dy=py-this.y;
+    return dx*dx+dy*dy<this.r*this.r;
+  }
+  pop(){
+    if(this.popped)return;
+    this.popped=true;this.popT=0;
+    // Burst particles
+    const n=12+Math.floor(this.r/3);
+    for(let i=0;i<n;i++){
+      const a=rand(0,TAU),sp=rand(80,300);
+      G.particles.push({x:this.x,y:this.y,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp,r:rand(2,6),color:this.color,life:rand(.4,.8),maxLife:.8,gravity:true});
+    }
+    // Water droplets
+    for(let i=0;i<6;i++){
+      const a=rand(-Math.PI*0.8,-Math.PI*0.2),sp=rand(100,250);
+      G.droplets.push({x:this.x,y:this.y,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp,r:rand(3,7),color:this.color,life:2});
+    }
+    // Ripple
+    G.ripples.push({x:this.x,y:this.y,r:this.r,maxR:this.r*5,life:1,color:this.color});
+    // Jiggle nearby blobs
+    for(const b of G.blobs){
+      if(b===this||b.popped)continue;
+      const dx=b.x-this.x,dy=b.y-this.y,d=Math.hypot(dx,dy);
+      if(d<this.r+150){
+        const f=(1-d/(this.r+150))*8;
+        b.vx+=dx/d*f;b.vy+=dy/d*f;b.jiggle=.6;
+        b.squishX=.85;b.squishY=1.1;
+      }
+    }
+    // Score
+    G.combo++;G.comboT=2;
+    const pts=10*G.combo;
+    G.score+=pts;
+    popSound(1+G.combo*0.1);
+    if(G.combo>=3)comboSound(Math.min(G.combo,5));
+    // Score popup
+    G.floaters.push({x:this.x,y:this.y,text:'+'+pts,color:this.color,life:1,vy:-60});
+    // Screen shake
+    G.shake=Math.min(8,G.combo*1.5);
+    // Slow-mo on big combos
+    if(G.combo>=5)G.slowmo=0.5;
+  }
+}
+
+// Spawn
+function spawnBlob(){
+  const r=rand(20,55);
+  const x=rand(r,W-r);
+  const y=H+r;
+  G.blobs.push(new Blob(x,y,r,pick(COLORS)));
+}
+
+// Input
+function handlePoint(x,y){
+  if(!G.running)return;
+  initAudio();if(AC&&AC.state==='suspended')AC.resume();
+  // Click ripple
+  G.ripples.push({x,y,r:5,maxR:60,life:1,color:'#ffffff'});
+  // Check blob hits (top to bottom = front to back)
+  let hit=false;
+  for(let i=G.blobs.length-1;i>=0;i--){
+    const b=G.blobs[i];
+    if(!b.popped&&b.hit(x,y)){
+      b.pop();hit=true;break;
+    }
+  }
+  if(!hit){
+    // Squish nearby blobs even if not popped
+    for(const b of G.blobs){
+      if(b.popped)continue;
+      const dx=b.x-x,dy=b.y-y,d=Math.hypot(dx,dy);
+      if(d<b.r+80){
+        const f=(1-d/(b.r+80))*4;
+        b.vx+=dx/d*f;b.vy+=dy/d*f;b.jiggle=.3;
+        b.squishX=.9;b.squishY=1.08;
+      }
+    }
+    splashSound();
+  }
+}
+cv.addEventListener('pointerdown',e=>{e.preventDefault();handlePoint(e.clientX,e.clientY);});
+
+// Menu
+document.getElementById('start').addEventListener('click',()=>{
+  initAudio();if(AC)AC.resume();
+  G.running=true;G.score=0;G.combo=0;G.blobs=[];G.particles=[];G.droplets=[];G.ripples=[];G.floaters=[];
+  // Spawn initial blobs
+  for(let i=0;i<8;i++)spawnBlob();
+  document.getElementById('menu').classList.add('hide');
+  G.last=performance.now();
+  requestAnimationFrame(frame);
+});
+
+// Update + Draw
+function update(dt){
+  G.time+=dt;
+  // Spawn
+  G.spawnT-=dt;
+  if(G.spawnT<=0&&G.blobs.filter(b=>!b.popped).length<15){
+    G.spawnT=rand(0.3,0.8);
+    spawnBlob();
+  }
+  // Combo timer
+  if(G.comboT>0){G.comboT-=dt;if(G.comboT<=0)G.combo=0;}
+  // Slow-mo
+  let realDt=dt;
+  if(G.slowmo>0){G.slowmo-=dt;realDt=dt*0.3;}
+  // Blobs
+  for(let i=G.blobs.length-1;i>=0;i--){
+    const b=G.blobs[i];
+    b.update(realDt);
+    if(b.popped&&b.r<2)G.blobs.splice(i,1);
+  }
+  // Particles
+  for(let i=G.particles.length-1;i>=0;i--){
+    const p=G.particles[i];
+    p.x+=p.vx*realDt;p.y+=p.vy*realDt;
+    if(p.gravity)p.vy+=400*realDt;
+    p.vx*=0.97;p.life-=realDt;
+    if(p.life<=0)G.particles.splice(i,1);
+  }
+  // Water droplets
+  for(let i=G.droplets.length-1;i>=0;i--){
+    const d=G.droplets[i];
+    d.x+=d.vx*realDt;d.y+=d.vy*realDt;
+    d.vy+=300*realDt;d.vx*=0.99;
+    d.life-=realDt;
+    // Bounce off floor
+    if(d.y>H-10){d.y=H-10;d.vy*=-0.4;d.vx*=0.7;d.r*=0.9;}
+    if(d.life<=0||d.r<1)G.droplets.splice(i,1);
+  }
+  // Ripples
+  for(let i=G.ripples.length-1;i>=0;i--){
+    const r=G.ripples[i];
+    r.r+=(r.maxR-r.r)*0.1;
+    r.life-=realDt*1.5;
+    if(r.life<=0)G.ripples.splice(i,1);
+  }
+  // Floaters (score text)
+  for(let i=G.floaters.length-1;i>=0;i--){
+    const f=G.floaters[i];
+    f.y+=f.vy*realDt;f.life-=realDt;
+    if(f.life<=0)G.floaters.splice(i,1);
+  }
+  // Shake decay
+  G.shake*=0.9;
+}
+
+function draw(){
+  // Clear with slight trail for motion blur
+  ctx.fillStyle='rgba(8,8,16,0.15)';
+  ctx.fillRect(0,0,W,H);
+  // Screen shake
+  ctx.save();
+  if(G.shake>0.1){
+    ctx.translate(rand(-G.shake,G.shake),rand(-G.shake,G.shake));
+  }
+  // Ripples (under everything)
+  for(const r of G.ripples){
+    ctx.strokeStyle=r.color+Math.floor(r.life*100).toString(16).padStart(2,'0');
+    ctx.lineWidth=2;
+    ctx.beginPath();ctx.arc(r.x,r.y,r.r,0,TAU);ctx.stroke();
+  }
+  // Blobs (metaball-like: draw with shadow blur for soft merge)
+  ctx.save();
+  // Use 'lighter' for glow blend when close
+  for(const b of G.blobs){
+    b.draw();
+  }
+  ctx.restore();
+  // Water droplets
+  for(const d of G.droplets){
+    const grad=ctx.createRadialGradient(d.x-d.r*.3,d.y-d.r*.3,0,d.x,d.y,d.r);
+    grad.addColorStop(0,d.color);
+    grad.addColorStop(1,d.color+'60');
+    ctx.fillStyle=grad;
+    ctx.beginPath();ctx.arc(d.x,d.y,d.r,0,TAU);ctx.fill();
+    // Shine
+    ctx.fillStyle='rgba(255,255,255,.5)';
+    ctx.beginPath();ctx.arc(d.x-d.r*.3,d.y-d.r*.3,d.r*.2,0,TAU);ctx.fill();
+  }
+  // Particles
+  for(const p of G.particles){
+    ctx.globalAlpha=clamp(p.life/p.maxLife,0,1);
+    ctx.fillStyle=p.color;
+    ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,TAU);ctx.fill();
+  }
+  ctx.globalAlpha=1;
+  // Score floaters
+  for(const f of G.floaters){
+    ctx.globalAlpha=f.life;
+    ctx.font='bold 20px Space Grotesk';
+    ctx.fillStyle=f.color;
+    ctx.textAlign='center';
+    ctx.fillText(f.text,f.x,f.y);
+  }
+  ctx.globalAlpha=1;
+  ctx.restore();
+  // UI
+  document.getElementById('score').textContent=G.score;
+  const comboEl=document.getElementById('combo');
+  if(G.combo>=2){
+    comboEl.textContent='×'+G.combo+' COMBO';
+    comboEl.classList.add('show');
+    document.querySelector('#comboBar i').style.width=(G.comboT/2*100)+'%';
+  }else{
+    comboEl.classList.remove('show');
+  }
+}
+
+function frame(ts){
+  if(!G.running)return;
+  requestAnimationFrame(frame);
+  const dt=Math.min(.05,(ts-G.last)/1000)||.016;G.last=ts;
+  update(dt);
+  draw();
+  // Save best score
+  if(G.score>G.best){
+    G.best=G.score;
+    try{localStorage.setItem('squish_best',JSON.stringify(G.best));}catch(e){}
+    document.querySelector('#bestScore b').textContent=G.best;
+  }
+}
+</script>
+</body>
+</html>
