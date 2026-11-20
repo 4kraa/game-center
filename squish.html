@@ -8,12 +8,12 @@
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{height:100%;overflow:hidden;background:#0a0a0e;font-family:-apple-system,sans-serif;user-select:none;-webkit-user-select:none;touch-action:none}
 canvas{position:fixed;inset:0;width:100%;height:100%;cursor:crosshair;touch-action:none}
-#menu{position:fixed;top:16px;left:50%;transform:translateX(-50%);z-index:10;display:flex;gap:6px;background:rgba(0,0,0,.45);padding:6px;border-radius:100px;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.08)}
+#menu{position:fixed;top:16px;left:50%;transform:translateX(-50%);z-index:10;display:flex;gap:6px;background:rgba(0,0,0,.5);padding:6px;border-radius:100px;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.08)}
 .btn{padding:10px 22px;background:transparent;border:none;color:rgba(255,255,255,.4);font-size:13px;font-weight:700;cursor:pointer;border-radius:100px;transition:all .25s cubic-bezier(.34,1.56,.64,1);letter-spacing:1px}
 .btn:hover{color:rgba(255,255,255,.7)}
 .btn.active{background:rgba(255,255,255,.1);color:#fff;box-shadow:0 4px 12px rgba(0,0,0,.3)}
 #info{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);color:rgba(255,255,255,.2);font-size:12px;text-align:center;pointer-events:none;letter-spacing:1px}
-#reset{position:fixed;top:16px;right:16px;z-index:10;padding:8px 16px;background:rgba(0,0,0,.45);border:1px solid rgba(255,255,255,.08);color:rgba(255,255,255,.5);font-size:12px;font-weight:600;cursor:pointer;border-radius:100px;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);transition:all .2s}
+#reset{position:fixed;top:16px;right:16px;z-index:10;padding:8px 16px;background:rgba(0,0,0,.5);border:1px solid rgba(255,255,255,.08);color:rgba(255,255,255,.5);font-size:12px;font-weight:600;cursor:pointer;border-radius:100px;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);transition:all .2s}
 #reset:hover{color:#fff;background:rgba(255,255,255,.08)}
 </style>
 </head>
@@ -37,7 +37,8 @@ function resize(){
   cv.width=W*DPR;cv.height=H*DPR;
   ctx.setTransform(DPR,0,0,DPR,0,0);
 }
-resize();window.addEventListener('resize',()=>{resize();if(currentTool==='slime')initSlime();if(currentTool==='bubbles')initBubbles();if(currentTool==='sand')initSand();});
+resize();
+window.addEventListener('resize',()=>{resize();if(currentTool==='slime')initSlime();if(currentTool==='bubbles')initBubbles();if(currentTool==='sand')initSand();});
 
 // Audio
 let AC=null;
@@ -77,7 +78,7 @@ function squishSound(intensity){
   noiseBurst(.1,.03,800,'lowpass');
 }
 function sandSound(){
-  if(!AC)return;const t=AC.currentTime;
+  if(!AC)return;
   noiseBurst(.08,.04,1500,'bandpass');
 }
 
@@ -116,193 +117,185 @@ document.getElementById('reset').addEventListener('click',()=>{
 });
 
 // ==========================================
-// 1. SLIME (Verlet Physics — 3x better)
+// 1. SLIME — FIXED (no pinned center, free body)
 // ==========================================
-let slime={points:[],sticks:[],drag:null,dragX:0,dragY:0,shake:0};
+let slime={points:[],sticks:[],drag:null};
 
 function initSlime(){
   const cx=W/2,cy=H/2;
-  const r=Math.min(W,H)*0.22;
-  const n=32; // more points = smoother
+  const r=Math.min(W,H)*0.2;
+  const n=28;
   slime.points=[];slime.sticks=[];slime.drag=null;
+  // Edge points
   for(let i=0;i<n;i++){
     const a=i/n*TAU;
     const px=cx+Math.cos(a)*r,py=cy+Math.sin(a)*r;
-    slime.points.push({x:px,y:py,px,py,bx:px,by:py});
+    slime.points.push({x:px,y:py,px,py});
   }
-  const c=n; // center index
-  slime.points.push({x:cx,y:cy,px:cx,py:cy,pinned:true});
-  // Edge springs (perimeter)
+  // Perimeter springs
   for(let i=0;i<n;i++){
     const j=(i+1)%n;
     const d=Math.hypot(slime.points[i].x-slime.points[j].x,slime.points[i].y-slime.points[j].y);
     slime.sticks.push({p1:i,p2:j,len:d,k:1});
   }
-  // Springs to center (structural)
-  for(let i=0;i<n;i++){
-    const d=Math.hypot(slime.points[i].x-cx,slime.points[i].y-cy);
-    slime.sticks.push({p1:i,p2:c,len:d,k:.4});
-  }
-  // Diagonal cross springs (stability)
+  // Diagonal springs (across) for shape retention — soft
   for(let i=0;i<n/2;i++){
-    const j=i+n/2|0;
+    const j=(i+(n/2|0))%n;
     const d=Math.hypot(slime.points[i].x-slime.points[j].x,slime.points[i].y-slime.points[j].y);
-    slime.sticks.push({p1:i,p2:j,len:d,k:.15});
+    slime.sticks.push({p1:i,p2:j,len:d,k:.08});
   }
   // Next-neighbor springs (smoother edges)
   for(let i=0;i<n;i++){
     const j=(i+2)%n;
     const d=Math.hypot(slime.points[i].x-slime.points[j].x,slime.points[i].y-slime.points[j].y);
-    slime.sticks.push({p1:i,p2:j,len:d,k:.3});
+    slime.sticks.push({p1:i,p2:j,len:d,k:.2});
   }
-  slime.color1='#00d9ff';
-  slime.color2='#7c5cff';
+  // Every 3rd point to center-ish (but no pinned center)
+  // Create internal structural springs from every 4th point to opposite
+  for(let i=0;i<n/4;i++){
+    const j=(i+(n/4|0)*3)%n;
+    const d=Math.hypot(slime.points[i].x-slime.points[j].x,slime.points[i].y-slime.points[j].y);
+    slime.sticks.push({p1:i,p2:j,len:d,k:.05});
+  }
 }
 
 function grabSlime(){
   let minD=99999,closest=null;
   slime.points.forEach((p,i)=>{
-    if(i===slime.points.length-1)return;
     const d=Math.hypot(mouse.x-p.x,mouse.y-p.y);
     if(d<minD){minD=d;closest=i;}
   });
-  if(minD<120){slime.drag=closest;slime.dragX=mouse.x;slime.dragY=mouse.y;squishSound(.5);}
+  if(minD<150){
+    slime.drag=closest;
+    squishSound(.5);
+  }
 }
 
 function dragSlime(){
   if(slime.drag!==null){
-    const dx=mouse.x-slime.dragX,dy=mouse.y-slime.dragY;
+    const dx=mouse.x-mouse.prevX,dy=mouse.y-mouse.prevY;
     const dist=Math.hypot(dx,dy);
-    if(dist>5)squishSound(Math.min(1,dist/100));
-    slime.dragX=mouse.x;slime.dragY=mouse.y;
+    if(dist>3)squishSound(Math.min(1,dist/80));
   }
 }
 
 function releaseSlime(){
-  if(slime.drag!==null){squishSound(.3);}
+  if(slime.drag!==null)squishSound(.3);
   slime.drag=null;
 }
 
 function updateSlime(){
   if(slime.points.length===0)return;
-  // Drag
+  // Drag: move dragged point to mouse
   if(slime.drag!==null){
     slime.points[slime.drag].x=mouse.x;
     slime.points[slime.drag].y=mouse.y;
   }
-  // Verlet integration
+  // Verlet integration (no pinned points!)
   slime.points.forEach((p,i)=>{
-    if(p.pinned||i===slime.drag)return;
+    if(i===slime.drag)return;
     const vx=(p.x-p.px)*0.985;
     const vy=(p.y-p.py)*0.985;
     p.px=p.x;p.py=p.y;
     p.x+=vx;p.y+=vy;
-    p.y+=0.4; // gravity
+    p.y+=0.3; // gentle gravity
   });
-  // Constraints (more iterations = stiffer but more stable)
-  for(let k=0;k<4;k++){
+  // Constraints
+  for(let k=0;k<5;k++){
     slime.sticks.forEach(s=>{
       const p1=slime.points[s.p1],p2=slime.points[s.p2];
       const dx=p2.x-p1.x,dy=p2.y-p1.y;
       const d=Math.hypot(dx,dy)||1;
       const diff=(s.len-d)/d*(s.k||1)*0.5;
       const ox=dx*diff,oy=dy*diff;
-      if(!p1.pinned&&s.p1!==slime.drag){p1.x-=ox;p1.y-=oy;}
-      if(!p2.pinned&&s.p2!==slime.drag){p2.x+=ox;p2.y+=oy;}
+      if(s.p1!==slime.drag){p1.x-=ox;p1.y-=oy;}
+      if(s.p2!==slime.drag){p2.x+=ox;p2.y+=oy;}
     });
-    // Bounds
+    // Bounds (bounce off edges)
     slime.points.forEach(p=>{
-      if(p.pinned)return;
-      if(p.x<5)p.x=5;if(p.x>W-5)p.x=W-5;
-      if(p.y<5)p.y=5;if(p.y>H-5)p.y=H-5;
+      if(p.x<5){p.x=5;}if(p.x>W-5){p.x=W-5;}
+      if(p.y<5){p.y=5;}if(p.y>H-5){p.y=H-5;}
     });
   }
 }
 
 function drawSlime(){
   if(slime.points.length===0)return;
-  const pts=slime.points.slice(0,-1);
+  const pts=slime.points;
   const n=pts.length;
-  // Compute centroid for gradient
+  // Centroid
   let cx=0,cy=0;pts.forEach(p=>{cx+=p.x;cy+=p.y;});
   cx/=n;cy/=n;
-  // Compute max distance for gradient radius
   let maxR=0;pts.forEach(p=>{const d=Math.hypot(p.x-cx,p.y-cy);if(d>maxR)maxR=d;});
   maxR=Math.max(maxR+50,50);
-  // Shadow (soft blur underneath)
+  // Glow shadow
   ctx.save();
-  ctx.shadowBlur=30;ctx.shadowColor=slime.color2+'60';
+  ctx.shadowBlur=40;ctx.shadowColor='rgba(124,92,255,.5)';
   // Smooth curve
   ctx.beginPath();
-  const mid0x=(pts[0].x+pts[1].x)/2,mid0y=(pts[0].y+pts[1].y)/2;
-  ctx.moveTo(mid0x,mid0y);
+  const m0x=(pts[0].x+pts[1].x)/2,m0y=(pts[0].y+pts[1].y)/2;
+  ctx.moveTo(m0x,m0y);
   for(let i=1;i<n;i++){
     const p1=pts[i],p2=pts[(i+1)%n];
     const mx=(p1.x+p2.x)/2,my=(p1.y+p2.y)/2;
     ctx.quadraticCurveTo(p1.x,p1.y,mx,my);
   }
   ctx.closePath();
-  // Fill gradient (lighter top-left, darker bottom-right)
+  // Gradient
   const grad=ctx.createRadialGradient(cx-maxR*.3,cy-maxR*.3,0,cx,cy,maxR);
   grad.addColorStop(0,'#80e8ff');
-  grad.addColorStop(.4,slime.color1);
-  grad.addColorStop(1,slime.color2);
+  grad.addColorStop(.4,'#00d9ff');
+  grad.addColorStop(1,'#7c5cff');
   ctx.fillStyle=grad;
   ctx.fill();
   ctx.restore();
-  // Inner glow
-  ctx.save();
+  // Inner shine
   ctx.beginPath();
-  ctx.moveTo(mid0x,mid0y);
+  ctx.moveTo(m0x,m0y);
   for(let i=1;i<n;i++){
     const p1=pts[i],p2=pts[(i+1)%n];
     const mx=(p1.x+p2.x)/2,my=(p1.y+p2.y)/2;
     ctx.quadraticCurveTo(p1.x,p1.y,mx,my);
   }
   ctx.closePath();
-  ctx.fillStyle='rgba(255,255,255,.08)';
+  ctx.fillStyle='rgba(255,255,255,.06)';
   ctx.fill();
-  // Top shine (highlight)
+  // Big shine
   ctx.fillStyle='rgba(255,255,255,.25)';
   ctx.beginPath();
   ctx.ellipse(cx-maxR*.25,cy-maxR*.35,maxR*.3,maxR*.12,-.5,0,TAU);
   ctx.fill();
-  ctx.restore();
-  // Stroke (subtle outline)
+  // Small shine
+  ctx.fillStyle='rgba(255,255,255,.4)';
   ctx.beginPath();
-  ctx.moveTo(mid0x,mid0y);
-  for(let i=1;i<n;i++){
-    const p1=pts[i],p2=pts[(i+1)%n];
-    const mx=(p1.x+p2.x)/2,my=(p1.y+p2.y)/2;
-    ctx.quadraticCurveTo(p1.x,p1.y,mx,my);
-  }
-  ctx.closePath();
-  ctx.strokeStyle='rgba(255,255,255,.1)';
-  ctx.lineWidth=2;
-  ctx.stroke();
+  ctx.arc(cx-maxR*.3,cy-maxR*.4,maxR*.06,0,TAU);
+  ctx.fill();
 }
 
 // ==========================================
-// 2. BUBBLES (Bubble Wrap — 3x better)
+// 2. BUBBLES — Realistic Bubble Wrap
 // ==========================================
-let bubbles=[],popParticles=[];
+let bubbles=[],popParts=[];
 
 function initBubbles(){
-  bubbles=[];popParticles=[];
-  const r=24;
-  const gap=6;
-  const cols=Math.floor((W-20)/(r*2+gap));
-  const rows=Math.floor((H-20)/(r*2+gap));
+  bubbles=[];popParts=[];
+  const r=18; // smaller = more realistic
+  const gap=3;
+  const cols=Math.floor((W-10)/(r*2+gap));
+  const rows=Math.floor((H-10)/(r*2+gap));
   const startX=(W-cols*(r*2+gap))/2;
-  const startY=(H-20-rows*(r*2+gap))/2; // centered vertically
+  const startY=(H-rows*(r*2+gap))/2;
   for(let y=0;y<rows;y++){
     for(let x=0;x<cols;x++){
       bubbles.push({
         x:startX+x*(r*2+gap)+r,
         y:startY+y*(r*2+gap)+r,
-        r:r,popped:false,popT:0,wobble:0,wobblePhase:rand(0,TAU),
-        hue:rand(160,320),
-        jiggle:0
+        r:r,
+        popped:false,popT:0,
+        jiggle:0,jigglePhase:rand(0,TAU),
+        // Each bubble slightly transparent with random tint
+        tint:rand(0,360),
+        tintAmt:rand(.02,.08)
       });
     }
   }
@@ -313,110 +306,117 @@ function checkBubbles(){
   bubbles.forEach(b=>{
     if(b.popped)return;
     const d=Math.hypot(mouse.x-b.x,mouse.y-b.y);
-    if(d<b.r+5){
+    if(d<b.r+3){
       b.popped=true;b.popT=1;
       poppedCount++;
-      // Pop particles
-      for(let i=0;i<14;i++){
-        const a=rand(0,TAU),sp=rand(60,200);
-        popParticles.push({
-          x:b.x,y:b.y,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp,
-          r:rand(1.5,4),hue:b.hue,life:rand(.4,.8),maxLife:.8,gravity:true
-        });
+      // Particles
+      for(let i=0;i<12;i++){
+        const a=rand(0,TAU),sp=rand(40,160);
+        popParts.push({x:b.x,y:b.y,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp,r:rand(1,3),life:rand(.3,.6),maxLife:.6,gravity:true});
       }
-      // Ring particles
-      for(let i=0;i<8;i++){
-        const a=i/8*TAU;
-        popParticles.push({
-          x:b.x,y:b.y,vx:Math.cos(a)*120,vy:Math.sin(a)*120,
-          r:1.5,hue:b.hue,life:.5,maxLife:.5,gravity:false,ring:true
-        });
+      // Ring
+      for(let i=0;i<6;i++){
+        const a=i/6*TAU;
+        popParts.push({x:b.x,y:b.y,vx:Math.cos(a)*80,vy:Math.sin(a)*80,r:1,life:.4,maxLife:.4,gravity:false,ring:true});
       }
       // Jiggle neighbors
       bubbles.forEach(b2=>{
         if(b2===b||b2.popped)return;
         const dd=Math.hypot(b2.x-b.x,b2.y-b.y);
-        if(dd<b.r*3){b2.jiggle=.5;b2.wobblePhase+=.3;}
+        if(dd<b.r*3){b2.jiggle=.4;b2.jigglePhase+=.2;}
       });
     }
   });
-  if(poppedCount>0){
-    popSound(1+poppedCount*0.15);
-  }
+  if(poppedCount>0)popSound(1+poppedCount*0.12);
 }
 
 function updateBubbles(){
   bubbles.forEach(b=>{
-    if(b.popT>0)b.popT-=0.08;
-    if(b.jiggle>0)b.jiggle*=.92;
-    b.wobblePhase+=0.05;
+    if(b.popT>0)b.popT-=0.06;
+    if(b.jiggle>0)b.jiggle*=.9;
+    b.jigglePhase+=0.03;
   });
-  // Particles
-  for(let i=popParticles.length-1;i>=0;i--){
-    const p=popParticles[i];
+  for(let i=popParts.length-1;i>=0;i--){
+    const p=popParts[i];
     p.x+=p.vx*0.016;p.y+=p.vy*0.016;
-    if(p.gravity)p.vy+=300*0.016;
-    p.vx*=0.96;p.vy*=0.96;
+    if(p.gravity)p.vy+=250*0.016;
+    p.vx*=.95;p.vy*=.95;
     p.life-=0.016;
-    if(p.life<=0)popParticles.splice(i,1);
+    if(p.life<=0)popParts.splice(i,1);
   }
 }
 
 function drawBubbles(){
+  // Draw the "plastic sheet" background
+  ctx.fillStyle='rgba(200,200,210,.04)';
+  ctx.fillRect(0,0,W,H);
+  // Subtle plastic texture lines
+  ctx.strokeStyle='rgba(255,255,255,.015)';
+  ctx.lineWidth=1;
+  for(let y=0;y<H;y+=4){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();}
+
   bubbles.forEach(b=>{
     if(b.popped&&b.popT<=0)return;
     if(b.popped){
-      // Pop animation: 2 expanding rings
-      const expand=(1-b.popT)*25;
-      ctx.strokeStyle=`hsla(${b.hue},80%,60%,${b.popT*.8})`;
-      ctx.lineWidth=2;
-      ctx.beginPath();ctx.arc(b.x,b.y,b.r+expand,0,TAU);ctx.stroke();
-      ctx.strokeStyle=`hsla(${b.hue},80%,70%,${b.popT*.4})`;
-      ctx.beginPath();ctx.arc(b.x,b.y,b.r+expand*1.5,0,TAU);ctx.stroke();
+      // Pop: small ring + tiny particles already spawned
+      const exp=(1-b.popT)*12;
+      ctx.strokeStyle=`rgba(255,255,255,${b.popT*.4})`;
+      ctx.lineWidth=1;
+      ctx.beginPath();ctx.arc(b.x,b.y,b.r+exp,0,TAU);ctx.stroke();
     }else{
-      const jiggleR=b.r*(1+Math.sin(b.wobblePhase)*b.jiggle*0.15);
-      // Shadow
-      ctx.fillStyle='rgba(0,0,0,.15)';
-      ctx.beginPath();ctx.arc(b.x,b.y+3,jiggleR,0,TAU);ctx.fill();
-      // 3D bubble with gradient
-      const grad=ctx.createRadialGradient(b.x-jiggleR/3,b.y-jiggleR/3,0,b.x,b.y,jiggleR);
-      grad.addColorStop(0,`hsla(${b.hue},85%,85%,.95)`);
-      grad.addColorStop(.5,`hsla(${b.hue},80%,65%,.9)`);
-      grad.addColorStop(1,`hsla(${b.hue},75%,45%,.85)`);
+      const jr=b.r*(1+Math.sin(b.jigglePhase)*b.jiggle*0.12);
+      // Shadow under bubble (on the plastic)
+      ctx.fillStyle='rgba(0,0,0,.08)';
+      ctx.beginPath();ctx.arc(b.x,b.y+jr*0.15,jr*0.95,0,TAU);ctx.fill();
+      // Bubble body — translucent hemisphere look
+      // Base layer (slightly tinted transparent)
+      const grad=ctx.createRadialGradient(b.x-jr*.35,b.y-jr*.35,0,b.x,b.y,jr);
+      grad.addColorStop(0,`rgba(255,255,255,.35)`);
+      grad.addColorStop(.3,`rgba(255,255,255,.12)`);
+      grad.addColorStop(.7,`rgba(${200+Math.sin(b.tint)*30},${200+Math.cos(b.tint)*30},220,${b.tintAmt})`);
+      grad.addColorStop(1,`rgba(150,150,170,.25)`);
       ctx.fillStyle=grad;
-      ctx.beginPath();ctx.arc(b.x,b.y,jiggleR,0,TAU);ctx.fill();
-      // Big shine
-      ctx.fillStyle='rgba(255,255,255,.45)';
-      ctx.beginPath();ctx.arc(b.x-jiggleR/3,b.y-jiggleR/3,jiggleR/3.5,0,TAU);ctx.fill();
-      // Small shine
-      ctx.fillStyle='rgba(255,255,255,.7)';
-      ctx.beginPath();ctx.arc(b.x-jiggleR/4,b.y-jiggleR/4,jiggleR/8,0,TAU);ctx.fill();
-      // Rim highlight
-      ctx.strokeStyle=`hsla(${b.hue},80%,90%,.3)`;
-      ctx.lineWidth=1.5;
-      ctx.beginPath();ctx.arc(b.x,b.y,jiggleR-1,0,TAU);ctx.stroke();
+      ctx.beginPath();ctx.arc(b.x,b.y,jr,0,TAU);ctx.fill();
+      // Rim (bottom-right dark edge — gives 3D depth)
+      ctx.strokeStyle='rgba(100,100,130,.2)';
+      ctx.lineWidth=1;
+      ctx.beginPath();ctx.arc(b.x,b.y,jr-0.5,0,TAU);ctx.stroke();
+      // Main highlight (top-left, large)
+      ctx.fillStyle='rgba(255,255,255,.35)';
+      ctx.beginPath();
+      ctx.ellipse(b.x-jr*.3,b.y-jr*.3,jr*.35,jr*.25,-.6,0,TAU);
+      ctx.fill();
+      // Small bright spot
+      ctx.fillStyle='rgba(255,255,255,.6)';
+      ctx.beginPath();
+      ctx.arc(b.x-jr*.35,b.y-jr*.35,jr*.1,0,TAU);
+      ctx.fill();
+      // Bottom rim light (reflected light from below)
+      ctx.fillStyle='rgba(255,255,255,.06)';
+      ctx.beginPath();
+      ctx.ellipse(b.x+jr*.2,b.y+jr*.35,jr*.3,jr*.1,.3,0,TAU);
+      ctx.fill();
     }
   });
   // Particles
-  popParticles.forEach(p=>{
+  popParts.forEach(p=>{
     ctx.globalAlpha=clamp(p.life/p.maxLife,0,1);
-    ctx.fillStyle=`hsl(${p.hue},80%,65%)`;
+    ctx.fillStyle=p.ring?'rgba(255,255,255,.4)':'rgba(255,255,255,.5)';
     ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,TAU);ctx.fill();
   });
   ctx.globalAlpha=1;
 }
 
 // ==========================================
-// 3. SAND (Cutting — 3x better)
+// 3. SAND — improved
 // ==========================================
-let sandCanvas,sandCtx,sandParticles=[];
+let sandCanvas,sandCtx,sandParts=[];
 
 function initSand(){
-  sandParticles=[];
+  sandParts=[];
   sandCanvas=document.createElement('canvas');
   sandCanvas.width=W;sandCanvas.height=H;
   sandCtx=sandCanvas.getContext('2d');
-  // Rich sand gradient
   const grad=sandCtx.createLinearGradient(0,0,W,H);
   grad.addColorStop(0,'#f4a261');
   grad.addColorStop(.5,'#e76f51');
@@ -424,55 +424,50 @@ function initSand(){
   sandCtx.fillStyle=grad;
   sandCtx.fillRect(0,0,W,H);
   // Layered texture
-  for(let i=0;i<8000;i++){
+  for(let i=0;i<10000;i++){
     const a=Math.random()*.4;
     const c=Math.random()>.5?255:0;
     sandCtx.fillStyle=`rgba(${c},${c},${c},${a})`;
     sandCtx.fillRect(Math.random()*W,Math.random()*H,rand(1,2),rand(1,2));
   }
-  // Sand grain clusters
-  for(let i=0;i<200;i++){
+  // Grain clusters
+  for(let i=0;i<300;i++){
     const x=Math.random()*W,y=Math.random()*H;
-    sandCtx.fillStyle='rgba(255,200,100,.2)';
-    sandCtx.beginPath();sandCtx.arc(x,y,rand(2,5),0,TAU);sandCtx.fill();
+    sandCtx.fillStyle='rgba(255,200,100,.15)';
+    sandCtx.beginPath();sandCtx.arc(x,y,rand(2,6),0,TAU);sandCtx.fill();
   }
-  // Subtle vignette
+  // Vignette
   const vg=sandCtx.createRadialGradient(W/2,H/2,Math.min(W,H)*.3,W/2,H/2,Math.max(W,H)*.7);
   vg.addColorStop(0,'transparent');
-  vg.addColorStop(1,'rgba(0,0,0,.3)');
+  vg.addColorStop(1,'rgba(0,0,0,.35)');
   sandCtx.fillStyle=vg;
   sandCtx.fillRect(0,0,W,H);
 }
 
 function cutSand(){
   if(!sandCtx)return;
-  // Spawn falling sand particles
   const dx=mouse.x-mouse.prevX,dy=mouse.y-mouse.prevY;
   const dist=Math.hypot(dx,dy);
   if(dist>1){
-    for(let i=0;i<Math.min(dist/2,8);i++){
+    for(let i=0;i<Math.min(dist/2,10);i++){
       const t=Math.random();
       const px=mouse.prevX+dx*t+rand(-15,15);
       const py=mouse.prevY+dy*t+rand(-15,15);
-      sandParticles.push({
-        x:px,y:py,vx:rand(-30,30),vy:rand(-50,-10),
-        r:rand(1.5,3.5),hue:rand(15,40),life:1.5
-      });
+      sandParts.push({x:px,y:py,vx:rand(-30,30),vy:rand(-60,-10),r:rand(1.5,4),hue:rand(15,40),life:1.5});
     }
-    sandSound();
+    if(dist>5)sandSound();
   }
-  // Cut the sand
   sandCtx.globalCompositeOperation='destination-out';
-  sandCtx.lineWidth=55;
+  sandCtx.lineWidth=50;
   sandCtx.lineCap='round';
   sandCtx.lineJoin='round';
   sandCtx.beginPath();
   sandCtx.moveTo(mouse.prevX,mouse.prevY);
   sandCtx.lineTo(mouse.x,mouse.y);
   sandCtx.stroke();
-  // Soft edge (feather)
-  sandCtx.lineWidth=65;
-  sandCtx.globalAlpha=.3;
+  // Feather edge
+  sandCtx.lineWidth=60;
+  sandCtx.globalAlpha=.25;
   sandCtx.beginPath();
   sandCtx.moveTo(mouse.prevX,mouse.prevY);
   sandCtx.lineTo(mouse.x,mouse.y);
@@ -482,44 +477,38 @@ function cutSand(){
 }
 
 function updateSand(){
-  for(let i=sandParticles.length-1;i>=0;i--){
-    const p=sandParticles[i];
+  for(let i=sandParts.length-1;i>=0;i--){
+    const p=sandParts[i];
     p.x+=p.vx*0.016;p.y+=p.vy*0.016;
     p.vy+=400*0.016;
     p.vx*=0.99;
     p.life-=0.016;
-    if(p.life<=0||p.y>H+20)sandParticles.splice(i,1);
+    if(p.life<=0||p.y>H+20)sandParts.splice(i,1);
   }
 }
 
 function drawSand(){
-  // Background: dark with grid
   ctx.fillStyle='#0a0a0e';
   ctx.fillRect(0,0,W,H);
-  // Grid
   ctx.strokeStyle='rgba(124,92,255,.04)';ctx.lineWidth=1;
   for(let x=0;x<W;x+=40){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke();}
   for(let y=0;y<H;y+=40){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();}
-  // Subtle glow center
   const glow=ctx.createRadialGradient(W/2,H/2,0,W/2,H/2,Math.max(W,H)*.4);
   glow.addColorStop(0,'rgba(124,92,255,.06)');
   glow.addColorStop(1,'transparent');
   ctx.fillStyle=glow;
   ctx.fillRect(0,0,W,H);
-  // Sand texture
   ctx.drawImage(sandCanvas,0,0);
-  // Falling particles
-  sandParticles.forEach(p=>{
+  sandParts.forEach(p=>{
     ctx.globalAlpha=clamp(p.life/1.5,0,1);
     ctx.fillStyle=`hsl(${p.hue},70%,55%)`;
     ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,TAU);ctx.fill();
   });
   ctx.globalAlpha=1;
-  // Cursor indicator
   if(mouse.down){
-    ctx.strokeStyle='rgba(255,255,255,.15)';
+    ctx.strokeStyle='rgba(255,255,255,.12)';
     ctx.lineWidth=1.5;
-    ctx.beginPath();ctx.arc(mouse.x,mouse.y,28,0,TAU);ctx.stroke();
+    ctx.beginPath();ctx.arc(mouse.x,mouse.y,26,0,TAU);ctx.stroke();
   }
 }
 
@@ -529,21 +518,18 @@ function drawSand(){
 function loop(){
   ctx.clearRect(0,0,W,H);
   if(currentTool==='slime'){
-    // Dark gradient bg
     const bg=ctx.createLinearGradient(0,0,0,H);
     bg.addColorStop(0,'#0a0a14');
     bg.addColorStop(1,'#0e0a1a');
     ctx.fillStyle=bg;ctx.fillRect(0,0,W,H);
-    // Ambient orbs
     ctx.fillStyle='rgba(124,92,255,.05)';
     ctx.beginPath();ctx.arc(W*.2,H*.3,200,0,TAU);ctx.fill();
     ctx.fillStyle='rgba(0,217,255,.04)';
     ctx.beginPath();ctx.arc(W*.8,H*.7,200,0,TAU);ctx.fill();
     updateSlime();drawSlime();
   }else if(currentTool==='bubbles'){
-    // Dark bg
     const bg=ctx.createLinearGradient(0,0,0,H);
-    bg.addColorStop(0,'#0a0a0e');
+    bg.addColorStop(0,'#0c0c10');
     bg.addColorStop(1,'#101018');
     ctx.fillStyle=bg;ctx.fillRect(0,0,W,H);
     updateBubbles();drawBubbles();
