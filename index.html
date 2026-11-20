@@ -247,7 +247,7 @@ h1{
 
 /* ==================== RESPONSIVE ==================== */
 @media (max-width:820px){
-  .cards{grid-template-columns:1fr;gap:18px;padding:0 16px 60px}
+  .cards{grid-template-columns:1fr!important;gap:18px;padding:0 16px 60px}
   .gcard{min-height:380px;padding:26px 22px 24px}
   .gcIcon{font-size:36px}
   .featGrid{grid-template-columns:repeat(2,1fr)}
@@ -439,8 +439,8 @@ h1{
     <span class="note">Fixer & Pastel Knight — figés, en attente de reprise</span>
   </div>
 
-  <!-- ========= DEV CARD : FIXER ========= -->
-  <div class="cards" style="grid-template-columns:1fr;max-width:680px">
+  <!-- ========= DEV CARDS : FIXER + PASTEL KNIGHT (côte à côte) ========= -->
+  <div class="cards" style="grid-template-columns:1fr 1fr;gap:18px">
     <div class="gcard dev fixer" aria-disabled="true" style="cursor:default">
       <div class="devBanner">⏸ PROJET EN PAUSE · EN ATTENTE DE REPRISE ⏸</div>
       <div class="gcScene"><svg viewBox="0 0 480 280" preserveAspectRatio="xMidYMid slice">
@@ -506,10 +506,8 @@ h1{
       </div>
       <div class="gcStripe" style="background:var(--line2)"></div>
     </div>
-  </div>
 
-  <!-- ========= DEV CARD : PASTEL KNIGHT ========= -->
-  <div class="cards" style="grid-template-columns:1fr;max-width:680px">
+    <!-- ========= DEV CARD : PASTEL KNIGHT ========= -->
     <div class="gcard dev" aria-disabled="true" style="cursor:default">
       <div class="devBanner" style="background:linear-gradient(90deg,rgba(255,143,171,.15),rgba(189,178,255,.1));border-bottom:1px dashed #c4b6cf;color:var(--mut)">⏸ PROJET EN PAUSE · EN ATTENTE DE REPRISE ⏸</div>
       <div class="gcScene"><svg viewBox="0 0 480 280" preserveAspectRatio="xMidYMid slice">
