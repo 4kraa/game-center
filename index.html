@@ -7,25 +7,24 @@
 <title>Game Center — Arcade Hub</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Barlow:wght@400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
 :root{
-  --void:#07090b; --steel:#0e1317; --panel:#141a20; --panel2:#1a222a;
-  --edge:#26313a; --edge2:#3a4c58;
-  --lime:#c8ff3c; --limeD:#8fd400;
-  --amber:#ffb02e; --crimson:#ff2d55; --cyan:#22d3ee; --violet:#a855f7;
-  --ink:#f3f0e7; --mut:#8ea0ad; --dim:#5d6f7c;
-  --fd:'Chakra Petch','Segoe UI',sans-serif;
-  --fb:'Barlow',system-ui,sans-serif;
-  --fm:'Share Tech Mono',ui-monospace,monospace;
-  --cut:polygon(0 0,calc(100% - 16px) 0,100% 16px,100% 100%,16px 100%,0 calc(100% - 16px));
-  --cutS:polygon(0 0,calc(100% - 9px) 0,100% 9px,100% 100%,9px 100%,0 calc(100% - 9px));
+  --bg:#060608; --bg2:#0c0c12; --card:#111118; --card2:#16161f;
+  --border:#1e1e2a; --border2:#2a2a3a;
+  --text:#e8e8f0; --text2:#a8a8c0; --text3:#606078;
+  --accent:#7c5cff; --accent2:#00d9ff;
+  --lime:#aaff00; --pink:#ff4488; --amber:#ffaa00;
+  --fd:'Space Grotesk','Segoe UI',sans-serif;
+  --fb:'Inter',system-ui,sans-serif;
+  --radius:20px;
+  --radius-sm:12px;
 }
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{height:100%}
 body{
-  background:var(--void);
-  color:var(--ink);
+  background:var(--bg);
+  color:var(--text);
   font-family:var(--fb);
   font-weight:500;
   overflow-x:hidden;
@@ -34,675 +33,297 @@ body{
   min-height:100vh;
   position:relative;
 }
-button{font-family:var(--fd);font-weight:600;color:var(--ink);background:none;border:none;cursor:pointer;touch-action:manipulation}
 a{color:inherit;text-decoration:none}
-::-webkit-scrollbar{width:9px;height:9px}
-::-webkit-scrollbar-track{background:#0b1013}
-::-webkit-scrollbar-thumb{background:linear-gradient(180deg,#3d5a2a,#2a3d3f)}
+::-webkit-scrollbar{width:8px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:4px}
 
-/* ==================== BACKGROUND FX ==================== */
-#bgFx{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;background:
-  radial-gradient(1100px 700px at 12% -10%,rgba(200,255,60,.08),transparent 60%),
-  radial-gradient(900px 600px at 92% 12%,rgba(34,211,238,.06),transparent 62%),
-  radial-gradient(900px 700px at 60% 115%,rgba(255,45,85,.06),transparent 60%),
-  var(--void)}
-#bgFx .grid{position:absolute;inset:-60px;background-image:linear-gradient(rgba(140,180,160,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(140,180,160,.045) 1px,transparent 1px);background-size:52px 52px;animation:gridDrift 40s linear infinite}
-@keyframes gridDrift{to{transform:translate(52px,52px)}}
-#bgFx .beam{position:absolute;top:-20%;left:-10%;width:60%;height:150%;background:linear-gradient(100deg,transparent,rgba(200,255,60,.05),transparent);transform:rotate(8deg);animation:beamSweep 17s ease-in-out infinite alternate}
-@keyframes beamSweep{to{transform:translateX(70vw) rotate(8deg)}}
-#bgFx .grain{position:absolute;inset:0;opacity:.055;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E")}
-#bgFx .scan{position:absolute;inset:0;opacity:.35;background:repeating-linear-gradient(0deg,rgba(0,0,0,.22) 0 1px,transparent 1px 3px)}
-.spore{position:absolute;bottom:-10px;width:3px;height:3px;border-radius:50%;background:var(--lime);box-shadow:0 0 9px var(--lime);opacity:0;animation:sporeUp linear infinite}
-@keyframes sporeUp{0%{transform:translateY(0);opacity:0}14%{opacity:.65}88%{opacity:.3}100%{transform:translateY(-108vh);opacity:0}}
+/* ==================== BACKGROUND ==================== */
+#bg{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+#bg .orb{position:absolute;border-radius:50%;filter:blur(80px);opacity:.35;animation:orbFloat 20s ease-in-out infinite}
+#bg .orb1{width:600px;height:600px;background:var(--accent);top:-200px;left:-150px}
+#bg .orb2{width:500px;height:500px;background:var(--accent2);bottom:-200px;right:-100px;animation-delay:-5s}
+#bg .orb3{width:400px;height:400px;background:var(--pink);top:40%;left:50%;animation-delay:-10s;opacity:.15}
+@keyframes orbFloat{0%,100%{transform:translate(0,0)}33%{transform:translate(60px,-40px)}66%{transform:translate(-40px,60px)}}
+#bg .grid{position:absolute;inset:0;background-image:linear-gradient(rgba(124,92,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(124,92,255,.03) 1px,transparent 1px);background-size:40px 40px;mask:radial-gradient(ellipse at center,#000 30%,transparent 70%);-webkit-mask:radial-gradient(ellipse at center,#000 30%,transparent 70%)}
 
-/* ==================== SHELL ==================== */
 #shell{position:relative;z-index:1;min-height:100vh;display:flex;flex-direction:column}
 
-/* ---- top bar ---- */
-#topBar{display:flex;align-items:center;gap:14px;padding:14px 26px;background:linear-gradient(180deg,rgba(16,22,27,.92),rgba(10,14,17,.6));border-bottom:1px solid var(--edge);backdrop-filter:blur(8px);position:sticky;top:0;z-index:10}
-.brand{display:flex;align-items:center;gap:12px;font-family:var(--fd);font-weight:700;letter-spacing:2px}
-.brand .logo{font-size:24px;color:var(--lime);filter:drop-shadow(0 0 12px rgba(200,255,60,.55));animation:bioSpin 18s linear infinite}
-@keyframes bioSpin{to{transform:rotate(360deg)}}
-.brand .name{font-size:16px}
-.brand .name span{color:var(--lime)}
-.brand .ver{font-family:var(--fm);font-size:10px;color:var(--dim);letter-spacing:1px;padding-left:14px;border-left:1px solid var(--edge);margin-left:6px}
+/* ==================== TOP BAR ==================== */
+#topBar{
+  display:flex;align-items:center;gap:16px;padding:14px 28px;
+  background:rgba(6,6,8,.7);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100;
+}
+.brand{display:flex;align-items:center;gap:10px;font-family:var(--fd);font-weight:700;font-size:17px;letter-spacing:-.5px}
+.brand .dot{width:10px;height:10px;border-radius:50%;background:var(--accent);box-shadow:0 0 12px var(--accent);animation:blip 2s ease-in-out infinite}
+@keyframes blip{50%{opacity:.4}}
+.brand span{color:var(--accent)}
+.brand .ver{font-family:var(--fb);font-size:11px;color:var(--text3);font-weight:500;padding-left:12px;border-left:1px solid var(--border);margin-left:4px}
 .hspace{flex:1}
-.tbChip{display:flex;align-items:center;gap:7px;font-family:var(--fm);font-size:11px;letter-spacing:1.5px;color:var(--mut);padding:7px 13px;background:#0d1317;border:1px solid var(--edge);clip-path:var(--cutS);transition:transform .35s cubic-bezier(.34,1.56,.64,1),border-color .25s}
-.tbChip:hover{transform:translateY(-2px) scale(1.05);border-color:var(--lime)}
-.tbChip .dot{width:6px;height:6px;background:var(--lime);border-radius:50%;box-shadow:0 0 8px var(--lime);animation:blip 2s ease-in-out infinite}
-@keyframes blip{50%{opacity:.25}}
-.tbChip b{color:var(--ink)}
+.tbChip{display:flex;align-items:center;gap:6px;font-family:var(--fb);font-size:12px;font-weight:600;color:var(--text2);padding:6px 14px;background:var(--card);border:1px solid var(--border);border-radius:100px;transition:all .3s cubic-bezier(.34,1.56,.64,1)}
+.tbChip:hover{border-color:var(--accent);color:var(--text);transform:translateY(-1px)}
+.tbChip b{color:var(--text);font-weight:700}
+.tbChip .pulse{width:6px;height:6px;border-radius:50%;background:var(--lime);box-shadow:0 0 8px var(--lime);animation:blip 2s ease-in-out infinite}
 
-/* ---- hero ---- */
-#hero{position:relative;padding:60px 24px 50px;max-width:1200px;margin:0 auto;text-align:center;width:100%}
-.kicker{display:inline-flex;align-items:center;gap:10px;font-family:var(--fm);font-size:11px;letter-spacing:3px;color:var(--lime);background:rgba(8,12,14,.7);border:1px solid #35501c;padding:6px 14px;clip-path:var(--cutS);margin-bottom:28px;animation:heroIn .8s cubic-bezier(.34,1.56,.64,1) backwards;transition:transform .35s cubic-bezier(.34,1.56,.64,1)}
-.kicker:hover{transform:scale(1.05)}
-.kicker .dot{width:7px;height:7px;background:var(--lime);border-radius:50%;box-shadow:0 0 9px var(--lime);animation:blip 1.6s infinite}
-@keyframes heroIn{from{opacity:0;transform:translateY(14px)}}
+/* ==================== HERO ==================== */
+#hero{padding:80px 24px 40px;max-width:1200px;margin:0 auto;text-align:center;width:100%}
+.kicker{display:inline-flex;align-items:center;gap:8px;font-family:var(--fb);font-size:12px;font-weight:600;color:var(--accent2);background:rgba(0,217,255,.08);border:1px solid rgba(0,217,255,.2);padding:6px 16px;border-radius:100px;margin-bottom:32px;animation:slideUp .8s cubic-bezier(.34,1.56,.64,1) backwards}
+.kicker .dot{width:6px;height:6px;border-radius:50%;background:var(--accent2);box-shadow:0 0 8px var(--accent2)}
+@keyframes slideUp{from{opacity:0;transform:translateY(20px)}}
 h1{
   font-family:var(--fd);font-weight:700;
-  font-size:clamp(2.6rem,8.5vw,5.5rem);
-  letter-spacing:clamp(4px,1vw,10px);
-  text-transform:uppercase;line-height:.95;
-  background:linear-gradient(180deg,#f3f0e7 0%,#c8ff3c 55%,#8fd400 100%);
+  font-size:clamp(40px,9vw,88px);
+  letter-spacing:-2px;line-height:1;
+  background:linear-gradient(135deg,var(--text) 0%,var(--accent) 50%,var(--accent2) 100%);
   -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
-  filter:drop-shadow(0 4px 32px rgba(200,255,60,.35)) drop-shadow(0 0 60px rgba(34,211,238,.18));
-  animation:heroIn 1s cubic-bezier(.34,1.56,.64,1) .1s backwards,heroGlow 4s ease-in-out 1s infinite;
-  margin-bottom:18px;
-  cursor:default;
-  transition:transform .5s cubic-bezier(.34,1.56,.64,1);
+  animation:slideUp 1s cubic-bezier(.34,1.56,.64,1) .1s backwards;
+  margin-bottom:20px;
 }
-h1:hover{transform:scale(1.02)}
-@keyframes heroGlow{0%,100%{filter:drop-shadow(0 4px 32px rgba(200,255,60,.35)) drop-shadow(0 0 60px rgba(34,211,238,.18))}50%{filter:drop-shadow(0 4px 40px rgba(200,255,60,.55)) drop-shadow(0 0 80px rgba(34,211,238,.3))}}
-.heroTag{
-  font-family:var(--fm);font-size:clamp(11px,1.4vw,13px);letter-spacing:3px;
-  color:var(--mut);text-transform:uppercase;
-  animation:heroIn 1s cubic-bezier(.2,.9,.3,1) .25s backwards;
-  margin-bottom:14px;
-}
-.heroTag b{color:var(--cyan)}
 .heroSub{
-  font-size:clamp(14px,1.6vw,17px);color:var(--mut);max-width:620px;margin:0 auto;line-height:1.55;
-  animation:heroIn 1s cubic-bezier(.2,.9,.3,1) .4s backwards;
+  font-size:clamp(15px,1.8vw,19px);color:var(--text2);max-width:560px;margin:0 auto;line-height:1.6;font-weight:400;
+  animation:slideUp 1s cubic-bezier(.34,1.56,.64,1) .3s backwards;
 }
-.heroSub b{color:var(--ink)}
+.heroSub b{color:var(--text);font-weight:600}
 
-/* ---- divider ---- */
-.divider{display:flex;align-items:center;gap:14px;max-width:1240px;margin:0 auto;padding:0 24px 30px;width:100%}
-.divider .idx{font-family:var(--fm);font-size:12px;color:var(--lime);opacity:.8}
-.divider h2{font-family:var(--fd);font-weight:700;font-size:14px;letter-spacing:3px;text-transform:uppercase;white-space:nowrap}
-.divider .ln{flex:1;height:1px;background:linear-gradient(90deg,var(--edge2),transparent)}
-.divider .note{font-family:var(--fm);font-size:10.5px;color:var(--dim);letter-spacing:1px;white-space:nowrap}
+/* ==================== DIVIDER ==================== */
+.divider{display:flex;align-items:center;gap:12px;max-width:1200px;margin:0 auto;padding:0 24px 24px;width:100%}
+.divider .idx{font-family:var(--fd);font-weight:600;font-size:13px;color:var(--accent);padding:3px 10px;background:rgba(124,92,255,.1);border:1px solid rgba(124,92,255,.2);border-radius:100px}
+.divider h2{font-family:var(--fd);font-weight:600;font-size:18px;letter-spacing:-.5px;white-space:nowrap}
+.divider .ln{flex:1;height:1px;background:linear-gradient(90deg,var(--border2),transparent)}
+.divider .note{font-family:var(--fb);font-size:12px;color:var(--text3);white-space:nowrap}
 
 /* ==================== GAME CARDS ==================== */
-.cards{display:grid;grid-template-columns:repeat(2,1fr);gap:24px;max-width:1240px;margin:0 auto;padding:0 24px 80px;width:100%}
+.cards{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;max-width:1200px;margin:0 auto;padding:0 24px 40px;width:100%}
 .gcard{
   position:relative;overflow:hidden;
-  background:linear-gradient(180deg,var(--panel),#10161b);
-  border:1px solid var(--edge);
-  clip-path:var(--cut);
-  padding:32px 28px 28px;
-  display:flex;flex-direction:column;gap:18px;
-  /* SQUISHY: spring transition for transform */
-  transition:transform .5s cubic-bezier(.34,1.56,.64,1), border-color .35s, box-shadow .35s, filter .35s;
-  animation:cardIn .7s cubic-bezier(.34,1.56,.64,1) backwards;
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  padding:28px;
+  display:flex;flex-direction:column;gap:16px;
   cursor:pointer;
-  min-height:440px;
+  min-height:300px;
+  transition:transform .4s cubic-bezier(.34,1.56,.64,1),border-color .3s,box-shadow .3s;
+  animation:cardIn .6s cubic-bezier(.34,1.56,.64,1) backwards;
   will-change:transform;
 }
-.gcard:nth-child(1){animation-delay:.55s}
-.gcard:nth-child(2){animation-delay:.7s}
-.gcard:nth-child(3){animation-delay:.85s}
-.gcard:nth-child(4){animation-delay:1s}
+.gcard:nth-child(1){animation-delay:.4s}
+.gcard:nth-child(2){animation-delay:.5s}
+.gcard:nth-child(3){animation-delay:.6s}
+.gcard:nth-child(4){animation-delay:.7s}
 @keyframes cardIn{from{opacity:0;transform:translateY(30px) scale(.95)}}
-/* SQUISHY hover: lift + slight scale + tilt (overridden per-card) */
-.gcard:hover{transform:translateY(-10px) scale(1.015)}
-.gcard:active{transform:translateY(-4px) scale(.99);transition:transform .12s cubic-bezier(.34,1.56,.64,1)}
-.gcard::before{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(135deg,rgba(255,255,255,.06) 0%,transparent 30%);opacity:0;transition:opacity .35s}
+.gcard:hover{transform:translateY(-6px) scale(1.01);box-shadow:0 20px 60px rgba(0,0,0,.4)}
+.gcard:active{transform:translateY(-2px) scale(.99);transition:transform .1s}
+.gcard::before{content:"";position:absolute;inset:0;border-radius:var(--radius);padding:1px;background:linear-gradient(135deg,transparent,transparent);opacity:0;transition:opacity .3s;pointer-events:none;-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);mask-composite:exclude;-webkit-mask-composite:xor}
 .gcard:hover::before{opacity:1}
-/* SQUISHY sheen sweep: faster + spring easing */
-.gcard::after{content:"";position:absolute;top:0;bottom:0;width:140px;left:-180px;background:linear-gradient(100deg,transparent,rgba(255,255,255,.22),transparent);transform:skewX(-15deg);transition:left .7s cubic-bezier(.34,1.56,.64,1);pointer-events:none}
-.gcard:hover::after{left:130%}
 
-/* ---- card : Thune Simulator (amber/gold) ---- */
-.gcard.money:hover{border-color:var(--amber);box-shadow:0 20px 60px rgba(255,176,46,.28),0 0 0 1px rgba(255,176,46,.5) inset,0 0 80px rgba(255,176,46,.15)}
-.gcard.money .gcScene{background:radial-gradient(circle at 30% 20%,rgba(255,176,46,.16),transparent 60%),radial-gradient(circle at 80% 80%,rgba(255,45,85,.1),transparent 60%),linear-gradient(180deg,#1a1305,#0a0805)}
-.gcard.money .gcIcon{filter:drop-shadow(0 0 24px rgba(255,176,46,.55));transition:transform .5s cubic-bezier(.34,1.56,.64,1)}
-.gcard.money:hover .gcIcon{transform:scale(1.15) rotate(-5deg)}
-.gcard.money .gcTitle{color:var(--amber)}
-.gcard.money .gcAccent{color:var(--amber)}
-.gcard.money .gcPlay{background:linear-gradient(135deg,#ffc766,#eb9410);color:#1a1204;filter:drop-shadow(0 0 12px rgba(255,176,46,.28));transition:transform .35s cubic-bezier(.34,1.56,.64,1),filter .25s}
-.gcard.money:hover .gcPlay{filter:drop-shadow(0 0 22px rgba(255,176,46,.55))}
-.gcard.money .gcStripe{background:linear-gradient(90deg,var(--amber),var(--crimson))}
+/* Card colors */
+.gcard.money:hover{border-color:var(--amber);box-shadow:0 20px 60px rgba(255,170,0,.15)}
+.gcard.money::before{background:linear-gradient(135deg,var(--amber),transparent 60%)}
+.gcard.zombie:hover{border-color:var(--lime);box-shadow:0 20px 60px rgba(170,255,0,.15)}
+.gcard.zombie::before{background:linear-gradient(135deg,var(--lime),transparent 60%)}
 
-/* ---- card : dev / in-development (common) ---- */
-.gcard.dev{
-  border-style:dashed;
-  position:relative;
-}
-.gcard.dev::after{display:none}
-.gcard.dev .devBanner{position:absolute;top:0;left:0;right:0;padding:6px 14px;font-family:var(--fm);font-size:10px;letter-spacing:2.5px;text-align:center;z-index:5;text-transform:uppercase;border-bottom:1px dashed}
-.gcard.dev .progressBar{height:4px;width:100%;overflow:hidden;clip-path:var(--cutS)}
-.gcard.dev .progressBar i{display:block;height:100%;width:8%;transition:width .6s cubic-bezier(.34,1.56,.64,1)}
-.gcard.dev .progressLabel{display:flex;justify-content:space-between;font-family:var(--fm);font-size:9.5px;color:var(--dim);letter-spacing:1px;margin-top:5px}
-
-/* dev : Fixer (paused, teal/gris) */
-.gcard.dev.fixer{border-color:var(--line2);background:linear-gradient(180deg,#0a1422,#050a14);cursor:default}
-.gcard.dev.fixer:hover{transform:none;border-color:var(--line2)}
-.gcard.dev.fixer .gcScene{background:radial-gradient(circle at 70% 30%,rgba(94,234,212,.1),transparent 60%),linear-gradient(180deg,#0f1e35,#050a14);opacity:.3}
-.gcard.dev.fixer .gcIcon{opacity:.5}
-.gcard.dev.fixer .gcTitle{color:var(--mut)}
-.gcard.dev.fixer .gcStripe{background:var(--line2)}
-.gcard.dev.fixer .gcPlay{background:var(--paper2);color:var(--mut);border:1px dashed var(--line2);cursor:not-allowed;opacity:.6}
-.gcard.dev.fixer .gcBadge{color:var(--mut);border-color:var(--line2);background:rgba(94,234,212,.05)}
-.gcard.dev.fixer .devBanner{background:linear-gradient(90deg,rgba(94,234,212,.08),rgba(94,234,212,.04));color:var(--mut);border-color:var(--line2)}
-.gcard.dev.fixer .progressBar{background:#0a1422;border:1px solid var(--line2)}
-.gcard.dev.fixer .progressBar i{background:var(--line2)}
-.gcard.dev.fixer .progressLabel b{color:var(--mut)}
-
-/* dev : Pastel Knight (paused, pastel dim) */
-.gcard.dev:not(.fixer){border-color:#c4b6cf;background:linear-gradient(180deg,#fcd5ce,#fec5bb);cursor:default}
-.gcard.dev:not(.fixer):hover{transform:none;border-color:#c4b6cf}
-.gcard.dev:not(.fixer) .gcScene{opacity:.4}
-.gcard.dev:not(.fixer) .gcIcon{opacity:.5}
-.gcard.dev:not(.fixer) .gcTitle{color:#6b5575}
-.gcard.dev:not(.fixer) .gcStripe{background:#c4b6cf}
-.gcard.dev:not(.fixer) .gcPlay{background:rgba(255,250,252,.5);color:#9a8aa8;border:1px dashed #c4b6cf;cursor:not-allowed;opacity:.6}
-.gcard.dev:not(.fixer) .gcBadge{color:#9a8aa8;border-color:#c4b6cf;background:rgba(255,250,252,.4)}
-.gcard.dev:not(.fixer) .devBanner{background:linear-gradient(90deg,rgba(255,143,171,.15),rgba(189,178,255,.1));color:#9a8aa8;border-color:#c4b6cf}
-.gcard.dev:not(.fixer) .progressBar{background:rgba(0,0,0,.08);border:1px solid #c4b6cf}
-.gcard.dev:not(.fixer) .progressBar i{background:#c4b6cf}
-.gcard.dev:not(.fixer) .progressLabel b{color:#9a8aa8}
-.gcard.dev:not(.fixer) .gcDesc{color:#6b5575}
-
-/* ---- card : Zombie Survivor (lime/crimson bunker) ---- */
-.gcard.zombie:hover{border-color:var(--lime);box-shadow:0 20px 60px rgba(200,255,60,.22),0 0 0 1px rgba(200,255,60,.5) inset,0 0 80px rgba(200,255,60,.12)}
-.gcard.zombie .gcScene{background:radial-gradient(circle at 70% 30%,rgba(200,255,60,.14),transparent 60%),radial-gradient(circle at 20% 80%,rgba(34,211,238,.08),transparent 60%),linear-gradient(180deg,#0d1410,#070a08)}
-.gcard.zombie .gcIcon{filter:drop-shadow(0 0 24px rgba(200,255,60,.55));transition:transform .5s cubic-bezier(.34,1.56,.64,1)}
-.gcard.zombie:hover .gcIcon{transform:scale(1.15) rotate(5deg)}
-.gcard.zombie .gcTitle{color:var(--lime)}
-.gcard.zombie .gcAccent{color:var(--lime)}
-.gcard.zombie .gcPlay{background:linear-gradient(135deg,#dcff6a,#9ede00);color:#0a1204;filter:drop-shadow(0 0 14px rgba(200,255,60,.32));transition:transform .35s cubic-bezier(.34,1.56,.64,1),filter .25s}
-.gcard.zombie:hover .gcPlay{filter:drop-shadow(0 0 22px rgba(200,255,60,.55))}
-.gcard.zombie .gcStripe{background:linear-gradient(90deg,var(--lime),var(--crimson))}
-
-/* ---- card internals ---- */
-.gcScene{position:absolute;inset:0;z-index:0;opacity:.45;transition:opacity .4s cubic-bezier(.34,1.56,.64,1),transform .6s cubic-bezier(.34,1.56,.64,1)}
-.gcard:hover .gcScene{opacity:.75;transform:scale(1.05)}
-.gcScene svg{position:absolute;inset:0;width:100%;height:100%}
-.gcVeil{position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(7,9,11,.7) 0%,rgba(7,9,11,.5) 30%,rgba(7,9,11,.88) 65%,rgba(7,9,11,.98))}
-.gcard.dev:not(.fixer) .gcVeil{background:linear-gradient(180deg,rgba(252,213,206,.5) 0%,rgba(252,213,206,.3) 30%,rgba(252,213,206,.85) 65%,rgba(252,213,206,.95))}
-.gcBody{position:relative;z-index:2;display:flex;flex-direction:column;gap:14px;flex:1}
-.gcTop{display:flex;align-items:flex-start;justify-content:space-between;gap:18px}
+/* Card internals */
+.gcTop{display:flex;align-items:center;justify-content:space-between;gap:12px}
 .gcIconWrap{display:flex;align-items:center;gap:14px}
-.gcIcon{font-size:42px;line-height:1;animation:iconBob 4s ease-in-out infinite;transition:transform .5s cubic-bezier(.34,1.56,.64,1)}
-@keyframes iconBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
-.gcBadge{font-family:var(--fm);font-size:9.5px;letter-spacing:1.5px;color:var(--mut);background:rgba(8,12,14,.72);border:1px solid var(--edge);padding:4px 9px;clip-path:var(--cutS);align-self:flex-start;transition:transform .3s cubic-bezier(.34,1.56,.64,1)}
-.gcard:hover .gcBadge{transform:scale(1.08)}
-.gcBadge.live{color:var(--lime);border-color:#35501c}
-.gcBadge.live .dot{display:inline-block;width:5px;height:5px;background:var(--lime);border-radius:50%;box-shadow:0 0 7px var(--lime);margin-right:5px;animation:blip 1.6s infinite}
-.gcBadge.bump{color:var(--amber);border-color:#5c4a1c}
-.gcTitle{font-family:var(--fd);font-weight:700;font-size:clamp(20px,2.4vw,26px);letter-spacing:1px;line-height:1.1;margin-top:4px;text-shadow:0 2px 18px rgba(0,0,0,.5);transition:transform .4s cubic-bezier(.34,1.56,.64,1)}
-.gcard:hover .gcTitle{transform:translateX(4px)}
-.gcVer{font-family:var(--fm);font-size:11px;color:var(--mut);letter-spacing:1.5px;margin-top:3px}
-.gcVer b{color:var(--ink)}
-.gcDesc{color:var(--mut);font-size:14px;line-height:1.55;flex:1}
-.gcDesc b{color:var(--ink)}
+.gcIcon{font-size:36px;line-height:1;transition:transform .4s cubic-bezier(.34,1.56,.64,1)}
+.gcard:hover .gcIcon{transform:scale(1.1)}
+.gcTitle{font-family:var(--fd);font-weight:700;font-size:22px;letter-spacing:-.5px;line-height:1.1}
+.gcVer{font-family:var(--fb);font-size:12px;color:var(--text3);font-weight:500;margin-top:2px}
+.gcVer b{color:var(--text2);font-weight:600}
+.gcard.money .gcTitle{color:var(--amber)}
+.gcard.zombie .gcTitle{color:var(--lime)}
+.gcBadge{font-family:var(--fb);font-size:11px;font-weight:600;letter-spacing:.5px;color:var(--text2);background:var(--card2);border:1px solid var(--border);padding:4px 12px;border-radius:100px}
+.gcBadge.live{color:var(--lime);border-color:rgba(170,255,0,.3);background:rgba(170,255,0,.08)}
+.gcBadge.live .dot{display:inline-block;width:5px;height:5px;border-radius:50%;background:var(--lime);box-shadow:0 0 6px var(--lime);margin-right:5px;animation:blip 1.5s infinite}
+.gcBadge.bump{color:var(--amber);border-color:rgba(255,170,0,.3);background:rgba(255,170,0,.08)}
+.gcDesc{color:var(--text2);font-size:14px;line-height:1.55;flex:1;font-weight:400}
+.gcDesc b{color:var(--text);font-weight:600}
 .gcTags{display:flex;flex-wrap:wrap;gap:6px}
-.gcTag{font-family:var(--fm);font-size:10.5px;letter-spacing:1px;color:var(--mut);background:rgba(8,12,14,.7);border:1px solid var(--edge);padding:4px 9px;clip-path:var(--cutS);transition:transform .3s cubic-bezier(.34,1.56,.64,1),border-color .25s}
-.gcTag:hover{transform:translateY(-2px) scale(1.05)}
-.gcTag.lime{color:var(--lime);border-color:#2d4218}
-.gcTag.amber{color:var(--amber);border-color:#5c4a1c}
-.gcTag.cyan{color:var(--cyan);border-color:#1d5866}
-.gcTag.red{color:var(--crimson);border-color:#5c1a28}
-.gcFooter{display:flex;align-items:center;gap:14px;margin-top:auto;padding-top:6px;flex-wrap:wrap}
+.gcTag{font-family:var(--fb);font-size:11px;font-weight:500;color:var(--text3);background:var(--card2);border:1px solid var(--border);padding:3px 10px;border-radius:100px;transition:all .25s}
+.gcTag:hover{transform:translateY(-1px);color:var(--text2)}
+.gcFooter{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:auto;padding-top:8px}
 .gcPlay{
-  display:inline-flex;align-items:center;justify-content:center;gap:9px;
-  font-family:var(--fd);font-weight:700;font-size:14px;letter-spacing:2px;text-transform:uppercase;
-  padding:13px 24px;min-width:188px;text-align:center;clip-path:var(--cut);
-  transition:transform .3s cubic-bezier(.34,1.56,.64,1), filter .25s, box-shadow .25s;
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:var(--fd);font-weight:600;font-size:14px;
+  padding:11px 24px;border-radius:100px;
+  transition:transform .3s cubic-bezier(.34,1.56,.64,1),box-shadow .25s;
   position:relative;overflow:hidden;
 }
-.gcPlay .ripple{position:absolute;border-radius:50%;background:rgba(255,255,255,.4);pointer-events:none;transform:scale(0);animation:rippleAnim .6s cubic-bezier(.34,1.56,.64,1);z-index:1}
-/* SQUISHY press feedback */
-.gcPlay:active{transform:translateY(2px) scale(.96);transition:transform .08s cubic-bezier(.34,1.56,.64,1)}
-.gcPlay i{font-style:normal;font-size:11px;transition:transform .3s cubic-bezier(.34,1.56,.64,1)}
-.gcard:hover .gcPlay i{transform:translateX(4px)}
-.gcStats{display:flex;flex-direction:column;gap:2px;font-family:var(--fm);font-size:10px;color:var(--dim);letter-spacing:1px}
-.gcStats b{color:var(--ink);font-size:12px}
-.gcStripe{height:3px;width:100%;position:absolute;bottom:0;left:0;z-index:3;opacity:.6;transition:height .35s cubic-bezier(.34,1.56,.64,1),opacity .35s}
-.gcard:hover .gcStripe{height:5px;opacity:1}
+.gcard.money .gcPlay{background:var(--amber);color:#1a1000}
+.gcard.zombie .gcPlay{background:var(--lime);color:#0a1500}
+.gcard:hover .gcPlay{transform:scale(1.05)}
+.gcPlay:active{transform:scale(.96);transition:transform .08s}
+.gcPlay i{font-style:normal;font-size:13px;transition:transform .3s}
+.gcard:hover .gcPlay i{transform:translateX(3px)}
+.gcStats{font-family:var(--fb);font-size:11px;color:var(--text3);font-weight:500;text-align:right}
+.gcStats b{color:var(--text2);font-weight:600}
 
-/* ==================== RIPPLE EFFECT ==================== */
-.ripple{position:absolute;border-radius:50%;background:rgba(255,255,255,.5);pointer-events:none;transform:scale(0);animation:rippleAnim .6s cubic-bezier(.34,1.56,.64,1)}
-@keyframes rippleAnim{to{transform:scale(4);opacity:0}}
+/* ==================== DEV CARDS ==================== */
+.gcard.dev{border-style:dashed;opacity:.7;cursor:default}
+.gcard.dev:hover{transform:none;box-shadow:none;opacity:.8}
+.gcard.dev .gcPlay{background:var(--card2)!important;color:var(--text3)!important;border:1px dashed var(--border2);cursor:not-allowed}
+.gcard.dev .gcIcon{opacity:.4}
+.gcard.dev .gcTitle{color:var(--text3)}
+.gcard.dev .gcBadge{color:var(--text3);border-color:var(--border2)}
+.gcard.dev .gcDesc{color:var(--text3)}
+.gcard.dev .gcTag{color:var(--text3)}
+.gcard.dev .gcStats b{color:var(--text3)}
+.gcard.dev .devBanner{position:absolute;top:0;left:0;right:0;padding:5px;text-align:center;font-family:var(--fb);font-size:10px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--text3);background:rgba(255,255,255,.02);border-bottom:1px dashed var(--border);z-index:5}
+.gcard.dev .progressBar{height:3px;background:var(--card2);border-radius:100px;overflow:hidden}
+.gcard.dev .progressBar i{display:block;height:100%;background:var(--border2);border-radius:100px;transition:width .4s}
+.gcard.dev .progressLabel{display:flex;justify-content:space-between;font-family:var(--fb);font-size:10px;color:var(--text3);margin-top:4px;font-weight:500}
+.gcard.dev .progressLabel b{color:var(--text3)}
 
-/* ==================== FEATURES STRIP ==================== */
-.featStrip{max-width:1240px;margin:0 auto;padding:0 24px 60px;width:100%}
-.featGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
-.feat{position:relative;background:#0d1317;border:1px solid var(--edge);clip-path:var(--cutS);padding:18px 16px;text-align:left;
-  transition:transform .35s cubic-bezier(.34,1.56,.64,1),border-color .25s,box-shadow .25s;overflow:hidden}
-.feat .ripple{position:absolute;border-radius:50%;background:rgba(200,255,60,.3);pointer-events:none;transform:scale(0);animation:rippleAnim .6s cubic-bezier(.34,1.56,.64,1)}
-.feat:hover{border-color:var(--lime);transform:translateY(-4px) scale(1.03);box-shadow:0 12px 30px rgba(200,255,60,.15)}
-.feat:active{transform:translateY(-1px) scale(.99);transition:transform .1s}
-.feat i{font-style:normal;font-size:22px;display:block;margin-bottom:8px;transition:transform .4s cubic-bezier(.34,1.56,.64,1)}
-.feat:hover i{transform:scale(1.2) rotate(-8deg)}
-.feat .ft{font-family:var(--fd);font-weight:700;font-size:12.5px;letter-spacing:1px;margin-bottom:4px;transition:color .25s}
-.feat:hover .ft{color:var(--lime)}
-.feat .fd{font-family:var(--fm);font-size:10.5px;color:var(--mut);letter-spacing:.5px;line-height:1.4}
+/* ==================== FEATURES ==================== */
+.featStrip{max-width:1200px;margin:0 auto;padding:0 24px 60px;width:100%}
+.featGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.feat{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-sm);padding:18px 16px;transition:all .3s cubic-bezier(.34,1.56,.64,1);text-align:left}
+.feat:hover{border-color:var(--accent);transform:translateY(-3px);box-shadow:0 12px 30px rgba(124,92,255,.1)}
+.feat i{font-style:normal;font-size:24px;display:block;margin-bottom:10px;transition:transform .3s}
+.feat:hover i{transform:scale(1.15)}
+.feat .ft{font-family:var(--fd);font-weight:600;font-size:13px;letter-spacing:-.3px;margin-bottom:4px;transition:color .25s}
+.feat:hover .ft{color:var(--accent)}
+.feat .fd{font-family:var(--fb);font-size:12px;color:var(--text3);line-height:1.4;font-weight:400}
 
 /* ==================== FOOTER ==================== */
-#footer{margin-top:auto;padding:32px 24px 24px;background:linear-gradient(180deg,transparent,#0a0d10);border-top:1px solid var(--edge);text-align:center}
-.footGrid{max-width:1240px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
-.footBrand{font-family:var(--fd);font-weight:700;font-size:13px;letter-spacing:2px;color:var(--mut)}
-.footBrand span{color:var(--lime)}
-.footMeta{font-family:var(--fm);font-size:10px;color:var(--dim);letter-spacing:1.5px}
-.footMeta b{color:var(--mut)}
-.footNote{font-family:var(--fm);font-size:10px;color:var(--dim);letter-spacing:1px;margin-top:14px;max-width:680px;margin-left:auto;margin-right:auto;line-height:1.5}
+#footer{margin-top:auto;padding:32px 24px 24px;border-top:1px solid var(--border);text-align:center}
+.footGrid{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
+.footBrand{font-family:var(--fd);font-weight:600;font-size:14px;color:var(--text2)}
+.footBrand span{color:var(--accent)}
+.footMeta{font-family:var(--fb);font-size:11px;color:var(--text3);font-weight:500}
+.footMeta b{color:var(--text2)}
+.footNote{font-family:var(--fb);font-size:11px;color:var(--text3);margin-top:14px;max-width:600px;margin-left:auto;margin-right:auto;line-height:1.5;font-weight:400}
 
 /* ==================== RESPONSIVE ==================== */
 @media (max-width:820px){
-  .cards{grid-template-columns:1fr!important;gap:18px;padding:0 16px 60px}
-  .gcard{min-height:380px;padding:26px 22px 24px}
-  .gcIcon{font-size:36px}
+  .cards{grid-template-columns:1fr!important;gap:16px;padding:0 16px 40px}
+  .gcard{min-height:auto;padding:24px 20px}
   .featGrid{grid-template-columns:repeat(2,1fr)}
-  .feat{padding:14px 12px}
-  .feat i{font-size:20px;margin-bottom:6px}
-  .feat .ft{font-size:11.5px}
-  .feat .fd{font-size:10px}
-  #hero{padding:50px 18px 40px}
-  #topBar{padding:11px 16px;gap:10px}
+  #hero{padding:50px 18px 30px}
+  #topBar{padding:10px 16px;gap:10px}
   .brand .ver{display:none}
   .tbChip:not(.always){display:none}
-  .gcPlay{min-width:auto;flex:1 1 100%}
 }
 @media (max-width:480px){
   .featGrid{grid-template-columns:1fr}
-  .gcTop{flex-direction:column;align-items:flex-start;gap:8px}
-  h1{font-size:2.4rem;letter-spacing:3px}
-  .heroSub{font-size:13.5px}
-  .footGrid{flex-direction:column;text-align:center}
+  h1{font-size:36px}
+  .gcFooter{flex-direction:column;align-items:flex-start}
 }
 @media (prefers-reduced-motion:reduce){
-  #bgFx .grid,#bgFx .beam,.spore,.brand .logo,.gcIcon,.gcBadge.live .dot{animation:none}
+  *{animation:none!important;transition:none!important}
 }
 </style>
 </head>
 <body>
-<div id="bgFx"><div class="grid"></div><div class="beam"></div><div class="grain"></div><div class="scan"></div></div>
+<div id="bg"><div class="orb orb1"></div><div class="orb orb2"></div><div class="orb orb3"></div><div class="grid"></div></div>
 
 <div id="shell">
-
-  <!-- ========= TOP BAR ========= -->
   <header id="topBar">
-    <div class="brand">
-      <span class="logo">☣</span>
-      <span class="name">GAME <span>CENTER</span></span>
-      <span class="ver">HUB · v7.0</span>
-    </div>
+    <div class="brand"><div class="dot"></div> GAME <span>CENTER</span><div class="ver">HUB v7.0</div></div>
     <div class="hspace"></div>
-    <div class="tbChip always"><span class="dot"></span>SYSTÈME ACTIF</div>
+    <div class="tbChip always"><div class="pulse"></div>EN LIGNE</div>
     <div class="tbChip">🎮 <b>2</b> JEUX</div>
     <div class="tbChip">⏸ <b>2</b> EN PAUSE</div>
     <div class="tbChip">⚡ <b>OFFLINE</b></div>
   </header>
 
-  <!-- ========= HERO ========= -->
   <section id="hero">
-    <span class="kicker"><span class="dot"></span>ARCADE TERMINAL · PÉRIMÈTRE SÉCURISÉ</span>
+    <div class="kicker"><div class="dot"></div>ARCADE HUB · PLATEFORME DE JEUX</div>
     <h1>GAME CENTER</h1>
-    <div class="heroTag"> plateforme <b>100% offline</b> · zéro dépendance · <b>zéro build</b></div>
     <p class="heroSub">Deux jeux complets jouables dès maintenant, <b>plus deux en pause</b>. <b>Aucune installation</b>, aucune connexion requise, sauvegarde locale automatique.</p>
   </section>
 
-  <!-- ========= DIVIDER ========= -->
-  <div class="divider">
-    <span class="idx">01 /</span>
-    <h2>Sélection de jeu</h2>
-    <span class="ln"></span>
-    <span class="note">Clique sur une carte pour démarrer ▶</span>
-  </div>
+  <div class="divider"><div class="idx">01</div><h2>Sélection de jeu</h2><div class="ln"></div><div class="note">Clique pour démarrer ▶</div></div>
 
-  <!-- ========= CARDS ========= -->
   <div class="cards">
-
-    <!-- ===== Thune Simulator ===== -->
-    <a class="gcard money" href="g_n_rateur_de_thune_artificielle_securise_corrige.html">
-      <div class="gcScene"><svg viewBox="0 0 480 280" preserveAspectRatio="xMidYMid slice">
-        <defs><linearGradient id="gold" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3a2a05"/><stop offset="1" stop-color="#0a0805"/></linearGradient></defs>
-        <rect width="480" height="280" fill="url(#gold)"/>
-        <circle cx="370" cy="60" r="42" fill="#ffb02e" opacity=".14"/>
-        <circle cx="370" cy="60" r="22" fill="#ffd680" opacity=".5"/>
-        <g fill="#ffb02e" opacity=".7">
-          <rect x="60" y="190" width="18" height="60"/>
-          <rect x="90" y="170" width="18" height="80"/>
-          <rect x="120" y="140" width="18" height="110"/>
-          <rect x="150" y="160" width="18" height="90"/>
-          <rect x="180" y="120" width="18" height="130"/>
-          <rect x="210" y="100" width="18" height="150"/>
-          <rect x="240" y="80" width="18" height="170"/>
-          <rect x="270" y="60" width="18" height="190"/>
-          <rect x="300" y="40" width="18" height="210"/>
-        </g>
-        <g fill="#ff2d55" opacity=".55">
-          <rect x="340" y="20" width="18" height="230"/>
-          <rect x="370" y="0" width="18" height="250"/>
-        </g>
-        <path d="M0 250L40 230L80 240L120 215L160 225L200 200L240 210L280 185L320 195L360 170L400 180L440 155L480 165" stroke="#ffb02e" stroke-width="2" fill="none" opacity=".75"/>
-        <ellipse cx="240" cy="270" rx="240" ry="14" fill="#ffb02e" opacity=".06"/>
-      </svg></div>
-      <div class="gcVeil"></div>
-      <div class="gcBody">
-        <div class="gcTop">
-          <div class="gcIconWrap">
-            <div class="gcIcon">💰</div>
-            <div>
-              <div class="gcTitle">Thune Simulator</div>
-              <div class="gcVer">VERSION <b>v3.1</b> · DESIGN « AURORA NOIR »</div>
-            </div>
-          </div>
-          <span class="gcBadge bump">★ POPULAIRE</span>
-        </div>
-        <p class="gcDesc">Devenez magnat absolu : du stand à <b>kebab 24/7</b> aux <b>banques multiverselles</b> et sphères de Dyson. <b>16+ commerces</b> automatisables, 10 rangs de maîtrise, bourse spéculative, prestige cosmique et classement Forbes.</p>
-        <div class="gcTags">
-          <span class="gcTag amber">Idle Tycoon</span>
-          <span class="gcTag amber">16+ Commerces</span>
-          <span class="gcTag red">Prestige ∞</span>
-          <span class="gcTag cyan">Bourse & Crypto</span>
-        </div>
-        <div class="gcFooter">
-          <button class="gcPlay">▶ DÉMARRER <i>▶</i></button>
-          <div class="gcStats">
-            <span>TEMPS DE JEU <b>∞</b></span>
-            <span>SAUVEGARDE <b>AUTO</b></span>
-          </div>
-        </div>
+    <div class="gcard money" onclick="window.location.href='g_n_rateur_de_thune_artificielle_securise_corrige.html'">
+      <div class="gcTop">
+        <div class="gcIconWrap"><div class="gcIcon">💰</div><div><div class="gcTitle">Thune Simulator</div><div class="gcVer">VERSION <b>v3.1</b> · IDLE TYCOON</div></div></div>
+        <div class="gcBadge bump">★ POPULAIRE</div>
       </div>
-      <div class="gcStripe"></div>
-    </a>
-
-    <!-- ===== Zombie Survivor ===== -->
-    <a class="gcard zombie" href="surivor_games.html">
-      <div class="gcScene"><svg viewBox="0 0 480 280" preserveAspectRatio="xMidYMid slice">
-        <defs><linearGradient id="zbg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1d2c12"/><stop offset="1" stop-color="#070c07"/></linearGradient></defs>
-        <rect width="480" height="280" fill="url(#zbg)"/>
-        <circle cx="360" cy="60" r="50" fill="#c8ff3c" opacity=".1"/>
-        <circle cx="360" cy="60" r="26" fill="#c8ff3c" opacity=".18"/>
-        <path d="M0 280V170l26-6 8-30 18 8 6 28 22 4V140l30-10 10 24 14-6 8-42 20 10 6 44 26 8V116l16-8 10 16 12-4 8 34 30 6v-56l24-12 12 20 10-6 8 40 26 10V152l28-8 10 22 16-4 10 30 24 8v90Z" fill="#070c07"/>
-        <g fill="#c8ff3c" opacity=".5"><rect x="60" y="180" width="6" height="9"/><rect x="262" y="142" width="5" height="8"/><rect x="420" y="180" width="5" height="8"/></g>
-        <g fill="#ff2d55" opacity=".55"><rect x="150" y="158" width="5" height="8"/><rect x="352" y="170" width="6" height="9"/></g>
-        <g opacity=".85">
-          <circle cx="200" cy="220" r="8" fill="#4e7a3a"/>
-          <circle cx="200" cy="216" r="2" fill="#ff2d55"/>
-          <circle cx="225" cy="225" r="6" fill="#3d5a46"/>
-          <circle cx="250" cy="218" r="7" fill="#4e7a3a"/>
-          <circle cx="250" cy="214" r="2" fill="#ff2d55"/>
-          <circle cx="160" cy="200" r="6" fill="#9a4034"/>
-          <circle cx="160" cy="197" r="1.5" fill="#ff2d55"/>
-          <circle cx="280" cy="200" r="9" fill="#3d5a46"/>
-          <circle cx="280" cy="196" r="2.5" fill="#ff2d55"/>
-          <circle cx="310" cy="215" r="6" fill="#4e7a3a"/>
-          <circle cx="340" cy="208" r="7" fill="#3d5a46"/>
-          <circle cx="340" cy="204" r="2" fill="#ff2d55"/>
-        </g>
-        <g stroke="#c8ff3c" stroke-width="1" opacity=".4">
-          <line x1="80" y1="100" x2="195" y2="216"/>
-          <line x1="120" y1="100" x2="245" y2="218"/>
-          <line x1="160" y1="100" x2="280" y2="200"/>
-        </g>
-        <ellipse cx="120" cy="248" rx="160" ry="22" fill="#c8ff3c" opacity=".08"/>
-        <ellipse cx="380" cy="256" rx="180" ry="26" fill="#e4ff7a" opacity=".06"/>
-        <rect y="266" width="480" height="14" fill="#050805"/>
-      </svg></div>
-      <div class="gcVeil"></div>
-      <div class="gcBody">
-        <div class="gcTop">
-          <div class="gcIconWrap">
-            <div class="gcIcon">🧟</div>
-            <div>
-              <div class="gcTitle">Zombie Survivor.io</div>
-              <div class="gcVer">VERSION <b>v7.0</b> · BUNKER OS</div>
-            </div>
-          </div>
-          <span class="gcBadge live"><span class="dot"></span>BOSS DIFFICILE</span>
-        </div>
-        <p class="gcDesc">Rogue-lite top-down : <b>4 secteurs × 5 niveaux</b> = 20 missions, vagues infinies, <b>6 armes</b> évolutives, équipement RPG 6 slots, et <b>4 boss titanesques</b> (16k à 110k HP). Survis 3 min par niveau puis affronte le boss final.</p>
-        <div class="gcTags">
-          <span class="gcTag lime">Bullet Heaven</span>
-          <span class="gcTag lime">20 Niveaux</span>
-          <span class="gcTag red">4 Boss Difficiles</span>
-          <span class="gcTag cyan">Équipement RPG</span>
-        </div>
-        <div class="gcFooter">
-          <button class="gcPlay">▶ DÉPLOIEMENT <i>▶</i></button>
-          <div class="gcStats">
-            <span>TEMPO <b>×0.75 → ×2</b></span>
-            <span>SAUVEGARDE <b>AUTO</b></span>
-          </div>
-        </div>
-      </div>
-      <div class="gcStripe"></div>
-    </a>
-
-  </div>
-
-  <!-- ========= DIVIDER ========= -->
-  <div class="divider">
-    <span class="idx">02 /</span>
-    <h2>Projets en pause</h2>
-    <span class="ln"></span>
-    <span class="note">Fixer & Pastel Knight — figés, en attente de reprise</span>
-  </div>
-
-  <!-- ========= DEV CARDS : FIXER + PASTEL KNIGHT (côte à côte) ========= -->
-  <div class="cards" style="grid-template-columns:1fr 1fr;gap:18px">
-    <div class="gcard dev fixer" aria-disabled="true" style="cursor:default">
-      <div class="devBanner">⏸ PROJET EN PAUSE · EN ATTENTE DE REPRISE ⏸</div>
-      <div class="gcScene"><svg viewBox="0 0 480 280" preserveAspectRatio="xMidYMid slice">
-        <defs>
-          <linearGradient id="devbg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0a1422"/><stop offset="1" stop-color="#050a14"/></linearGradient>
-          <pattern id="devpat" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
-            <path d="M0 0 L20 0 M0 0 L0 20" stroke="#5eead4" stroke-width=".3" opacity=".2"/>
-          </pattern>
-        </defs>
-        <rect width="480" height="280" fill="url(#devbg)"/>
-        <rect width="480" height="280" fill="url(#devpat)"/>
-        <!-- Phone blueprint dimmed -->
-        <g opacity=".4">
-          <rect x="190" y="50" width="100" height="180" rx="10" fill="none" stroke="#5eead4" stroke-width="1.5"/>
-          <rect x="196" y="56" width="88" height="168" rx="6" fill="rgba(94,234,212,.05)" stroke="#5eead4" stroke-width=".5"/>
-          <line x1="240" y1="135" x2="240" y2="145" stroke="#fde047" stroke-width=".5"/>
-          <line x1="235" y1="140" x2="245" y2="140" stroke="#fde047" stroke-width=".5"/>
-          <rect x="200" y="70" width="80" height="100" fill="rgba(94,234,212,.1)" stroke="#5eead4" stroke-width=".5"/>
-          <rect x="260" y="60" width="22" height="22" rx="3" fill="none" stroke="#fde047" stroke-width=".8"/>
-          <rect x="210" y="180" width="60" height="14" rx="2" fill="none" stroke="#86efac" stroke-width=".8"/>
-        </g>
-        <!-- Pause overlay -->
-        <g opacity=".85">
-          <circle cx="240" cy="140" r="40" fill="rgba(5,10,20,.85)" stroke="#5eead4" stroke-width="1.5"/>
-          <rect x="226" y="125" width="8" height="30" rx="2" fill="#5eead4"/>
-          <rect x="246" y="125" width="8" height="30" rx="2" fill="#5eead4"/>
-        </g>
-        <text x="20" y="30" font-family="JetBrains Mono" font-size="9" fill="#5eead4" opacity=".5">&gt; BLUEPRINT_REV_0.3</text>
-        <text x="20" y="50" font-family="JetBrains Mono" font-size="9" fill="#fde047" opacity=".5">&gt; STATUS: PAUSED</text>
-        <text x="20" y="260" font-family="JetBrains Mono" font-size="9" fill="#5eead4" opacity=".4">PROJET FIGÉ · EN ATTENTE DE REPRISE</text>
-        <text x="380" y="270" text-anchor="end" font-family="JetBrains Mono" font-size="9" fill="#5eead4" opacity=".4">v0.3-paused</text>
-      </svg></div>
-      <div class="gcVeil"></div>
-      <div class="gcBody">
-        <div class="gcTop">
-          <div class="gcIconWrap">
-            <div class="gcIcon" style="opacity:.5">📐</div>
-            <div>
-              <div class="gcTitle">FIXER</div>
-              <div class="gcVer">VERSION <b>v0.3</b> · PROJET EN PAUSE</div>
-            </div>
-          </div>
-          <span class="gcBadge dev" style="background:rgba(94,234,212,.08);color:var(--mut);border-color:var(--line2)">⏸ EN PAUSE</span>
-        </div>
-        <p class="gcDesc">Tycoon blueprint où tu conçois des <b>téléphones portables</b> pièce par pièce — vue éclatée technique, 12 composants, concurrence IA, employés, marketing et événements. Le projet est actuellement <b>figé en v0.3</b> en attendant de reprendre le développement. Le fichier et la sauvegarde restent disponibles.</p>
-        <div class="gcTags">
-          <span class="gcTag" style="color:var(--dim)">📐 Blueprint</span>
-          <span class="gcTag" style="color:var(--dim)">🔧 12 Composants</span>
-          <span class="gcTag" style="color:var(--dim)">🍎 Concurrence IA</span>
-          <span class="gcTag" style="color:var(--dim)">⏸ En pause</span>
-        </div>
-        <div>
-          <div class="progressBar"><i style="width:50%;background:var(--line2)"></i></div>
-          <div class="progressLabel"><span>PROGRESSION</span><span><b style="color:var(--mut)">50%</b> · EN PAUSE</span></div>
-        </div>
-        <div class="gcFooter">
-          <button class="gcPlay" disabled style="background:var(--paper2);color:var(--mut);border:1px dashed var(--line2);cursor:not-allowed;opacity:.6">⏸ PROJET EN PAUSE</button>
-          <div class="gcStats">
-            <span>STATUT <b style="color:var(--mut)">PAUSE</b></span>
-            <span>SAUVEGARDE <b>—</b></span>
-          </div>
-        </div>
-      </div>
-      <div class="gcStripe" style="background:var(--line2)"></div>
+      <p class="gcDesc">Devenez magnat absolu : du stand à <b>kebab 24/7</b> aux <b>banques multiverselles</b> et sphères de Dyson. <b>16+ commerces</b> automatisables, 10 rangs de maîtrise, bourse spéculative, prestige cosmique.</p>
+      <div class="gcTags"><span class="gcTag">Idle Tycoon</span><span class="gcTag">16+ Commerces</span><span class="gcTag">Prestige ∞</span></div>
+      <div class="gcFooter"><button class="gcPlay">JOUER <i>→</i></button><div class="gcStats">TEMPS <b>∞</b><br>SAUVEGARDE <b>AUTO</b></div></div>
     </div>
-
-    <!-- ========= DEV CARD : PASTEL KNIGHT ========= -->
-    <div class="gcard dev" aria-disabled="true" style="cursor:default">
-      <div class="devBanner" style="background:linear-gradient(90deg,rgba(255,143,171,.15),rgba(189,178,255,.1));border-bottom:1px dashed #c4b6cf;color:var(--mut)">⏸ PROJET EN PAUSE · EN ATTENTE DE REPRISE ⏸</div>
-      <div class="gcScene"><svg viewBox="0 0 480 280" preserveAspectRatio="xMidYMid slice">
-        <defs>
-          <linearGradient id="pkBg" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0" stop-color="#bde0fe"/><stop offset=".5" stop-color="#cdb4db"/><stop offset="1" stop-color="#ffc8dd"/>
-          </linearGradient>
-        </defs>
-        <rect width="480" height="280" fill="url(#pkBg)"/>
-        <!-- Dimmed scene -->
-        <g opacity=".25">
-          <circle cx="400" cy="60" r="32" fill="#fff5b8"/>
-          <ellipse cx="80" cy="50" rx="35" ry="13" fill="#fff"/>
-          <ellipse cx="350" cy="100" rx="30" ry="11" fill="#fff"/>
-          <ellipse cx="100" cy="240" rx="100" ry="35" fill="#caffbf"/>
-          <ellipse cx="380" cy="245" rx="80" ry="28" fill="#b8e0a8"/>
-          <rect x="0" y="230" width="480" height="50" fill="#9ad88a"/>
-          <rect x="0" y="225" width="480" height="8" fill="#caffbf"/>
-          <rect x="120" y="180" width="80" height="14" rx="6" fill="#ffd6a5"/>
-          <rect x="240" y="140" width="90" height="14" rx="6" fill="#bdb2ff"/>
-          <rect x="370" y="180" width="70" height="14" rx="6" fill="#ffc8dd"/>
-          <rect x="50" y="200" width="30" height="35" rx="8" fill="#ff8fab"/>
-          <rect x="440" y="170" width="3" height="60" fill="#3d2c4a"/>
-          <polygon points="443,175 475,185 443,195" fill="#ff8fab"/>
-        </g>
-        <!-- Pause overlay -->
-        <g opacity=".85">
-          <circle cx="240" cy="140" r="42" fill="rgba(255,250,252,.92)" stroke="#3d2c4a" stroke-width="2.5"/>
-          <rect x="225" y="123" width="9" height="34" rx="2" fill="#3d2c4a"/>
-          <rect x="246" y="123" width="9" height="34" rx="2" fill="#3d2c4a"/>
-        </g>
-        <text x="20" y="30" font-family="Fredoka, sans-serif" font-size="14" fill="#3d2c4a" font-weight="700" opacity=".5">PASTEL KNIGHT</text>
-        <text x="20" y="46" font-family="Nunito, sans-serif" font-size="10" fill="#6b5575" opacity=".5">SAUTE · COURS · COLLECTE</text>
-        <text x="20" y="260" font-family="Nunito, sans-serif" font-size="9" fill="#9a8aa8" opacity=".6">PROJET FIGÉ · EN ATTENTE DE REPRISE</text>
-        <text x="460" y="270" text-anchor="end" font-family="Nunito, sans-serif" font-size="9" fill="#9a8aa8" opacity=".5">v0.3-paused</text>
-      </svg></div>
-      <div class="gcVeil"></div>
-      <div class="gcBody">
-        <div class="gcTop">
-          <div class="gcIconWrap">
-            <div class="gcIcon" style="opacity:.5">🌸</div>
-            <div>
-              <div class="gcTitle" style="color:var(--mut)">PASTEL KNIGHT</div>
-              <div class="gcVer">VERSION <b>v0.3</b> · PROJET EN PAUSE</div>
-            </div>
-          </div>
-          <span class="gcBadge dev" style="background:rgba(255,143,171,.06);color:var(--mut);border-color:var(--line2)">⏸ EN PAUSE</span>
-        </div>
-        <p class="gcDesc">Plateformer 2D à la Mario, vibe pastel doux. Pilote un chevalier rose, saute avec double saut, collecte des cristaux, évite ou stomp les ennemis, atteins le drapeau rose. Le projet est actuellement <b>figé en v0.3</b> en attendant de reprendre le développement.</p>
-        <div class="gcTags">
-          <span class="gcTag" style="color:var(--dim)">🌸 Pastel doux</span>
-          <span class="gcTag" style="color:var(--dim)">⬆️ Double saut</span>
-          <span class="gcTag" style="color:var(--dim)">⭐ Cristaux</span>
-          <span class="gcTag" style="color:var(--dim)">⏸ En pause</span>
-        </div>
-        <div>
-          <div class="progressBar" style="background:rgba(0,0,0,.1);border:1px solid var(--line2)"><i style="width:35%;background:var(--line2)"></i></div>
-          <div class="progressLabel"><span>PROGRESSION</span><span><b style="color:var(--mut)">35%</b> · EN PAUSE</span></div>
-        </div>
-        <div class="gcFooter">
-          <button class="gcPlay" disabled style="background:var(--panel);color:var(--mut);border:1px dashed var(--line2);cursor:not-allowed;opacity:.6">⏸ PROJET EN PAUSE</button>
-          <div class="gcStats">
-            <span>STATUT <b style="color:var(--mut)">PAUSE</b></span>
-            <span>SAUVEGARDE <b>—</b></span>
-          </div>
-        </div>
+    <div class="gcard zombie" onclick="window.location.href='surivor_games.html'">
+      <div class="gcTop">
+        <div class="gcIconWrap"><div class="gcIcon">🧟</div><div><div class="gcTitle">Zombie Survivor.io</div><div class="gcVer">VERSION <b>v7.0</b> · BUNKER OS</div></div></div>
+        <div class="gcBadge live"><div class="dot"></div>BOSS DIFFICILE</div>
       </div>
-      <div class="gcStripe" style="background:var(--line2)"></div>
+      <p class="gcDesc">Rogue-lite top-down : <b>4 secteurs × 5 niveaux</b> = 20 missions, <b>6 armes</b> évolutives, équipement RPG, et <b>4 boss titanesques</b> (16k à 110k HP).</p>
+      <div class="gcTags"><span class="gcTag">Bullet Heaven</span><span class="gcTag">20 Niveaux</span><span class="gcTag">4 Boss</span></div>
+      <div class="gcFooter"><button class="gcPlay">DÉPLOIEMENT <i>→</i></button><div class="gcStats">TEMPO <b>×0.75→×2</b><br>SAUVEGARDE <b>AUTO</b></div></div>
     </div>
   </div>
-  <div class="divider">
-    <span class="idx">03 /</span>
-    <h2>Caractéristiques</h2>
-    <span class="ln"></span>
-    <span class="note">Plateforme 100% client-side</span>
+
+  <div class="divider"><div class="idx">02</div><h2>Projets en pause</h2><div class="ln"></div><div class="note">Fixer & Pastel Knight — figés</div></div>
+
+  <div class="cards" style="grid-template-columns:1fr 1fr;gap:16px">
+    <div class="gcard dev" style="cursor:default">
+      <div class="devBanner">⏸ PROJET EN PAUSE</div>
+      <div class="gcTop" style="margin-top:8px">
+        <div class="gcIconWrap"><div class="gcIcon">📐</div><div><div class="gcTitle">FIXER</div><div class="gcVer">VERSION <b>v0.3</b> · BLUEPRINT</div></div></div>
+        <div class="gcBadge">⏸ PAUSE</div>
+      </div>
+      <p class="gcDesc">Tycoon de conception de téléphones portables. 12 composants, concurrence IA, employés, marketing. <b>Figé en v0.3</b>.</p>
+      <div class="gcTags"><span class="gcTag">📱 Smartphones</span><span class="gcTag">🔧 12 Composants</span><span class="gcTag">⏸ En pause</span></div>
+      <div><div class="progressBar"><i style="width:50%"></i></div><div class="progressLabel"><span>PROGRESSION</span><b>50% · EN PAUSE</b></div></div>
+      <div class="gcFooter"><button class="gcPlay" disabled>⏸ EN PAUSE</button><div class="gcStats">STATUT <b>PAUSE</b><br>SAUVEGARDE <b>—</b></div></div>
+    </div>
+    <div class="gcard dev" style="cursor:default">
+      <div class="devBanner">⏸ PROJET EN PAUSE</div>
+      <div class="gcTop" style="margin-top:8px">
+        <div class="gcIconWrap"><div class="gcIcon">🌸</div><div><div class="gcTitle">PASTEL KNIGHT</div><div class="gcVer">VERSION <b>v0.3</b> · PLATEFORMER</div></div></div>
+        <div class="gcBadge">⏸ PAUSE</div>
+      </div>
+      <p class="gcDesc">Plateformer 2D pastel doux. Double saut, cristaux, ennemis, drapeau d'arrivée. <b>Figé en v0.3</b>.</p>
+      <div class="gcTags"><span class="gcTag">🌸 Pastel</span><span class="gcTag">⬆️ Double saut</span><span class="gcTag">⏸ En pause</span></div>
+      <div><div class="progressBar"><i style="width:35%"></i></div><div class="progressLabel"><span>PROGRESSION</span><b>35% · EN PAUSE</b></div></div>
+      <div class="gcFooter"><button class="gcPlay" disabled>⏸ EN PAUSE</button><div class="gcStats">STATUT <b>PAUSE</b><br>SAUVEGARDE <b>—</b></div></div>
+    </div>
   </div>
 
-  <!-- ========= FEATURES ========= -->
+  <div class="divider"><div class="idx">03</div><h2>Caractéristiques</h2><div class="ln"></div><div class="note">100% client-side</div></div>
+
   <div class="featStrip">
     <div class="featGrid">
-      <div class="feat"><i>⚡</i><div class="ft" style="color:var(--lime)">ZÉRO BUILD</div><div class="fd">Aucun Node, Webpack ou Vite. Ouvre le HTML et joue.</div></div>
-      <div class="feat"><i>🔒</i><div class="ft" style="color:var(--cyan)">100% OFFLINE</div><div class="fd">Sauvegarde locale via localStorage. Aucune connexion réseau requise.</div></div>
-      <div class="feat"><i>🎮</i><div class="ft" style="color:var(--amber)">NATIVE CANVAS</div><div class="fd">Moteur 2D requestAnimationFrame, particles, audio Web Audio API.</div></div>
-      <div class="feat"><i>📱</i><div class="ft" style="color:var(--crimson)">RESPONSIVE</div><div class="fd">PC, tablette, mobile. Joystick virtuel tactile et clavier ZQSD/WASD.</div></div>
+      <div class="feat"><i>⚡</i><div class="ft">ZÉRO BUILD</div><div class="fd">Aucun Node, Webpack ou Vite. Ouvre le HTML et joue.</div></div>
+      <div class="feat"><i>🔒</i><div class="ft">100% OFFLINE</div><div class="fd">Sauvegarde locale. Aucune connexion requise.</div></div>
+      <div class="feat"><i>🎮</i><div class="ft">NATIVE CANVAS</div><div class="fd">Moteur 2D requestAnimationFrame + Web Audio API.</div></div>
+      <div class="feat"><i>📱</i><div class="ft">RESPONSIVE</div><div class="fd">PC, tablette, mobile. Tactile + clavier.</div></div>
     </div>
   </div>
 
-  <!-- ========= FOOTER ========= -->
   <footer id="footer">
     <div class="footGrid">
-      <div class="footBrand">GAME <span>CENTER</span> · ARCADE HUB</div>
+      <div class="footBrand">GAME <span>CENTER</span></div>
       <div class="footMeta">v7.0 · <b>2 JEUX + 2 EN PAUSE</b> · OPEN-SOURCE</div>
     </div>
-    <p class="footNote">Plateforme web autonome développée pour le plaisir du gameplay rétro-arcade et du tycoon addictif. Toute la progression est sauvegardée localement dans ton navigateur.</p>
+    <p class="footNote">Plateforme web autonome développée pour le plaisir du gameplay. Toute la progression est sauvegardée localement.</p>
   </footer>
-
 </div>
 
 <script>
-// Floating spores in the background
-for(let i=0;i<14;i++){
-  const s=document.createElement('span');s.className='spore';
-  s.style.left=Math.random()*98+'vw';
-  s.style.animationDuration=(10+Math.random()*11)+'s';
-  s.style.animationDelay=Math.random()*15+'s';
-  document.getElementById('bgFx').appendChild(s);
-}
-// SQUISHY 3D parallax on cards (skip dev cards — they're paused)
+// Floating orbs parallax on mouse move
+document.addEventListener('mousemove',e=>{
+  const x=(e.clientX/window.innerWidth-.5);
+  const y=(e.clientY/window.innerHeight-.5);
+  document.querySelectorAll('#bg .orb').forEach((orb,i)=>{
+    const depth=(i+1)*15;
+    orb.style.transform=`translate(${x*depth}px,${y*depth}px)`;
+  });
+});
+// Card 3D parallax
 document.querySelectorAll('.gcard:not(.dev)').forEach(c=>{
   c.addEventListener('mousemove',e=>{
     const r=c.getBoundingClientRect();
     const x=(e.clientX-r.left)/r.width-.5;
     const y=(e.clientY-r.top)/r.height-.5;
-    c.style.transform=`translateY(-10px) scale(1.015) perspective(1000px) rotateY(${x*5}deg) rotateX(${-y*5}deg)`;
+    c.style.transform=`translateY(-6px) scale(1.01) perspective(800px) rotateY(${x*4}deg) rotateX(${-y*4}deg)`;
   });
   c.addEventListener('mouseleave',()=>{c.style.transform='';});
-});
-// SQUISHY ripple effect on click for play buttons and feature cards
-function createRipple(e){
-  const el=e.currentTarget;
-  const r=el.getBoundingClientRect();
-  const x=e.clientX-r.left;
-  const y=e.clientY-r.top;
-  const size=Math.max(r.width,r.height);
-  const ripple=document.createElement('span');
-  ripple.className='ripple';
-  ripple.style.width=ripple.style.height=size+'px';
-  ripple.style.left=(x-size/2)+'px';
-  ripple.style.top=(y-size/2)+'px';
-  el.appendChild(ripple);
-  setTimeout(()=>ripple.remove(),600);
-}
-document.querySelectorAll('.gcPlay,.feat,.menuBtn').forEach(el=>{
-  el.addEventListener('click',createRipple);
-});
-// Magnetic effect on gcPlay buttons (subtle attraction to cursor)
-document.querySelectorAll('.gcard:not(.dev) .gcPlay').forEach(btn=>{
-  btn.addEventListener('mousemove',e=>{
-    const r=btn.getBoundingClientRect();
-    const x=(e.clientX-r.left-r.width/2)*0.15;
-    const y=(e.clientY-r.top-r.height/2)*0.2;
-    btn.style.transform=`translate(${x}px,${y}px) scale(1.05)`;
-  });
-  btn.addEventListener('mouseleave',()=>{btn.style.transform='';});
-});
-// Reveal on scroll (IntersectionObserver) for features
-const io=new IntersectionObserver(entries=>{
-  entries.forEach(en=>{
-    if(en.isIntersecting){
-      en.target.style.opacity='1';
-      en.target.style.transform='translateY(0)';
-    }
-  });
-},{threshold:.15});
-document.querySelectorAll('.feat').forEach((f,i)=>{
-  f.style.opacity='0';
-  f.style.transform='translateY(20px)';
-  f.style.transition='opacity .5s cubic-bezier(.34,1.56,.64,1),transform .5s cubic-bezier(.34,1.56,.64,1),border-color .25s,box-shadow .25s';
-  f.style.transitionDelay=(i*60)+'ms';
-  io.observe(f);
 });
 </script>
 </body>
