@@ -288,8 +288,7 @@ h1{
     <div class="hspace"></div>
     <div class="tbChip always"><span class="dot"></span>SYSTÈME ACTIF</div>
     <div class="tbChip">🎮 <b>2</b> JEUX</div>
-    <div class="tbChip">⏸ <b>1</b> EN PAUSE</div>
-    <div class="tbChip">🤖 <b>1</b> BETA IA</div>
+    <div class="tbChip">⏸ <b>2</b> EN PAUSE</div>
     <div class="tbChip">⚡ <b>OFFLINE</b></div>
   </header>
 
@@ -298,7 +297,7 @@ h1{
     <span class="kicker"><span class="dot"></span>ARCADE TERMINAL · PÉRIMÈTRE SÉCURISÉ</span>
     <h1>GAME CENTER</h1>
     <div class="heroTag"> plateforme <b>100% offline</b> · zéro dépendance · <b>zéro build</b></div>
-    <p class="heroSub">Deux jeux complets jouables dès maintenant, <b>plus un en pause</b> et <b>une beta 100% IA</b>. <b>Aucune installation</b>, aucune connexion requise, sauvegarde locale automatique.</p>
+    <p class="heroSub">Deux jeux complets jouables dès maintenant, <b>plus deux en pause</b>. <b>Aucune installation</b>, aucune connexion requise, sauvegarde locale automatique.</p>
   </section>
 
   <!-- ========= DIVIDER ========= -->
@@ -435,9 +434,9 @@ h1{
   <!-- ========= DIVIDER ========= -->
   <div class="divider">
     <span class="idx">02 /</span>
-    <h2>Projet en pause</h2>
+    <h2>Projets en pause</h2>
     <span class="ln"></span>
-    <span class="note">Fixer — figé en v0.3, en attente de reprise</span>
+    <span class="note">Fixer & Pastel Knight — figés, en attente de reprise</span>
   </div>
 
   <!-- ========= DEV CARD : FIXER ========= -->
@@ -509,18 +508,10 @@ h1{
     </div>
   </div>
 
-  <!-- ========= DIVIDER : NEW GAME ========= -->
-  <div class="divider">
-    <span class="idx">02.1 /</span>
-    <h2>Nouveau projet IA</h2>
-    <span class="ln"></span>
-    <span class="note">Pastel Knight · idée 100% IA · beta jouable</span>
-  </div>
-
   <!-- ========= DEV CARD : PASTEL KNIGHT ========= -->
   <div class="cards" style="grid-template-columns:1fr;max-width:680px">
-    <div class="gcard voidraider" aria-disabled="false" style="cursor:pointer" onclick="window.location.href='void_raider.html'">
-      <div class="devBanner" style="background:linear-gradient(90deg,rgba(255,143,171,.35),rgba(189,178,255,.25));border-bottom:1px dashed #5c1a4a;color:#e85d75">▶ BETA v0.1 · IDÉE 100% IA · PLATEFORMER PASTEL</div>
+    <div class="gcard dev" aria-disabled="true" style="cursor:default">
+      <div class="devBanner" style="background:linear-gradient(90deg,rgba(255,143,171,.15),rgba(189,178,255,.1));border-bottom:1px dashed #c4b6cf;color:var(--mut)">⏸ PROJET EN PAUSE · EN ATTENTE DE REPRISE ⏸</div>
       <div class="gcScene"><svg viewBox="0 0 480 280" preserveAspectRatio="xMidYMid slice">
         <defs>
           <linearGradient id="pkBg" x1="0" y1="0" x2="0" y2="1">
@@ -528,94 +519,65 @@ h1{
           </linearGradient>
         </defs>
         <rect width="480" height="280" fill="url(#pkBg)"/>
-        <!-- Sun -->
-        <circle cx="400" cy="60" r="32" fill="#fff5b8" opacity=".8"/>
-        <!-- Clouds -->
-        <g fill="#fff" opacity=".85">
-          <ellipse cx="80" cy="50" rx="35" ry="13"/>
-          <ellipse cx="65" cy="46" rx="20" ry="10"/>
-          <ellipse cx="95" cy="46" rx="22" ry="11"/>
-          <ellipse cx="350" cy="100" rx="30" ry="11"/>
-          <ellipse cx="335" cy="96" rx="18" ry="9"/>
-          <ellipse cx="365" cy="96" rx="20" ry="10"/>
+        <!-- Dimmed scene -->
+        <g opacity=".25">
+          <circle cx="400" cy="60" r="32" fill="#fff5b8"/>
+          <ellipse cx="80" cy="50" rx="35" ry="13" fill="#fff"/>
+          <ellipse cx="350" cy="100" rx="30" ry="11" fill="#fff"/>
+          <ellipse cx="100" cy="240" rx="100" ry="35" fill="#caffbf"/>
+          <ellipse cx="380" cy="245" rx="80" ry="28" fill="#b8e0a8"/>
+          <rect x="0" y="230" width="480" height="50" fill="#9ad88a"/>
+          <rect x="0" y="225" width="480" height="8" fill="#caffbf"/>
+          <rect x="120" y="180" width="80" height="14" rx="6" fill="#ffd6a5"/>
+          <rect x="240" y="140" width="90" height="14" rx="6" fill="#bdb2ff"/>
+          <rect x="370" y="180" width="70" height="14" rx="6" fill="#ffc8dd"/>
+          <rect x="50" y="200" width="30" height="35" rx="8" fill="#ff8fab"/>
+          <rect x="440" y="170" width="3" height="60" fill="#3d2c4a"/>
+          <polygon points="443,175 475,185 443,195" fill="#ff8fab"/>
         </g>
-        <!-- Hills background -->
-        <ellipse cx="100" cy="240" rx="100" ry="35" fill="#caffbf" opacity=".7"/>
-        <ellipse cx="380" cy="245" rx="80" ry="28" fill="#b8e0a8" opacity=".7"/>
-        <!-- Ground -->
-        <rect x="0" y="230" width="480" height="50" fill="#9ad88a"/>
-        <rect x="0" y="225" width="480" height="8" fill="#caffbf"/>
-        <!-- Platforms -->
-        <rect x="120" y="180" width="80" height="14" rx="6" fill="#ffd6a5"/>
-        <rect x="240" y="140" width="90" height="14" rx="6" fill="#bdb2ff"/>
-        <rect x="370" y="180" width="70" height="14" rx="6" fill="#ffc8dd"/>
-        <!-- Stars -->
-        <g fill="#fdffb6" stroke="#f4a261" stroke-width="1">
-          <polygon points="150,165 153,172 160,172 154,177 156,184 150,180 144,184 146,177 140,172 147,172"/>
-          <polygon points="275,125 278,132 285,132 279,137 281,144 275,140 269,144 271,137 265,132 272,132"/>
-          <polygon points="400,165 403,172 410,172 404,177 406,184 400,180 394,184 396,177 390,172 397,172"/>
+        <!-- Pause overlay -->
+        <g opacity=".85">
+          <circle cx="240" cy="140" r="42" fill="rgba(255,250,252,.92)" stroke="#3d2c4a" stroke-width="2.5"/>
+          <rect x="225" y="123" width="9" height="34" rx="2" fill="#3d2c4a"/>
+          <rect x="246" y="123" width="9" height="34" rx="2" fill="#3d2c4a"/>
         </g>
-        <!-- Character (pink blob with face) -->
-        <g transform="translate(50,200)">
-          <rect x="0" y="0" width="30" height="35" rx="8" fill="#ff8fab"/>
-          <rect x="4" y="10" width="22" height="20" rx="5" fill="#fff"/>
-          <circle cx="11" cy="17" r="3" fill="#3d2c4a"/>
-          <circle cx="19" cy="17" r="3" fill="#3d2c4a"/>
-          <circle cx="8" cy="23" r="2.5" fill="#ff8fab" opacity=".5"/>
-          <circle cx="22" cy="23" r="2.5" fill="#ff8fab" opacity=".5"/>
-          <circle cx="9" cy="38" r="3" fill="#3d2c4a"/>
-          <circle cx="21" cy="38" r="3" fill="#3d2c4a"/>
-        </g>
-        <!-- Enemy walker -->
-        <g transform="translate(280,180)">
-          <rect x="-12" y="-12" width="24" height="24" rx="6" fill="#ff8fab"/>
-          <circle cx="-4" cy="-2" r="3" fill="#fff"/>
-          <circle cx="4" cy="-2" r="3" fill="#fff"/>
-          <circle cx="-3" cy="-2" r="1.5" fill="#3d2c4a"/>
-          <circle cx="5" cy="-2" r="1.5" fill="#3d2c4a"/>
-        </g>
-        <!-- Flag -->
-        <g transform="translate(440,170)">
-          <rect x="0" y="0" width="3" height="60" fill="#3d2c4a"/>
-          <polygon points="3,5 35,15 3,25" fill="#ff8fab"/>
-          <polygon points="14,12 17,15 14,18" fill="#fdffb6"/>
-        </g>
-        <text x="20" y="30" font-family="Fredoka, sans-serif" font-size="14" fill="#3d2c4a" font-weight="700">PASTEL KNIGHT</text>
-        <text x="20" y="46" font-family="Nunito, sans-serif" font-size="10" fill="#6b5575">SAUTE · COURS · COLLECTE</text>
-        <text x="460" y="270" text-anchor="end" font-family="Nunito, sans-serif" font-size="9" fill="#9a8aa8">v0.1-beta</text>
+        <text x="20" y="30" font-family="Fredoka, sans-serif" font-size="14" fill="#3d2c4a" font-weight="700" opacity=".5">PASTEL KNIGHT</text>
+        <text x="20" y="46" font-family="Nunito, sans-serif" font-size="10" fill="#6b5575" opacity=".5">SAUTE · COURS · COLLECTE</text>
+        <text x="20" y="260" font-family="Nunito, sans-serif" font-size="9" fill="#9a8aa8" opacity=".6">PROJET FIGÉ · EN ATTENTE DE REPRISE</text>
+        <text x="460" y="270" text-anchor="end" font-family="Nunito, sans-serif" font-size="9" fill="#9a8aa8" opacity=".5">v0.3-paused</text>
       </svg></div>
-      <div class="gcVeil" style="background:linear-gradient(180deg,rgba(255,250,252,.4) 0%,rgba(255,250,252,.2) 35%,rgba(255,250,252,.9) 75%,rgba(255,250,252,.98))"></div>
+      <div class="gcVeil"></div>
       <div class="gcBody">
         <div class="gcTop">
           <div class="gcIconWrap">
-            <div class="gcIcon">🌸</div>
+            <div class="gcIcon" style="opacity:.5">🌸</div>
             <div>
-              <div class="gcTitle">PASTEL KNIGHT</div>
-              <div class="gcVer">VERSION <b>v0.1-beta</b> · PLATEFORMER PASTEL</div>
+              <div class="gcTitle" style="color:var(--mut)">PASTEL KNIGHT</div>
+              <div class="gcVer">VERSION <b>v0.3</b> · PROJET EN PAUSE</div>
             </div>
           </div>
-          <span class="gcBadge dev" style="background:linear-gradient(90deg,rgba(255,143,171,.35),rgba(189,178,255,.25));color:#3d2c4a;border-color:#e85d75">▶ BETA v0.1</span>
+          <span class="gcBadge dev" style="background:rgba(255,143,171,.06);color:var(--mut);border-color:var(--line2)">⏸ EN PAUSE</span>
         </div>
-        <p class="gcDesc">Plateformer 2D à la Mario, vibe ultra stylée pastel doux. Pilote un <b>chevalier rose</b>, saute (avec <b>double saut</b>), cours à travers des niveaux procéduraux, collecte des <b>cristaux</b>, évite ou <b>stomp les ennemis</b>, et atteins le <b>drapeau rose</b>. <b>Idée 100% IA</b>, conception entièrement autonome.</p>
+        <p class="gcDesc">Plateformer 2D à la Mario, vibe pastel doux. Pilote un chevalier rose, saute avec double saut, collecte des cristaux, évite ou stomp les ennemis, atteins le drapeau rose. Le projet est actuellement <b>figé en v0.3</b> en attendant de reprendre le développement.</p>
         <div class="gcTags">
-          <span class="gcTag" style="color:#e85d75;border-color:#e85d75">🌸 Pastel doux</span>
-          <span class="gcTag" style="color:#9d8aff;border-color:#9d8aff">⬆️ Double saut</span>
-          <span class="gcTag" style="color:#5aa84a;border-color:#5aa84a">⭐ Cristaux</span>
-          <span class="gcTag" style="color:#6b5575;border-color:#6b5575">🤖 Idée 100% IA</span>
+          <span class="gcTag" style="color:var(--dim)">🌸 Pastel doux</span>
+          <span class="gcTag" style="color:var(--dim)">⬆️ Double saut</span>
+          <span class="gcTag" style="color:var(--dim)">⭐ Cristaux</span>
+          <span class="gcTag" style="color:var(--dim)">⏸ En pause</span>
         </div>
         <div>
-          <div class="progressBar" style="background:rgba(255,250,252,.5);border:1px solid #e85d75"><i style="width:25%;background:linear-gradient(90deg,#ff8fab,#bdb2ff)"></i></div>
-          <div class="progressLabel"><span>PROGRESSION</span><span><b style="color:#e85d75">25%</b> · BETA v0.1 JOUABLE</span></div>
+          <div class="progressBar" style="background:rgba(0,0,0,.1);border:1px solid var(--line2)"><i style="width:35%;background:var(--line2)"></i></div>
+          <div class="progressLabel"><span>PROGRESSION</span><span><b style="color:var(--mut)">35%</b> · EN PAUSE</span></div>
         </div>
         <div class="gcFooter">
-          <button class="gcPlay" style="background:linear-gradient(135deg,#ff8fab,#e85d75);color:#fff;border:none;cursor:pointer;box-shadow:0 4px 0 #b04460;opacity:1">▶ JOUER</button>
+          <button class="gcPlay" disabled style="background:var(--panel);color:var(--mut);border:1px dashed var(--line2);cursor:not-allowed;opacity:.6">⏸ PROJET EN PAUSE</button>
           <div class="gcStats">
-            <span>STATUT <b style="color:#e85d75">BETA</b></span>
-            <span>SAUVEGARDE <b>AUTO</b></span>
+            <span>STATUT <b style="color:var(--mut)">PAUSE</b></span>
+            <span>SAUVEGARDE <b>—</b></span>
           </div>
         </div>
       </div>
-      <div class="gcStripe" style="background:linear-gradient(90deg,#ff8fab,#bdb2ff)"></div>
+      <div class="gcStripe" style="background:var(--line2)"></div>
     </div>
   </div>
   <div class="divider">
@@ -639,7 +601,7 @@ h1{
   <footer id="footer">
     <div class="footGrid">
       <div class="footBrand">GAME <span>CENTER</span> · ARCADE HUB</div>
-      <div class="footMeta">v7.0 · <b>2 JEUX · 1 PAUSE · 1 BETA IA</b> · OPEN-SOURCE</div>
+      <div class="footMeta">v7.0 · <b>2 JEUX + 2 EN PAUSE</b> · OPEN-SOURCE</div>
     </div>
     <p class="footNote">Plateforme web autonome développée pour le plaisir du gameplay rétro-arcade et du tycoon addictif. Toute la progression est sauvegardée localement dans ton navigateur.</p>
   </footer>
